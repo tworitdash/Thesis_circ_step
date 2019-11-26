@@ -1,9 +1,9 @@
 
-<<<<<<< HEAD
+%<<<<<<< HEAD
 function [Erho, Ephi, Ez, Hrho, Hphi, Hz, beta_z, xmn] = E_and_H(rho_, phi_, er, mur, z, r, m, n, mode, f)
-=======
-function [Erho, Ephi, Ez, Hrho, Hphi, Hz, beta_z] = E_and_H(rho_, phi_, er, mur, z, r, m, n, mode, f)
->>>>>>> 054067d7bb6b39fdb9b3e302b4d131398d191f0f
+%=======
+%function [Erho, Ephi, Ez, Hrho, Hphi, Hz, beta_z] = E_and_H(rho_, phi_, er, mur, z, r, m, n, mode, f)
+% >>>>>>> 054067d7bb6b39fdb9b3e302b4d131398d191f0f
 
 
 %% Waveguide parameters 
@@ -50,10 +50,10 @@ beta_rho = xmn/r;  % wave number along the rho direction (\beta_{\rho})
 %% Cut of frequency
 
 fc = xmn ./ (2 * pi * r * sqrt(mu .* epsilon));
-<<<<<<< HEAD
+%<<<<<<< HEAD
 disp(fc);
-=======
->>>>>>> 054067d7bb6b39fdb9b3e302b4d131398d191f0f
+%=======
+%>>>>>>> 054067d7bb6b39fdb9b3e302b4d131398d191f0f
 
 %% Source Parameters
 % f = fc + eps;
