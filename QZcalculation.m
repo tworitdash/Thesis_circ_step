@@ -14,12 +14,12 @@ xmn_ = zeros(1, m(end));
 
 %Y = zeros(m(end), m(end));
 
-for k = 1:length(F)
+
 
 for i = 1:length(N)
     disp(N(i));
     
-    [Erho, Ephi, Ez, Hrho, Hphi, Hz, beta_z, xmn_i] = E_and_H(rho_, phi_, er, mur, z, r, m, N(i), mode, F(k));
+    [Erho, Ephi, Ez, Hrho, Hphi, Hz, beta_z, xmn_i] = E_and_H(rho_, phi_, er, mur, z, r, m, N(i), mode, F);
     
     xmn_(i) = xmn_i;
     
@@ -29,14 +29,14 @@ for i = 1:length(N)
     Q(i, i) = Qij;
     
     if mode == "TE"
-        z = 2 * pi * F(k) * mu./ beta_z;
+        z = 2 * pi * F * mu./ beta_z;
     elseif mode == "TM"
-        z = beta_z ./ (2 * pi * F(k) .* epsilon);
+        z = beta_z ./ (2 * pi * F .* epsilon);
     end
     
     Z(i , i) = z;
 end
-end
+
 
 end
 

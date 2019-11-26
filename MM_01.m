@@ -9,7 +9,7 @@ Np = 1:1:3; % second digit of the mode number. p subscript is for waveguide P
 modep = "TE"; % Waveguide mode polarization
 % mode = "TM"
 
-F = 20e9;
+F = 21e9;
 
 rp = 0.0405319403216/2; % radius of the waveguide
 

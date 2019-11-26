@@ -152,20 +152,21 @@ dEy = gradient(real(Ey), dy);
 % quiver(x(1:e:end, 1:e:end), y(1:e:end, 1:e:end), dHx(1:e:end, 1:e:end), dHy(1:e:end, 1:e:end));
 % title('H', 'FontSize', 12, 'FontWeight', 'bold');
 
-e = 50;
+e = 100;
 
 figure;
 h = pcolor(x,y, abs(E));
 
 set(h,'ZData',-1+zeros(size(E)))
 hold on;
-quiver(x(1:e:end, 1:e:end),y(1:e:end, 1:e:end),imag(Hx(1:e:end, 1:e:end)),im(Hy(1:e:end, 1:e:end)), 2, 'w');
+quiver(x(1:e:end, 1:e:end),y(1:e:end, 1:e:end),imag(Hx(1:e:end, 1:e:end)),imag(Hy(1:e:end, 1:e:end)), 2, 'w');
 shading interp;
 colorbar;
 colormap('jet');
-title('E', 'FontSize', 12, 'FontWeight', 'bold');
-
-
+xlabel('\rho [m]', 'FontSize', 12, 'FontWeight', 'bold');
+ylabel('\rho [m]', 'FontSize', 12, 'FontWeight', 'bold');
+title([mode, '_{', num2str(m), num2str(n), '} Linear Scale'], 'FontSize', 12, 'FontWeight', 'bold');
+print([mode, '_', num2str(m), num2str(n)], '-depsc');
 figure;
 h = pcolor(x,y, abs(H));
 
@@ -174,10 +175,15 @@ hold on;
 
 shading interp;
 
-quiver(x(1:e:end, 1:e:end),y(1:e:end, 1:e:end),imag(Ex(1:e:end, 1:e:end)),imag(Ey(1:e:end, 1:e:end)), 2, 'w');
+quiver(x(1:e:end, 1:e:end),y(1:e:end, 1:e:end),real(Ex(1:e:end, 1:e:end)),(Ey(1:e:end, 1:e:end)), 2, 'w');
 colorbar;
 colormap('jet');
-title('H', 'FontSize', 12, 'FontWeight', 'bold');
+
+xlabel('\rho [m]', 'FontSize', 12, 'FontWeight', 'bold');
+ylabel('\rho [m]', 'FontSize', 12, 'FontWeight', 'bold');
+title([mode, '_{', num2str(m), num2str(n), '} Linear Scale'], 'FontSize', 12, 'FontWeight', 'bold');
+
+
 % 
 % figure;
 %    
