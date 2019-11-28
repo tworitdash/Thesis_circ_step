@@ -5,13 +5,13 @@ close all;
 m = 1:1:50; % first digit of the mode number
 N = 2; % second digit of the mode number
 %N = 3;
-mode = "TE"; % Waveguide mode polarization
+mode = "TM"; % Waveguide mode polarization
 % mode = "TM"
 
 %<<<<<<< HEAD
 % F =    1.4132e+11;
 %=======
-F = 10e9;
+F = 90e9;
 %>>>>>>> 054067d7bb6b39fdb9b3e302b4d131398d191f0f
 
 r = 0.0405319403216/2; % radius of the waveguide
@@ -73,22 +73,22 @@ xlabel('n in TE_{m, 2} modes', 'FontSize', 12, 'FontWeight', 'bold');
 ylabel('Normalization Constant Q_{m, 2}', 'FontSize', 12, 'FontWeight', 'bold');
 title(['Normalization Constant for', mode,'_{m, 2} modes'], 'FontSize', 12, 'FontWeight', 'bold');
 % =======
-figure;
-plot(m, db(abs(diag(Q)))/10, 'LineWidth', 2); grid on;
-
-xlabel('n in TE_{1, n} modes', 'FontSize', 12, 'FontWeight', 'bold');
-ylabel('Normalization Constant Q_{1, n}(dB)', 'FontSize', 12, 'FontWeight', 'bold');
-title(['Normalization Constant for', mode,'_{1, n} modes'], 'FontSize', 12, 'FontWeight', 'bold');
-
-figure;
-plot(m, real(diag(Q)), 'LineWidth', 2); grid on;
-hold on;
-plot(m, imag(diag(Q)), 'LineWidth', 2); grid on;
-
-xlabel('n in TE_{1, n} modes', 'FontSize', 12, 'FontWeight', 'bold');
-ylabel('Normalization Constant Q_{1, n}', 'FontSize', 12, 'FontWeight', 'bold');
-title(['Normalization Constant for', mode,'_{1, n} modes'], 'FontSize', 12, 'FontWeight', 'bold');
-% >>>>>>> 054067d7bb6b39fdb9b3e302b4d131398d191f0f
+% figure;
+% plot(m, db(abs(diag(Q)))/10, 'LineWidth', 2); grid on;
+% 
+% xlabel('n in TE_{1, n} modes', 'FontSize', 12, 'FontWeight', 'bold');
+% ylabel('Normalization Constant Q_{1, n}(dB)', 'FontSize', 12, 'FontWeight', 'bold');
+% title(['Normalization Constant for', mode,'_{1, n} modes'], 'FontSize', 12, 'FontWeight', 'bold');
+% 
+% figure;
+% plot(m, real(diag(Q)), 'LineWidth', 2); grid on;
+% hold on;
+% plot(m, imag(diag(Q)), 'LineWidth', 2); grid on;
+% 
+% xlabel('n in TE_{1, n} modes', 'FontSize', 12, 'FontWeight', 'bold');
+% ylabel('Normalization Constant Q_{1, n}', 'FontSize', 12, 'FontWeight', 'bold');
+% title(['Normalization Constant for', mode,'_{1, n} modes'], 'FontSize', 12, 'FontWeight', 'bold');
+% % >>>>>>> 054067d7bb6b39fdb9b3e302b4d131398d191f0f
 legend({'Re(Q)', 'Im(Q)'}, 'FontSize', 12, 'FontWeight', 'bold');
 
 % figure;

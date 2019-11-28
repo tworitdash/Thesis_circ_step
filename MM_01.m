@@ -1,15 +1,29 @@
 close all;
 clear;
 
-%% Wavwguide p
-
+F = 21e9:0.5e9:40e9;
 mp = 1; % first digit of the mode number
 Np = 1:1:3; % second digit of the mode number. p subscript is for waveguide P
+
+mr = 1; % first digit of the mode number
+Nr = 1:1:5; % second digit of the mode number. p subscript is for waveguide P
+
+
+Spp = zeros(size(F, 2), Np(end), Np(end));
+Spr = zeros(size(F, 2), Np(end), Nr(end));
+Srp = zeros(size(F, 2), Nr(end), Np(end));
+Srr = zeros(size(F, 2), Nr(end), Nr(end));
+
+for k =  1:length(F)
+
+%% Wavwguide p
+
+
 
 modep = "TE"; % Waveguide mode polarization
 % mode = "TM"
 
-F = 21e9;
+
 
 rp = 0.0405319403216/2; % radius of the waveguide
 
@@ -28,7 +42,7 @@ dphi = pi/2000;
 [rho_, phi_] = meshgrid(eps:drho:rp, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zp = 0; 
 
-[Qp, Zp, xmn_] = QZcalculation(mp, Np, modep, F, rp, erp, murp, rho_, phi_, zp, drho, dphi);
+[Qp, Zp, xmn_] = QZcalculation(mp, Np, modep, F(k), rp, erp, murp, rho_, phi_, zp, drho, dphi);
 
 beta_rhop = xmn_./rp;
 
@@ -42,13 +56,11 @@ end
 
 %% Wavwguide r
 
-mr = 1; % first digit of the mode number
-Nr = 1:1:5; % second digit of the mode number. p subscript is for waveguide P
 
 moder = "TE"; % Waveguide mode polarization
 % mode = "TM"
 
-F = 1.4132e+11;
+%F = 1.4132e+11;
 
 rr = 0.0405319403216/4; % radius of the waveguide
 err = 1; % relative  permittivity
@@ -62,7 +74,7 @@ dphi = pi/2000;
 [rhor_, phir_] = meshgrid(eps:drho:rr, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zr = 0; 
 
-[Qr, Zr, xmn_] = QZcalculation(mr, Nr, moder, F, rr, err, murr, rhor_, phir_, zr, drho, dphi);
+[Qr, Zr, xmn_] = QZcalculation(mr, Nr, moder, F(k), rr, err, murr, rhor_, phir_, zr, drho, dphi);
 
 beta_rhor = xmn_./rr;
 
@@ -104,7 +116,9 @@ X = (Qr * Zr).^0.5 * X_til.' * (Zp\Qp).^0.5; % modular inner cross product. Take
 
 F_ = inv(2 * (Qr + X * pinv(Qp) * X.'));
 
-Spp = inv(Qp) * X.' * F_ * X - eye(Np(end), Np(end));
-Sws = inv(Qp) * X.' * F_ * Qr;
-Ssw = F_ * X;
-Sss = F_ * Qr - eye(Nr(end), Nr(end));
+Spp(k, :, :) = inv(Qp) * X.' * F_ * X - eye(Np(end), Np(end));
+Spr(k, :, :) = inv(Qp) * X.' * F_ * Qr;
+Srp(k, :, :) = F_ * X;
+Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
+
+end
