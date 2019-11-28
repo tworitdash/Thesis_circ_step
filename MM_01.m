@@ -107,7 +107,7 @@ for p = 1:length(Np)
             X_til_pr = (grad_Phi_rhop .* grad_Phi_phir - grad_Phi_rhor .* grad_Phi_rhop)...
                 .* rhor_ .* drho .* dphi;
             X_til(p, r) = sum(sum(X_til_pr));
-        else
+       
         end
     end
 end
