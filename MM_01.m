@@ -114,7 +114,7 @@ end
     
 X = (Qr * Zr).^0.5 * X_til.' * (Zp\Qp).^0.5; % modular inner cross product. Takes the dimension of Np \times Nr
 
-F_ = inv(2 * (Qr + X * pinv(Qp) * X.'));
+F_ = inv(2 * (Qr + X * inv(Qp) * X.'));
 
 Spp(k, :, :) = inv(Qp) * X.' * F_ * X - eye(Np(end), Np(end));
 Spr(k, :, :) = inv(Qp) * X.' * F_ * Qr;
