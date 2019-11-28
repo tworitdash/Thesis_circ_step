@@ -2,7 +2,7 @@
 %% Zeros of Bessel's function (For TM) and zeros of the derivative of the Bessel's function (For TE) Calculation
 clear;
 % [m, n, xm] = meshgrid(1:1:50, 1:1:50, linspace(0.1, 10000, 100000));
-m = 1:1:50;
+m = 1:1:1000;
 mode = "TE";
 
 for j = 1:length(m)
