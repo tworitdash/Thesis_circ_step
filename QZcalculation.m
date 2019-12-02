@@ -1,5 +1,5 @@
 %% Normalization matrix with different modes on the waveguide:
-function [Q, Z, xmn_] = QZcalculation(m, N, mode, F, r, er, mur, rho_, phi_, z, drho, dphi)
+function [Q, Z, Y, xmn_] = QZcalculation(m, N, mode, F, r, er, mur, rho_, phi_, z, drho, dphi)
 
 er0 = 8.85418782e-12; % Free space permittivity
 mu0 = 1.25663706e-6;  % Free Space Permeability
@@ -10,6 +10,7 @@ mu = mu0 * mur;
 % Q = zeros(size(F, 2), N(end), N(end));
 Q = zeros(N(end), N(end));
 Z = zeros(N(end), N(end));
+Y = zeros(N(end), N(end));
 xmn_ = zeros(1, N(end));
 
 %Y = zeros(m(end), m(end));
@@ -30,11 +31,14 @@ for i = 1:length(N)
     
     if mode == "TE"
         Z_i = 2 * pi * F * mu./ beta_z;
+        Y_i = 1./Z_i;
     elseif mode == "TM"
         Z_i = beta_z ./ (2 * pi * F .* epsilon);
+        Y_i = 1./Z_i;
     end
     
     Z(i , i) = Z_i;
+    Y(i, i) = Y_i;
 end
 
 

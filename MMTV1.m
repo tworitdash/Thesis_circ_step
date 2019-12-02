@@ -3,7 +3,7 @@ clear;
 close all;
 
 m = 1; % first digit of the mode number
-N = 1:1:3; % second digit of the mode number
+N = 2; % second digit of the mode number
 %N = 3;
 mode = "TE"; % Waveguide mode polarization
 % mode = "TM"
@@ -11,10 +11,10 @@ mode = "TE"; % Waveguide mode polarization
 %<<<<<<< HEAD
 % F =    1.4132e+11;
 %=======
-F = 20e9;
+F = 1e9:1e9:20e9;
 %>>>>>>> 054067d7bb6b39fdb9b3e302b4d131398d191f0f
 
-r = 0.0405319403216/4; % radius of the waveguide
+r = 0.0405319403216/2; % radius of the waveguide
 er = 1; % relative  permittivity
 mur = 1; % relative Permeability
 er0 = 8.85418782e-12; % Free space permittivity
@@ -42,17 +42,17 @@ for i = 1:length(N)
 % >>>>>>> 054067d7bb6b39fdb9b3e302b4d131398d191f0f
     [Erho, Ephi, Ez, Hrho, Hphi, Hz, beta_z] = E_and_H(rho_, phi_, er, mur, z, r, m, N(i), mode, F(k));
     
-    Poyn = (Erho .* Hphi - Hrho .* Ephi) .* rho_ * drho .* dphi;
-    Qij = sum(sum(Poyn));
-    
-    Q(i, i) = Qij;
-%     if mode == "TE"
-%         z = 2 * pi * F(k) * mu./ beta_z;
-%     elseif mode == "TM"
-%         z = beta_z ./ (2 * pi * F(k) .* epsilon);
-%     end
-%     Z(k) = z;
-%     Y(k) = 1./Z(k);
+%     Poyn = (Erho .* Hphi - Hrho .* Ephi) .* rho_ * drho .* dphi;
+%     Qij = sum(sum(Poyn));
+%     
+%     Q(i, i) = Qij;
+    if mode == "TE"
+        Z_i = 2 * pi * F(k) * mu./ beta_z;
+    elseif mode == "TM"
+        Z_i = beta_z ./ (2 * pi * F(k) .* epsilon);
+    end
+    Z(k) = Z_i;
+    Y(k) = 1./Z(k);
 end
 end
 
@@ -64,17 +64,17 @@ end
 % ylabel('Normalization Constant Q_{1, n}(dB)', 'FontSize', 12, 'FontWeight', 'bold');
 % title(['Normalization Constant for', mode,'_{1, n} modes'], 'FontSize', 12, 'FontWeight', 'bold');
 
-figure;
-plot(N, (real(diag(Q))), 'LineWidth', 2); grid on;
-hold on;
-plot(N, (imag(diag(Q))), 'LineWidth', 2); grid on;
-
-xlabel('n in TE_{m, 2} modes', 'FontSize', 12, 'FontWeight', 'bold');
-ylabel('Normalization Constant Q_{m, 2}', 'FontSize', 12, 'FontWeight', 'bold');
-title(['Normalization Constant for', mode,'_{m, 2} modes'], 'FontSize', 12, 'FontWeight', 'bold');
+% figure;
+% plot(N, (real(diag(Q))), 'LineWidth', 2); grid on;
+% hold on;
+% plot(N, (imag(diag(Q))), 'LineWidth', 2); grid on;
+% 
+% xlabel('n in TE_{m, 2} modes', 'FontSize', 12, 'FontWeight', 'bold');
+% ylabel('Normalization Constant Q_{m, 2}', 'FontSize', 12, 'FontWeight', 'bold');
+% title(['Normalization Constant for', mode,'_{m, 2} modes'], 'FontSize', 12, 'FontWeight', 'bold');
 % =======
-figure;
-plot(N, db(abs(diag(Q)))/10, 'LineWidth', 2); grid on;
+% figure;
+% plot(N, db(abs(diag(Q)))/10, 'LineWidth', 2); grid on;
 % 
 % xlabel('n in TE_{1, n} modes', 'FontSize', 12, 'FontWeight', 'bold');
 % ylabel('Normalization Constant Q_{1, n}(dB)', 'FontSize', 12, 'FontWeight', 'bold');
@@ -89,19 +89,19 @@ plot(N, db(abs(diag(Q)))/10, 'LineWidth', 2); grid on;
 % ylabel('Normalization Constant Q_{1, n}', 'FontSize', 12, 'FontWeight', 'bold');
 % title(['Normalization Constant for', mode,'_{1, n} modes'], 'FontSize', 12, 'FontWeight', 'bold');
 % % >>>>>>> 054067d7bb6b39fdb9b3e302b4d131398d191f0f
-legend({'Re(Q)', 'Im(Q)'}, 'FontSize', 12, 'FontWeight', 'bold');
+% legend({'Re(Q)', 'Im(Q)'}, 'FontSize', 12, 'FontWeight', 'bold');
 
-% figure;
-% 
-% plot(F * 1e-9, real(Z), 'LineWidth', 2); grid on;
-% hold on;
-% plot(F * 1e-9, imag(Z), 'LineWidth', 2);
-% 
-% xlabel('Frequency (GHz)', 'FontSize', 12, 'FontWeight', 'bold');
-% ylabel('Impedance Z (\Omega)', 'FontSize', 12, 'FontWeight', 'bold');
-% title('Wave Impedance', 'FontSize', 12, 'FontWeight', 'bold');
-% legend({'Re(Z)', 'Im(Z)'}, 'FontSize', 12, 'FontWeight', 'bold');
-% 
+figure;
+
+plot(F * 1e-9, real(Z), 'LineWidth', 2); grid on;
+hold on;
+plot(F * 1e-9, imag(Z), 'LineWidth', 2);
+
+xlabel('Frequency (GHz)', 'FontSize', 12, 'FontWeight', 'bold');
+ylabel('Impedance Z (\Omega)', 'FontSize', 12, 'FontWeight', 'bold');
+title('Wave Impedance', 'FontSize', 12, 'FontWeight', 'bold');
+legend({'Re(Z)', 'Im(Z)'}, 'FontSize', 12, 'FontWeight', 'bold');
+
 % figure;
 % plot(F * 1e-9, real(Y), 'LineWidth', 2); grid on;
 % hold on;

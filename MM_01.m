@@ -24,8 +24,8 @@ for k =  1:length(F)
 
 
 
-% modep = "TE"; % Waveguide mode polarization
-modep = "TM";
+modep = "TE"; % Waveguide mode polarization
+% modep = "TM";
 
 
 
@@ -46,7 +46,7 @@ dphi = pi/180;
 [rho_, phi_] = meshgrid(eps:drho:rp, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zp = 0; 
 
-[Qp, Zp, xmn_] = QZcalculation(mp, Np, modep, F(k), rp, erp, murp, rho_, phi_, zp, drho, dphi);
+[Qp, Zp, Yp, xmn_] = QZcalculation(mp, Np, modep, F(k), rp, erp, murp, rho_, phi_, zp, drho, dphi);
 
 beta_rhop = xmn_./rp;
 
@@ -77,7 +77,7 @@ dphi = pi/180;
 [rhor_, phir_] = meshgrid(eps:drho:rr, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zr = 0; 
 
-[Qr, Zr, xmn_] = QZcalculation(mr, Nr, moder, F(k), rr, err, murr, rhor_, phir_, zr, drho, dphi);
+[Qr, Zr, Yr, xmn_] = QZcalculation(mr, Nr, moder, F(k), rr, err, murr, rhor_, phir_, zr, drho, dphi);
 
 beta_rhor = xmn_./rr;
 
@@ -115,7 +115,7 @@ for p = 1:length(Np)
     end
 end
     
-X = (Qr * Zr).^0.5 * X_til.' * (Zp\Qp).^0.5; % modular inner cross product. Takes the dimension of Np \times Nr
+X = (Qr * Zr).^0.5 * X_til.' * (Yp\Qp).^0.5; % modular inner cross product. Takes the dimension of Np \times Nr
 
 F_ = inv(2 * (Qr + X * inv(Qp) * X.'));
 
@@ -126,9 +126,9 @@ Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
 
 end
 
-save('TM_TE_Spp_100', 'Spp');
-save('TM_TE_Spr_100', 'Spr');
-save('TM_TE_Srp_100', 'Srp');
-save('TM_TE_Srr_100', 'Srr');
+save('TE_TE_Spp_100', 'Spp');
+save('TE_TE_Spr_100', 'Spr');
+save('TE_TE_Srp_100', 'Srp');
+save('TE_TE_Srr_100', 'Srr');
 
-save('X_til_TM_TE_100', 'X_til');
+save('X_til_TE_TE_100', 'X_til');
