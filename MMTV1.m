@@ -2,19 +2,19 @@
 clear;
 close all;
 
-m = 1:1:50; % first digit of the mode number
-N = 2; % second digit of the mode number
+m = 1; % first digit of the mode number
+N = 1:1:3; % second digit of the mode number
 %N = 3;
-mode = "TM"; % Waveguide mode polarization
+mode = "TE"; % Waveguide mode polarization
 % mode = "TM"
 
 %<<<<<<< HEAD
 % F =    1.4132e+11;
 %=======
-F = 90e9;
+F = 20e9;
 %>>>>>>> 054067d7bb6b39fdb9b3e302b4d131398d191f0f
 
-r = 0.0405319403216/2; % radius of the waveguide
+r = 0.0405319403216/4; % radius of the waveguide
 er = 1; % relative  permittivity
 mur = 1; % relative Permeability
 er0 = 8.85418782e-12; % Free space permittivity
@@ -35,12 +35,12 @@ Y = zeros(1, size(F, 2));
 
 for k = 1:length(F)
 
-for i = 1:length(m)
+for i = 1:length(N)
 % <<<<<<< HEAD
-    disp(m(i));
+    disp(N(i));
 % =======
 % >>>>>>> 054067d7bb6b39fdb9b3e302b4d131398d191f0f
-    [Erho, Ephi, Ez, Hrho, Hphi, Hz, beta_z] = E_and_H(rho_, phi_, er, mur, z, r, m(i), N, mode, F(k));
+    [Erho, Ephi, Ez, Hrho, Hphi, Hz, beta_z] = E_and_H(rho_, phi_, er, mur, z, r, m, N(i), mode, F(k));
     
     Poyn = (Erho .* Hphi - Hrho .* Ephi) .* rho_ * drho .* dphi;
     Qij = sum(sum(Poyn));
@@ -65,16 +65,16 @@ end
 % title(['Normalization Constant for', mode,'_{1, n} modes'], 'FontSize', 12, 'FontWeight', 'bold');
 
 figure;
-plot(m, (real(diag(Q))), 'LineWidth', 2); grid on;
+plot(N, (real(diag(Q))), 'LineWidth', 2); grid on;
 hold on;
-plot(m, (imag(diag(Q))), 'LineWidth', 2); grid on;
+plot(N, (imag(diag(Q))), 'LineWidth', 2); grid on;
 
 xlabel('n in TE_{m, 2} modes', 'FontSize', 12, 'FontWeight', 'bold');
 ylabel('Normalization Constant Q_{m, 2}', 'FontSize', 12, 'FontWeight', 'bold');
 title(['Normalization Constant for', mode,'_{m, 2} modes'], 'FontSize', 12, 'FontWeight', 'bold');
 % =======
-% figure;
-% plot(m, db(abs(diag(Q)))/10, 'LineWidth', 2); grid on;
+figure;
+plot(N, db(abs(diag(Q)))/10, 'LineWidth', 2); grid on;
 % 
 % xlabel('n in TE_{1, n} modes', 'FontSize', 12, 'FontWeight', 'bold');
 % ylabel('Normalization Constant Q_{1, n}(dB)', 'FontSize', 12, 'FontWeight', 'bold');

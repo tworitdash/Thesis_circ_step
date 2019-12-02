@@ -8,9 +8,9 @@ mu = mu0 * mur;
 
 
 % Q = zeros(size(F, 2), N(end), N(end));
-Q = zeros(m(end), m(end));
-Z = zeros(m(end), m(end));
-xmn_ = zeros(1, m(end));
+Q = zeros(N(end), N(end));
+Z = zeros(N(end), N(end));
+xmn_ = zeros(1, N(end));
 
 %Y = zeros(m(end), m(end));
 
@@ -29,12 +29,12 @@ for i = 1:length(N)
     Q(i, i) = Qij;
     
     if mode == "TE"
-        z = 2 * pi * F * mu./ beta_z;
+        Z_i = 2 * pi * F * mu./ beta_z;
     elseif mode == "TM"
-        z = beta_z ./ (2 * pi * F .* epsilon);
+        Z_i = beta_z ./ (2 * pi * F .* epsilon);
     end
     
-    Z(i , i) = z;
+    Z(i , i) = Z_i;
 end
 
 

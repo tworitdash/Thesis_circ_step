@@ -1,5 +1,6 @@
 
 %% Inner Product Calculation
+clear;
 rp = 0.0405319403216/2; % radius of the waveguide P
 rr = 0.0405319403216/4; % radius of the waveguide R
 
@@ -16,15 +17,15 @@ murr = 1; % relative Permeability
 epsilonr = err * er0;   % Permittivity in the medium
 mur = mu0 * murr;
 
-modep = "TE";
-% modep = "TM";
-moder = "TE";
-% moder = "TM";
+% modep = "TE";
+modep = "TM";
+% moder = "TE";
+moder = "TM";
 
-Mp = 1:1:50;
-Np = 1:1:50;
-Mr = 1:1:50;
-Nr = 1:1:50;
+Mp = 1:1:5;
+Np = 1:1:5;
+Mr = 1:1:5;
+Nr = 1:1:5;
 
 
 
@@ -63,7 +64,7 @@ for pm = 1:length(Mp)
                 if modep == "TE"
                     Nup = (epsilonp * pi/2 .* (xmn_p(pm, pn).^2 - pm.^2) .* (besselj(pm, xmn_p(pm, pn))).^2).^(-1);
                 elseif modep == "TM"
-                    Nup = (epsilonp .* pi/2 .* xmn_p.^2 .* besselj_der(pm, xmn_p(pm, pn)));
+                    Nup = (epsilonp .* pi/2 .* xmn_p(pm, pn).^2 .* besselj_der(pm, xmn_p(pm, pn)));
                 end
                 
                 if moder == "TE"
@@ -95,4 +96,9 @@ for pm = 1:length(Mp)
             end
         end
     end
+    
+ 
 end
+
+% csvwrite('TM_TE_Inner_P', X_til); 
+save('TM_TM_Inner_P', 'X_til');

@@ -1,7 +1,11 @@
 close all;
 clear;
 
-F = 21e9:0.5e9:40e9;
+% F = 20e9;
+
+% F = 21e9:0.5e9:40e9;
+F = 1e9:1e9:100e9;
+% F = 90:0.5e9:100e9;
 mp = 1; % first digit of the mode number
 Np = 1:1:3; % second digit of the mode number. p subscript is for waveguide P
 
@@ -20,8 +24,8 @@ for k =  1:length(F)
 
 
 
-modep = "TE"; % Waveguide mode polarization
-% mode = "TM"
+% modep = "TE"; % Waveguide mode polarization
+modep = "TM";
 
 
 
@@ -36,8 +40,8 @@ epsilonp = erp * er0;   % Permittivity in the medium
 mup = mu0 * murp;       % Permeability in the medium
 
 
-drho = rp/1000;
-dphi = pi/2000;
+drho = rp/100;
+dphi = pi/180;
 
 [rho_, phi_] = meshgrid(eps:drho:rp, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zp = 0; 
@@ -56,9 +60,8 @@ end
 
 %% Wavwguide r
 
-
 moder = "TE"; % Waveguide mode polarization
-% mode = "TM"
+% moder = "TM";
 
 %F = 1.4132e+11;
 
@@ -68,8 +71,8 @@ murr = 1; % relative Permeability
 epsilonr = err * er0;   % Permittivity in the medium
 mur = mu0 * murr;
 
-drho = rr/1000;
-dphi = pi/2000;
+drho = rr/100;
+dphi = pi/180;
 
 [rhor_, phir_] = meshgrid(eps:drho:rr, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zr = 0; 
@@ -122,3 +125,10 @@ Srp(k, :, :) = F_ * X;
 Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
 
 end
+
+save('TM_TE_Spp_100', 'Spp');
+save('TM_TE_Spr_100', 'Spr');
+save('TM_TE_Srp_100', 'Srp');
+save('TM_TE_Srr_100', 'Srr');
+
+save('X_til_TM_TE_100', 'X_til');
