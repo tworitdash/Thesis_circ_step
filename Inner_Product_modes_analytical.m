@@ -2,7 +2,7 @@
 %% Inner Product Calculation
 clear;
 rp = 0.0405319403216/2; % radius of the waveguide P
-rr = 0.0405319403216/4; % radius of the waveguide R
+rr = 0.0405319403216/2.1; % radius of the waveguide R
 
 
 er0 = 8.85418782e-12; % Free space permittivity
@@ -17,14 +17,14 @@ murr = 1; % relative Permeability
 epsilonr = err * er0;   % Permittivity in the medium
 mur = mu0 * murr;
 
-modep = "TE";
-% modep = "TM";
-moder = "TE";
-% moder = "TM";
+% modep = "TE";
+modep = "TM";
+% moder = "TE";
+moder = "TM";
 
-Mp = 1:1:5;
+Mp = 1;
 Np = 1:1:5;
-Mr = 1:1:5;
+Mr = 1;
 Nr = 1:1:5;
 
 
@@ -84,21 +84,21 @@ for pm = 1:length(Mp)
                 if (modep == "TE" && moder == "TE") || (modep == "TM" && moder == "TM")
 
                       A = Lommel(0, rr, beta_rhop(pm, pn), beta_rhor(rm, rn), pm - 1, rm - 1);
-                      B = Lommel(0, rr, beta_rhop(pm, pn), beta_rhor(rm, rn), pm - 1, rm + 1);
-                      C = Lommel(0, rr, beta_rhop(pm, pn), beta_rhor(rm, rn), pm + 1, rm - 1);
+                      
                       D = Lommel(0, rr, beta_rhop(pm, pn), beta_rhor(rm, rn), pm + 1, rm + 1);
 
 %                        A = Lommel(0, rr, beta_rhor(rm, rn), beta_rhop(pm, pn), pm - 1, rm - 1);
 %                        B = Lommel(0, rr, beta_rhor(rm, rn), beta_rhop(pm, pn), pm - 1, rm + 1);
 %                        C = Lommel(0, rr, beta_rhor(rm, rn), beta_rhop(pm, pn), pm + 1, rm - 1);
 %                        D = Lommel(0, rr, beta_rhor(rm, rn), beta_rhop(pm, pn), pm + 1, rm + 1);
-                      I1rho = A - B - C + D;
-                      I1phi = (beta_rhop(pm, pn) .* beta_rhor(rm, rn))./(4 .* pm .* rm) .* (A + B + C + D);
-                      I2rho = intphicos(0, 2*pi, pm, rm);
-                      I2phi = intphisin(0, 2*pi, pm, rm);
+%                       I1rho = A - B - C + D;
+%                       I1phi = (beta_rhop(pm, pn) .* beta_rhor(rm, rn))./(4 .* pm .* rm) .* (A + B + C + D);
+                      Icos = intphicos(0, 2*pi, pm, rm);
+                      Isin = intphisin(0, 2*pi, pm, rm);
+                      K = beta_rhop(pm, pn) .* beta_rhor(rm, rn)./4;
                       
                       X_til_pr =  sqrt(Nup) .* sqrt(Nur) ...
-                        .* (beta_rhop(pm, pn) .* beta_rhor(rm, rn) .* I1rho .* I2rho + pm .* rm .* I1phi .* I2phi);
+                        .* K .* (A + D) .* (Icos + Isin);
 
                       X_til(pm, pn, rm, rn) = X_til_pr;
 %                     X_til_pr = (grad_Phi_rhop .* grad_Phi_rhor +  grad_Phi_phip .* grad_Phi_phir)...
@@ -120,4 +120,4 @@ for pm = 1:length(Mp)
 end
 
 % csvwrite('TM_TE_Inner_P', X_til); 
-save('TE_TE_Inner_P_analytical', 'X_til');
+save('TM_TM_Inner_P_analytical', 'X_til');
