@@ -4,7 +4,7 @@ clear;
 % F = 20e9;
 
 % F = 21e9:0.5e9:40e9;
-F = 4e9:0.5e9:30e9;
+F = 4e9:0.5e9:40e9;
 % F = 90:0.5e9:100e9;
 mp = 1; % first digit of the mode number
 Np = 1:1:5; % second digit of the mode number. p subscript is for waveguide P
@@ -26,8 +26,8 @@ for k =  1:length(F)
 
 
 
-modep = "TE"; % Waveguide mode polarization
-% modep = "TM";
+% modep = "TE"; % Waveguide mode polarization
+modep = "TM";
 
 
 
@@ -42,8 +42,8 @@ epsilonp = erp * er0;   % Permittivity in the medium
 mup = mu0 * murp;       % Permeability in the medium
 
 
-drho = rp/100;
-dphi = pi/180;
+drho = rp/1000;
+dphi = pi/2;
 
 [rho_, phi_] = meshgrid(eps:drho:rp, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zp = 0; 
@@ -55,15 +55,15 @@ beta_rhop = xmn_./rp;
 if modep == "TE"
     Nup = (epsilonp * pi/2 .* (xmn_.^2 - mp.^2) .* (besselj(mp, xmn_)).^2).^(-1);
 elseif modep == "TM"
-    Nup = (epsilonp .* pi/2 .* xmn_.^2 .* (besselj_der(mp, xmn_)).^2).^;
+    Nup = (epsilonp .* pi/2 .* xmn_.^2 .* (besselj_der(mp, xmn_)).^2).^(-1);
 end
 
 
 
 %% Wavwguide r
 
-moder = "TE"; % Waveguide mode polarization
-% moder = "TM";
+% moder = "TE"; % Waveguide mode polarization
+moder = "TM";
 
 %F = 1.4132e+11;
 
@@ -100,7 +100,7 @@ for p = 1:length(Np)
         grad_Phi_phip = (-1./rhor_) .* sqrt(Nup(p))  .* mp .* sin(mp .* phir_) .* besselj(mp,  beta_rhop(p) .* rhor_);
         
         grad_Phi_rhor = sqrt(Nur(r)) .* cos(mr .* phir_) .* besselj_der(mr, beta_rhor(r).* rhor_) .* beta_rhor(r);
-        grad_Phi_phir = (-1./rhor_) .* sqrt(Nur(r)) .* mr .* sin(mr .* rhor_) .* besselj(mp,  beta_rhor(r) .* rhor_);
+        grad_Phi_phir = (-1./rhor_) .* sqrt(Nur(r)) .* mr .* sin(mr .* phir_) .* besselj(mp,  beta_rhor(r) .* rhor_);
         
         if (modep == "TE" && moder == "TE") || (modep == "TM" && moder == "TM")
             X_til_pr = (grad_Phi_rhop .* grad_Phi_rhor +  grad_Phi_phip .* grad_Phi_phir)...
@@ -136,10 +136,10 @@ Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
 
 end
 
-save('TE_TE_Spp', 'Spp');
-save('TE_TE_Spr', 'Spr');
-save('TE_TE_Srp', 'Srp');
-save('TE_TE_Srr', 'Srr');
+save('TM_TM_Spp', 'Spp');
+save('TM_TM_Spr', 'Spr');
+save('TM_TM_Srp', 'Srp');
+save('TM_TM_Srr', 'Srr');
 
 % save('X_til_TE_TE_20', 'X_til');
 
@@ -148,4 +148,4 @@ save('TE_TE_Srr', 'Srr');
 % save('TE_TE_S21', 'S21pr');
 % save('TE_TE_S22', 'S22pr');
 
-save('X_til_TE_TE_numerical', 'X_til');
+save('X_til_TM_TM_numerical', 'X_til');

@@ -42,8 +42,8 @@ epsilonp = erp * er0;   % Permittivity in the medium
 mup = mu0 * murp;       % Permeability in the medium
 
 
-drho = rp/100;
-dphi = pi/180;
+drho = rp/1000;
+dphi = pi/2000;
 
 [rho_, phi_] = meshgrid(eps:drho:rp, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zp = 0; 
@@ -73,8 +73,8 @@ murr = 1; % relative Permeability
 epsilonr = err * er0;   % Permittivity in the medium
 mur = mu0 * murr;
 
-drho = rr/100;
-dphi = pi/180;
+drho = rr/1000;
+dphi = pi/2000;
 
 [rhor_, phir_] = meshgrid(eps:drho:rr, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zr = 0; 
