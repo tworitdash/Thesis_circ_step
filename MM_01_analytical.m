@@ -12,7 +12,7 @@ Np = 1:1:5; % second digit of the mode number. p subscript is for waveguide P
 mr = 1; % first digit of the mode number
 Nr = 1:1:3; % second digit of the mode number. p subscript is for waveguide P
 %% Modular inner cross product between the two wavegudies
-X_ = load('TM_TM_Inner_P_analytical.mat');
+X_ = load('TE_TE_Inner_P_analytical.mat');
 X_x = X_.X_til;
 X_til = zeros(Np(end), Nr(end));
 X_til_f = zeros(size(F, 2), Np(end), Nr(end));
@@ -58,8 +58,8 @@ for k =  1:length(F)
 
 
 
-% modep = "TE"; % Waveguide mode polarization
-modep = "TM";
+modep = "TE"; % Waveguide mode polarization
+% modep = "TM";
 
 
 
@@ -94,8 +94,8 @@ end
 
 %% Wavwguide r
 
-% moder = "TE"; % Waveguide mode polarization
-moder = "TM";
+moder = "TE"; % Waveguide mode polarization
+% moder = "TM";
 
 %F = 1.4132e+11;
 
@@ -140,11 +140,16 @@ Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
 % S22pr(k, :, :) = eye(Np(end), Np(end)) - X.' * squeeze(S12pr(k, :, :));
 
 end
+% 
+% save('TM_TM_Spp_analytical', 'Spp');
+% save('TM_TM_Spr_analytical', 'Spr');
+% save('TM_TM_Srp_analytical', 'Srp');
+% save('TM_TM_Srr_analytical', 'Srr');
 
-save('TM_TM_Spp_analytical', 'Spp');
-save('TM_TM_Spr_analytical', 'Spr');
-save('TM_TM_Srp_analytical', 'Srp');
-save('TM_TM_Srr_analytical', 'Srr');
+save('TE_TE_Spp_analytical', 'Spp');
+save('TE_TE_Spr_analytical', 'Spr');
+save('TE_TE_Srp_analytical', 'Srp');
+save('TE_TE_Srr_analytical', 'Srr');
 
 % save('X_til_TE_TE_20', 'X_til');
 % 
@@ -153,4 +158,5 @@ save('TM_TM_Srr_analytical', 'Srr');
 % save('TE_TE_S21', 'S21pr');
 % save('TE_TE_S22', 'S22pr');
 
-save('X_til_TM_TM', 'X_til');
+%save('X_til_TM_TM', 'X_til');
+save('X_til_TE_TE', 'X_til');

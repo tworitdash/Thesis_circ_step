@@ -1,10 +1,10 @@
 close all;
-c_ = load('TE_TE_Srr_analytical.mat');
+c_ = load('TM_TM_Srr_analytical.mat');
 
 GSM_ = c_.Srr;
 
 % F = 1e9:1e9:100e9;
-F = 4e9:0.5e9:30e9;
+F = 4e9:0.5e9:40e9;
 
 % F = 21e9:0.5e9:40e9;
 
@@ -20,7 +20,7 @@ xlabel('Frequency (GHz)', 'FontSize', 12, 'FontWeight', 'bold');
 ylabel('S in  dB', 'FontSize', 12, 'FontWeight', 'bold');
 title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
 
-legend({'TE_{11}', 'TE_{12}', 'TE_{13}'}, 'FontSize', 12, 'FontWeight', 'bold');
+legend({'TM_{11}', 'TM_{12}', 'TM_{13}'}, 'FontSize', 12, 'FontWeight', 'bold');
 
 end
-print('S_rr_TE', '-depsc');
+print('S_rr_TM', '-depsc');
