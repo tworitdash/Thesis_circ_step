@@ -126,18 +126,18 @@ end
     
 X = (Qr * Zr).^0.5 * X_til.' * (Yp\Qp).^0.5; % modular inner cross product. Takes the dimension of Np \times Nr
 
-F_ = inv(2 * (Qr + X * inv(Qp) * X.'));
+% F_ = inv(2 * (Qr + X * inv(Qp) * X.'));
+% 
+% Spp(k, :, :) = inv(Qp) * X.' * F_ * X - eye(Np(end), Np(end));
+% 
+% Spr(k, :, :) = inv(Qp) * X.' * F_ * Qr;
+% Srp(k, :, :) = F_ * X;
+% Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
 
-Spp(k, :, :) = inv(Qp) * X.' * F_ * X - eye(Np(end), Np(end));
-
-Spr(k, :, :) = inv(Qp) * X.' * F_ * Qr;
-Srp(k, :, :) = F_ * X;
-Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
-
-% S11pr(k, :, :) = inv(X * X.' + eye(Nr(end), Nr(end))) * (X * X.' - eye(Nr(end), Nr(end)));
-% S12pr(k, :, :) = 2 * inv(X * X.' + eye(Nr(end), Nr(end))) * X;
-% S21pr(k, :, :) = X.' * (eye(Nr(end), Nr(end)) - squeeze(S11pr(k, :, :)));
-% S22pr(k, :, :) = eye(Np(end), Np(end)) - X.' * squeeze(S12pr(k, :, :));
+S11pr(k, :, :) = inv(X.' * X + eye(Np(end), Np(end))) * (X.' * X - eye(Np(end), Np(end)));
+S12pr(k, :, :) = 2 * inv(X.' * X + eye(Np(end), Np(end))) * X.';
+S21pr(k, :, :) = X * (eye(Np(end), Np(end)) - squeeze(S11pr(k, :, :)));
+S22pr(k, :, :) = eye(Nr(end), Nr(end)) - X * squeeze(S12pr(k, :, :));
 
 end
 % 
@@ -146,17 +146,17 @@ end
 % save('TM_TM_Srp_analytical', 'Srp');
 % save('TM_TM_Srr_analytical', 'Srr');
 
-save('TE_TE_Spp_analytical', 'Spp');
-save('TE_TE_Spr_analytical', 'Spr');
-save('TE_TE_Srp_analytical', 'Srp');
-save('TE_TE_Srr_analytical', 'Srr');
+% save('TE_TE_Spp_analytical', 'Spp');
+% save('TE_TE_Spr_analytical', 'Spr');
+% save('TE_TE_Srp_analytical', 'Srp');
+% save('TE_TE_Srr_analytical', 'Srr');
 
-% save('X_til_TE_TE_20', 'X_til');
-% 
-% save('TE_TE_S11', 'S11pr');
-% save('TE_TE_S12', 'S12pr');
-% save('TE_TE_S21', 'S21pr');
-% save('TE_TE_S22', 'S22pr');
+
+
+save('TE_TE_S11', 'S11pr');
+save('TE_TE_S12', 'S12pr');
+save('TE_TE_S21', 'S21pr');
+save('TE_TE_S22', 'S22pr');
 
 %save('X_til_TM_TM', 'X_til');
 save('X_til_TE_TE', 'X_til');

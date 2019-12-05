@@ -4,7 +4,7 @@ clear;
 % F = 20e9;
 
 % F = 21e9:0.5e9:40e9;
-F = 1e9:0.5e9:20e9;
+F = 4e9:0.5e9:40e9;
 % F = 90:0.5e9:100e9;
 mp = 1; % first digit of the mode number
 Np = 1:1:5; % second digit of the mode number. p subscript is for waveguide P
@@ -26,8 +26,8 @@ for k =  1:length(F)
 
 
 
-modep = "TM"; % Waveguide mode polarization
-% modep = "TM";
+% modep = "TE"; % Waveguide mode polarization
+modep = "TM";
 
 
 
@@ -55,15 +55,15 @@ beta_rhop = xmn_./rp;
 if modep == "TE"
     Nup = (epsilonp * pi/2 .* (xmn_.^2 - mp.^2) .* (besselj(mp, xmn_)).^2).^(-1);
 elseif modep == "TM"
-    Nup = (epsilonp .* pi/2 .* xmn_.^2 .* (besselj_der(mp, xmn_)).^2);
+    Nup = (epsilonp .* pi/2 .* xmn_.^2 .* (besselj_der(mp, xmn_)).^2).^(-1);
 end
 
 
 
 %% Wavwguide r
 
-moder = "TM"; % Waveguide mode polarization
-% moder = "TM";
+% moder = "TE"; % Waveguide mode polarization
+moder = "TM";
 
 %F = 1.4132e+11;
 
@@ -100,7 +100,7 @@ for p = 1:length(Np)
         grad_Phi_phip = (-1./rhor_) .* sqrt(Nup(p))  .* mp .* sin(mp .* phir_) .* besselj(mp,  beta_rhop(p) .* rhor_);
         
         grad_Phi_rhor = sqrt(Nur(r)) .* cos(mr .* phir_) .* besselj_der(mr, beta_rhor(r).* rhor_) .* beta_rhor(r);
-        grad_Phi_phir = (-1./rhor_) .* sqrt(Nur(r)) .* mr .* sin(mr .* rhor_) .* besselj(mp,  beta_rhor(r) .* rhor_);
+        grad_Phi_phir = (-1./rhor_) .* sqrt(Nur(r)) .* mr .* sin(mr .* phir_) .* besselj(mp,  beta_rhor(r) .* rhor_);
         
         if (modep == "TE" && moder == "TE") || (modep == "TM" && moder == "TM")
             X_til_pr = (grad_Phi_rhop .* grad_Phi_rhor +  grad_Phi_phip .* grad_Phi_phir)...
@@ -129,23 +129,23 @@ Spr(k, :, :) = inv(Qp) * X.' * F_ * Qr;
 Srp(k, :, :) = F_ * X;
 Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
 
-S11pr(k, :, :) = inv(X * X.' + eye(Nr(end), Nr(end))) * (X * X.' - eye(Nr(end), Nr(end)));
-S12pr(k, :, :) = 2 * inv(X * X.' + eye(Nr(end), Nr(end))) * X;
-S21pr(k, :, :) = X.' * (eye(Nr(end), Nr(end)) - squeeze(S11pr(k, :, :)));
-S22pr(k, :, :) = eye(Np(end), Np(end)) - X.' * squeeze(S12pr(k, :, :));
+% S11pr(k, :, :) = inv(X * X.' + eye(Nr(end), Nr(end))) * (X * X.' - eye(Nr(end), Nr(end)));
+% S12pr(k, :, :) = 2 * inv(X * X.' + eye(Nr(end), Nr(end))) * X;
+% S21pr(k, :, :) = X.' * (eye(Nr(end), Nr(end)) - squeeze(S11pr(k, :, :)));
+% S22pr(k, :, :) = eye(Np(end), Np(end)) - X.' * squeeze(S12pr(k, :, :));
 
 end
 
-save('TE_TE_Spp_20', 'Spp');
-save('TE_TE_Spr_20', 'Spr');
-save('TE_TE_Srp_20', 'Srp');
-save('TE_TE_Srr_20', 'Srr');
+save('TM_TM_Spp', 'Spp');
+save('TM_TM_Spr', 'Spr');
+save('TM_TM_Srp', 'Srp');
+save('TM_TM_Srr', 'Srr');
 
 % save('X_til_TE_TE_20', 'X_til');
 
-save('TE_TE_S11', 'S11pr');
-save('TE_TE_S12', 'S12pr');
-save('TE_TE_S21', 'S21pr');
-save('TE_TE_S22', 'S22pr');
+% save('TE_TE_S11', 'S11pr');
+% save('TE_TE_S12', 'S12pr');
+% save('TE_TE_S21', 'S21pr');
+% save('TE_TE_S22', 'S22pr');
 
-save('X_til_TE_TE_20', 'X_til');
+save('X_til_TM_TM_numerical', 'X_til');

@@ -58,12 +58,12 @@ for i = 1:length(N)
     end
     
     A = Lommel(0, r, beta_rho, beta_rho, m - 1, m - 1);
-    B = Lommel(0, r, beta_rho, beta_rho, m - 1, m + 1);
+    
     C = Lommel(0, r, beta_rho, beta_rho, m + 1, m + 1);
     Isin = intphisin(0, 2*pi, m, m);
     Icos = intphicos(0, 2*pi, m, m);
     
-    Qij = K .* ((Isin + Icos) .* (A + C) + 2 .* B .* (Isin - Icos));
+    Qij = K .* ((Isin + Icos) .* (A + C);
     
 %     Poyn = (Erho .* Hphi - Hrho .* Ephi) .* rho_ * drho .* dphi;
 %     Qij = sum(sum(Poyn));
