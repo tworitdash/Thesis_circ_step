@@ -64,7 +64,7 @@ for pm = 1:length(Mp)
                 if modep == "TE"
                     Nup = (epsilonp * pi/2 .* (xmn_p(pm, pn).^2 - pm.^2) .* (besselj(pm, xmn_p(pm, pn))).^2).^(-1);
                 elseif modep == "TM"
-                    Nup = (epsilonp .* pi/2 .* xmn_p(pm, pn).^2 .* (besselj_der(pm, xmn_p(pm, pn))).^2);
+                    Nup = (epsilonp .* pi/2 .* xmn_p(pm, pn).^2 .* (besselj_der(pm, xmn_p(pm, pn))).^2).^(-1);
                 end
                 
                 if moder == "TE"

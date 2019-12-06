@@ -1,9 +1,9 @@
 close all;
-c_ = load('TM_TM_Srp.mat');
-c_a = load('TM_TM_Srp_analytical.mat');
+c_ = load('TM_TM_Spr.mat');
+c_a = load('TM_TM_Spr_analytical.mat');
 
-GSM_ = c_.Srp;
-GSM_a = c_a.Srp;
+GSM_ = c_.Spr;
+GSM_a = c_a.Spr;
 
 % F = 1e9:1e9:100e9;
 % F = 4e9:0.5e9:30e9;
@@ -33,4 +33,4 @@ legend({'TM_{11} Numerical', 'TM_{11} Analytical', 'TM_{12} Numerical', 'TM_{12}
     'TM_{13} Numerical', 'TM_{13} Analytical',}, 'FontSize', 8, 'FontWeight', 'bold', 'location', 'northeast');
 % xlim([4 30]);
 
-print('S_rp_TM', '-depsc');
+print('S_pr_TM', '-depsc');
