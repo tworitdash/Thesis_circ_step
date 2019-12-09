@@ -30,7 +30,8 @@ dphi = pi/2000;
 
 z = 0; 
 % Q = zeros(size(F, 2), N(end), N(end));
-Q = zeros(m(end), m(end));
+Q = zeros(N(end), N(end));
+P = zeros(N(end), N(end));
 Z = zeros(1, size(F, 2));
 Y = zeros(1, size(F, 2));
 
@@ -47,13 +48,14 @@ for i = 1:length(N)
     Qij = sum(sum(Poyn));
     
     Q(i, i) = Qij;
-%     if mode == "TE"
-%         Z_i = 2 * pi * F(k) * mu./ beta_z;
-%     elseif mode == "TM"
-%         Z_i = beta_z ./ (2 * pi * F(k) .* epsilon);
-%     end
-%     Z(k) = Z_i;
-%     Y(k) = 1./Z(k);
+    if mode == "TE"
+        Z_i = 2 * pi * F(k) * mu./ beta_z;
+    elseif mode == "TM"
+        Z_i = beta_z ./ (2 * pi * F(k) .* epsilon);
+    end
+    Z(k) = Z_i;
+    Y(k) = 1./Z(k);
+    P(i, i) = sqrt(Z(k))./sqrt(conj(Z(k))) .* Q(i, i);
 end
 end
 

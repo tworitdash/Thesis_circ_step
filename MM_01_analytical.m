@@ -12,15 +12,15 @@ Np = 1:1:5; % second digit of the mode number. p subscript is for waveguide P
 mr = 1; % first digit of the mode number
 Nr = 1:1:3; % second digit of the mode number. p subscript is for waveguide P
 %% Modular inner cross product between the two wavegudies
-X_ = load('TM_TM_Inner_P_analytical.mat');
+X_ = load('TE_TE_Inner_P_analytical.mat');
 X_x = X_.X_til;
-X_til = zeros(Np(end), Nr(end));
-X_til_f = zeros(size(F, 2), Np(end), Nr(end));
+X_til = zeros(Nr(end), Np(end));
+% X_til_f = zeros(size(F, 2), Np(end), Nr(end));
 for p = 1:length(Np)
     for r = 1:length(Nr)
         disp(p);
         disp(r);
-        X_til(p, r) = squeeze(X_x(mp, p, mr, r));
+        X_til(r, p) = squeeze(X_x(mp, p, mr, r));
 %         grad_Phi_rhop = sqrt(Nup(p)) .* cos(mp .* phir_) .* besselj_der(mp, beta_rhop(p) .* rhor_) .* beta_rhop(p);
 %         grad_Phi_phip = (-1./rhor_) .* sqrt(Nup(p))  .* mp .* sin(mp .* phir_) .* besselj(mp,  beta_rhop(p) .* rhor_);
 %         
@@ -44,11 +44,16 @@ for p = 1:length(Np)
     end
 end
 
+% 
+% Spp = zeros(size(F, 2), Np(end), Np(end));
+% Spr = zeros(size(F, 2), Np(end), Nr(end));
+% Srp = zeros(size(F, 2), Nr(end), Np(end));
+% Srr = zeros(size(F, 2), Nr(end), Nr(end));
 
-Spp = zeros(size(F, 2), Np(end), Np(end));
-Spr = zeros(size(F, 2), Np(end), Nr(end));
-Srp = zeros(size(F, 2), Nr(end), Np(end));
-Srr = zeros(size(F, 2), Nr(end), Nr(end));
+S11_ = zeros(size(F, 2), Np(end), Np(end));
+S12_ = zeros(size(F, 2), Np(end), Nr(end));
+S21_ = zeros(size(F, 2), Nr(end), Np(end));
+S22_ = zeros(size(F, 2), Nr(end), Nr(end));
 
 % S11pr = 
 
@@ -58,8 +63,8 @@ for k =  1:length(F)
 
 
 
-% modep = "TE"; % Waveguide mode polarization
-modep = "TM";
+modep = "TE"; % Waveguide mode polarization
+% modep = "TM";
 
 
 
@@ -82,6 +87,9 @@ zp = 0;
 
 [Qp, Zp, Yp, xmn_] = QZcalculation(mp, Np, modep, F(k), rp, erp, murp, rho_, phi_, zp, drho, dphi);
 
+% Power flow
+Pp = sqrt((Zp))/(conj(sqrt((Zp)))) * abs(Qp);
+
 beta_rhop = xmn_./rp;
 
 if modep == "TE"
@@ -94,8 +102,8 @@ end
 
 %% Wavwguide r
 
-% moder = "TE"; % Waveguide mode polarization
-moder = "TM";
+moder = "TE"; % Waveguide mode polarization
+% moder = "TM";
 
 %F = 1.4132e+11;
 
@@ -124,39 +132,49 @@ end
 
 
     
-X = (Qr * Zr).^0.5 * X_til.' * (Yp\Qp).^0.5; % modular inner cross product. Takes the dimension of Np \times Nr
+X = (Qr * Zr).^0.5 * X_til * (Yp * Qp).^0.5; % modular inner cross product. Takes the dimension of Np \times Nr
 
-F_ = inv(2 * (Qr + X * inv(Qp) * X.'));
+F_ = 2 * inv(Qr + X * inv(Qp) * X');
 
-Spp(k, :, :) = inv(Qp) * X.' * F_ * X - eye(Np(end), Np(end));
+Spp(k, :, :) = inv(Qp) * X' * F_ * X - eye(Np(end), Np(end));
 
-Spr(k, :, :) = inv(Qp) * X.' * F_ * Qr;
+Spr(k, :, :) = inv(Qp) * X' * F_ * Qr;
 Srp(k, :, :) = F_ * X;
 Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
+
+% Me = inv(Pp) * X';
+% Mh = inv(Qr) * X;
+
+% S11_(k, :, :) = inv(eye(Np(end), Np(end)) + Me * Mh) * (eye(Np(end), Np(end)) - Me * Mh);
+% S21_(k, :, :) = Mh * (eye(Np(end), Np(end)) + squeeze(S11_(k, :, :)));
+% S12_(k, :, :) = 2*inv(eye(Np(end), Np(end)) + Me * Mh)*Me;
+% S22_(k, :, :) = (Mh * squeeze(S12_(k, :, :)) - eye(Nr(end), Nr(end)));
 
 % S11pr(k, :, :) = inv(X.' * X + eye(Np(end), Np(end))) * (X.' * X - eye(Np(end), Np(end)));
 % S12pr(k, :, :) = 2 * inv(X.' * X + eye(Np(end), Np(end))) * X.';
 % S21pr(k, :, :) = X * (eye(Np(end), Np(end)) - squeeze(S11pr(k, :, :)));
 % S22pr(k, :, :) = eye(Nr(end), Nr(end)) - X * squeeze(S12pr(k, :, :));
 
+
+
 end
 % 
-save('TM_TM_Spp_analytical', 'Spp');
-save('TM_TM_Spr_analytical', 'Spr');
-save('TM_TM_Srp_analytical', 'Srp');
-save('TM_TM_Srr_analytical', 'Srr');
+% save('TM_TM_Spp_analytical', 'Spp');
+% save('TM_TM_Spr_analytical', 'Spr');
+% save('TM_TM_Srp_analytical', 'Srp');
+% save('TM_TM_Srr_analytical', 'Srr');
 
-% save('TE_TE_Spp_analytical', 'Spp');
-% save('TE_TE_Spr_analytical', 'Spr');
-% save('TE_TE_Srp_analytical', 'Srp');
-% save('TE_TE_Srr_analytical', 'Srr');
+save('TE_TE_Spp_analytical', 'Spp');
+save('TE_TE_Spr_analytical', 'Spr');
+save('TE_TE_Srp_analytical', 'Srp');
+save('TE_TE_Srr_analytical', 'Srr');
 
 
 
-% save('TE_TE_S11', 'S11pr');
-% save('TE_TE_S12', 'S12pr');
-% save('TE_TE_S21', 'S21pr');
-% save('TE_TE_S22', 'S22pr');
+% save('TE_TE_S11', 'S11_');
+% save('TE_TE_S12', 'S12_');
+% save('TE_TE_S21', 'S21_');
+% save('TE_TE_S22', 'S22_');
 
-save('X_til_TM_TM', 'X_til');
-% save('X_til_TE_TE', 'X_til');
+% save('X_til_TM_TM', 'X_til');
+save('X_til_TE_TE', 'X_til');
