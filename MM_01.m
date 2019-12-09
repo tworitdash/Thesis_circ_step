@@ -13,10 +13,16 @@ mr = 1; % first digit of the mode number
 Nr = 1:1:3; % second digit of the mode number. p subscript is for waveguide P
 
 
-Spp = zeros(size(F, 2), Np(end), Np(end));
-Spr = zeros(size(F, 2), Np(end), Nr(end));
-Srp = zeros(size(F, 2), Nr(end), Np(end));
-Srr = zeros(size(F, 2), Nr(end), Nr(end));
+% Spp = zeros(size(F, 2), Np(end), Np(end));
+% Spr = zeros(size(F, 2), Np(end), Nr(end));
+% Srp = zeros(size(F, 2), Nr(end), Np(end));
+% Srr = zeros(size(F, 2), Nr(end), Nr(end));
+
+S11_ = zeros(size(F, 2), Nr(end), Nr(end));
+S12_ = zeros(size(F, 2), Nr(end), Np(end));
+S21_ = zeros(size(F, 2), Np(end), Nr(end));
+S22_ = zeros(size(F, 2), Np(end), Np(end));
+
 
 % S11pr = 
 
@@ -42,8 +48,8 @@ epsilonp = erp * er0;   % Permittivity in the medium
 mup = mu0 * murp;       % Permeability in the medium
 
 
-drho = rp/1000;
-dphi = pi/2000;
+drho = rp/100;
+dphi = pi/200;
 
 [rho_, phi_] = meshgrid(eps:drho:rp, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zp = 0; 
@@ -73,8 +79,8 @@ murr = 1; % relative Permeability
 epsilonr = err * er0;   % Permittivity in the medium
 mur = mu0 * murr;
 
-drho = rr/1000;
-dphi = pi/2000;
+drho = rr/100;
+dphi = pi/200;
 
 [rhor_, phir_] = meshgrid(eps:drho:rr, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zr = 0; 
@@ -119,15 +125,22 @@ for p = 1:length(Np)
     end
 end
     
-X = (Qr * Zr).^0.5 * X_til.' * (Yp\Qp).^0.5; % modular inner cross product. Takes the dimension of Np \times Nr
+X = sqrt(Qr * Zr) * X_til * sqrt(Yp * Qp);  % modular inner cross product. Takes the dimension of Np \times Nr
 
-F_ = inv(2 * (Qr + X * inv(Qp) * X.'));
+% F_ = inv(2 * (Qr + X * inv(Qp) * X.'));
+% 
+% Spp(k, :, :) = inv(Qp) * X.' * F_ * X - eye(Np(end), Np(end));
+% 
+% Spr(k, :, :) = inv(Qp) * X.' * F_ * Qr;
+% Srp(k, :, :) = F_ * X;
+% Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
 
-Spp(k, :, :) = inv(Qp) * X.' * F_ * X - eye(Np(end), Np(end));
+S11_(k, :, :) = sqrt(Qr)* inv(Qr + X * X') * (Qr - X * X') * inv(sqrt(Qr));
+S12_(k, :, :) = 2 * sqrt(Qr) * (Qr + X * X') * X * inv(sqrt(Qp));
+S21_(k, :, :) = 2 * sqrt(Qp) * (Qp + X' * X) * X' * inv(sqrt(Qr));
+S22_(k, :, :) = Qp * inv(Qp + X' * X) * (Qp - X' * X) * inv(sqrt(Qp));
 
-Spr(k, :, :) = inv(Qp) * X.' * F_ * Qr;
-Srp(k, :, :) = F_ * X;
-Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
+
 
 % S11pr(k, :, :) = inv(X * X.' + eye(Nr(end), Nr(end))) * (X * X.' - eye(Nr(end), Nr(end)));
 % S12pr(k, :, :) = 2 * inv(X * X.' + eye(Nr(end), Nr(end))) * X;
@@ -136,10 +149,15 @@ Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
 
 end
 
-save('TM_TM_Spp', 'Spp');
-save('TM_TM_Spr', 'Spr');
-save('TM_TM_Srp', 'Srp');
-save('TM_TM_Srr', 'Srr');
+% save('TM_TM_Spp', 'Spp');
+% save('TM_TM_Spr', 'Spr');
+% save('TM_TM_Srp', 'Srp');
+% save('TM_TM_Srr', 'Srr');
+
+save('TE_TE_S11_p', 'S11_');
+save('TE_TE_S12_p', 'S12_');
+save('TE_TE_S21_p', 'S21_');
+save('TE_TE_S22_p', 'S22_');
 
 % save('X_til_TE_TE_20', 'X_til');
 

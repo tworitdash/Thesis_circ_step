@@ -50,10 +50,15 @@ end
 % Srp = zeros(size(F, 2), Nr(end), Np(end));
 % Srr = zeros(size(F, 2), Nr(end), Nr(end));
 
-S11_ = zeros(size(F, 2), Np(end), Np(end));
-S12_ = zeros(size(F, 2), Np(end), Nr(end));
-S21_ = zeros(size(F, 2), Nr(end), Np(end));
-S22_ = zeros(size(F, 2), Nr(end), Nr(end));
+% S11_ = zeros(size(F, 2), Np(end), Np(end));
+% S12_ = zeros(size(F, 2), Np(end), Nr(end));
+% S21_ = zeros(size(F, 2), Nr(end), Np(end));
+% S22_ = zeros(size(F, 2), Nr(end), Nr(end));
+
+S11_ = zeros(size(F, 2), Nr(end), Nr(end));
+S12_ = zeros(size(F, 2), Nr(end), Np(end));
+S21_ = zeros(size(F, 2), Np(end), Nr(end));
+S22_ = zeros(size(F, 2), Np(end), Np(end));
 
 % S11pr = 
 
@@ -93,7 +98,7 @@ Pp = sqrt((Zp))/(conj(sqrt((Zp)))) * abs(Qp);
 beta_rhop = xmn_./rp;
 
 if modep == "TE"
-    Nup = (epsilonp * pi/2 .* (xmn_.^2 - mp.^2) .* (besselj(mp, xmn_)).^2).^(-1);
+    Nup = (epsilonp .* pi/2 .* (xmn_.^2 - mp.^2) .* (besselj(mp, xmn_)).^2).^(-1);
 elseif modep == "TM"
     Nup = (epsilonp .* pi/2 .* xmn_.^2 .* (besselj_der(mp, xmn_)).^2).^(-1);
 end
@@ -112,7 +117,6 @@ err = 1; % relative  permittivity
 murr = 1; % relative Permeability
 epsilonr = err * er0;   % Permittivity in the medium
 mur = mu0 * murr;
-
 drho = rr/100;
 dphi = pi/180;
 
@@ -132,23 +136,30 @@ end
 
 
     
-X = (Qr * Zr).^0.5 * X_til * (Yp * Qp).^0.5; % modular inner cross product. Takes the dimension of Np \times Nr
+X = sqrt(Qr * Zr) * X_til * sqrt(Yp * Qp); % modular inner cross product. Takes the dimension of Np \times Nr
 
-F_ = 2 * inv(Qr + X * inv(Qp) * X');
+% F_ = 2 * inv(Qr + X * inv(Qp) * X');
+% 
+% Spp(k, :, :) = inv(Qp) * X' * F_ * X - eye(Np(end), Np(end));
+% 
+% Spr(k, :, :) = inv(Qp) * X' * F_ * Qr;
+% Srp(k, :, :) = F_ * X;
+% Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
 
-Spp(k, :, :) = inv(Qp) * X' * F_ * X - eye(Np(end), Np(end));
-
-Spr(k, :, :) = inv(Qp) * X' * F_ * Qr;
-Srp(k, :, :) = F_ * X;
-Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
-
-% Me = inv(Pp) * X';
+% Me = inv(Qp) * X';
 % Mh = inv(Qr) * X;
 
 % S11_(k, :, :) = inv(eye(Np(end), Np(end)) + Me * Mh) * (eye(Np(end), Np(end)) - Me * Mh);
 % S21_(k, :, :) = Mh * (eye(Np(end), Np(end)) + squeeze(S11_(k, :, :)));
 % S12_(k, :, :) = 2*inv(eye(Np(end), Np(end)) + Me * Mh)*Me;
 % S22_(k, :, :) = (Mh * squeeze(S12_(k, :, :)) - eye(Nr(end), Nr(end)));
+
+%% Another solution
+S11_(k, :, :) = sqrt(Qr)* inv(Qr + X * X') * (Qr - X * X') * inv(sqrt(Qr));
+S12_(k, :, :) = 2 * sqrt(Qr) * (Qr + X * X') * X * inv(sqrt(Qp));
+S21_(k, :, :) = 2 * sqrt(Qp) * (Qp + X' * X) * X' * inv(sqrt(Qr));
+S22_(k, :, :) = Qp * inv(Qp + X' * X) * (Qp - X' * X) * inv(sqrt(Qp));
+
 
 % S11pr(k, :, :) = inv(X.' * X + eye(Np(end), Np(end))) * (X.' * X - eye(Np(end), Np(end)));
 % S12pr(k, :, :) = 2 * inv(X.' * X + eye(Np(end), Np(end))) * X.';
@@ -164,17 +175,22 @@ end
 % save('TM_TM_Srp_analytical', 'Srp');
 % save('TM_TM_Srr_analytical', 'Srr');
 
-save('TE_TE_Spp_analytical', 'Spp');
-save('TE_TE_Spr_analytical', 'Spr');
-save('TE_TE_Srp_analytical', 'Srp');
-save('TE_TE_Srr_analytical', 'Srr');
+% save('TE_TE_Spp_analytical', 'Spp');
+% save('TE_TE_Spr_analytical', 'Spr');
+% save('TE_TE_Srp_analytical', 'Srp');
+% save('TE_TE_Srr_analytical', 'Srr');
 
 
-
+% 
 % save('TE_TE_S11', 'S11_');
 % save('TE_TE_S12', 'S12_');
 % save('TE_TE_S21', 'S21_');
 % save('TE_TE_S22', 'S22_');
+
+save('TE_TE_S11_p', 'S11_');
+save('TE_TE_S12_p', 'S12_');
+save('TE_TE_S21_p', 'S21_');
+save('TE_TE_S22_p', 'S22_');
 
 % save('X_til_TM_TM', 'X_til');
 save('X_til_TE_TE', 'X_til');

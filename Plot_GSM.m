@@ -1,9 +1,9 @@
 close all;
 % c_ = load('TE_TE_Spr.mat');
-c_a = load('TE_TE_Spr_analytical.mat');
-% c_a = load('TE_TE_S22.mat');
+% c_a = load('TE_TE_Srp_analytical.mat');
+c_a = load('TE_TE_S22.mat');
 %GSM_ = c_.Spr;
-GSM_a = c_a.Spr;
+GSM_a = c_a.S22_;
 
 % F = 1e9:1e9:100e9;
 % F = 4e9:0.5e9:30e9;
@@ -12,7 +12,7 @@ F = 4e9:0.5e9:40e9;
 % F = 21e9:0.5e9:40e9;
 
 figure
-for i = 2:2
+for i = 1:3
 
 
 hold on;
