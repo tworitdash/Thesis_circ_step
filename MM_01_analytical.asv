@@ -44,21 +44,21 @@ for p = 1:length(Np)
     end
 end
 
-% 
-% Spp = zeros(size(F, 2), Np(end), Np(end));
-% Spr = zeros(size(F, 2), Np(end), Nr(end));
-% Srp = zeros(size(F, 2), Nr(end), Np(end));
-% Srr = zeros(size(F, 2), Nr(end), Nr(end));
+
+Spp = zeros(size(F, 2), Np(end), Np(end));
+Spr = zeros(size(F, 2), Np(end), Nr(end));
+Srp = zeros(size(F, 2), Nr(end), Np(end));
+Srr = zeros(size(F, 2), Nr(end), Nr(end));
 
 % S11_ = zeros(size(F, 2), Np(end), Np(end));
 % S12_ = zeros(size(F, 2), Np(end), Nr(end));
 % S21_ = zeros(size(F, 2), Nr(end), Np(end));
 % S22_ = zeros(size(F, 2), Nr(end), Nr(end));
 
-S11_ = zeros(size(F, 2), Nr(end), Nr(end));
-S12_ = zeros(size(F, 2), Nr(end), Np(end));
-S21_ = zeros(size(F, 2), Np(end), Nr(end));
-S22_ = zeros(size(F, 2), Np(end), Np(end));
+% S11_ = zeros(size(F, 2), Nr(end), Nr(end));
+% S12_ = zeros(size(F, 2), Nr(end), Np(end));
+% S21_ = zeros(size(F, 2), Np(end), Nr(end));
+% S22_ = zeros(size(F, 2), Np(end), Np(end));
 
 % S11pr = 
 
@@ -138,13 +138,23 @@ end
     
 X = sqrt(Qr * Zr) * X_til * sqrt(Yp * Qp); % modular inner cross product. Takes the dimension of Np \times Nr
 
-F_ = 2 * inv(Qr + X * inv(Qp) * X');
+% F_ = 2 * inv(Qr + X * inv(Qp) * X');
 
-Spp(k, :, :) = inv(Qp) * X' * F_ * X - eye(Np(end), Np(end));
+% Spp(k, :, :) = inv(Qp) * X' * F_ * X - eye(Np(end), Np(end));
+% 
+% Spr(k, :, :) = inv(Qp) * X' * F_ * Qr;
+% Srp(k, :, :) = F_ * X;
+% Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
 
-Spr(k, :, :) = inv(Qp) * X' * F_ * Qr;
-Srp(k, :, :) = F_ * X;
-Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
+%% Another solution
+Ip = eye(Np(end), Np(end));
+Ir = eye(Nr(end), Nr(end));
+
+Spr(k, :, :) = inv(Ip + inv(Qp) * X' * inv(Qr) * X) * inv(Qp) * X';
+Spp(k, :, :) = 2 * inv(Ip + inv(Qp) * X' * inv(Qr) * X) * (inv(Qp) * X' * inv(Qr) * X - Ip);
+Srp(k, :, :) = inv(Qr) * X * (Ip - squeeze(Spp(k, :, :)));
+Srr(k, :, :) = Ir - inv(Qr) * X * squeeze(Spr(k, :, :));
+
 
 % Me = inv(Qp) * X';
 % Mh = inv(Qr) * X;
@@ -175,10 +185,16 @@ end
 % save('TM_TM_Srp_analytical', 'Srp');
 % save('TM_TM_Srr_analytical', 'Srr');
 
-save('TE_TE_Spp_analytical', 'Spp');
-save('TE_TE_Spr_analytical', 'Spr');
-save('TE_TE_Srp_analytical', 'Srp');
-save('TE_TE_Srr_analytical', 'Srr');
+save('TE_TE_Spp_analytical_2', 'Spp');
+save('TE_TE_Spr_analytical_2', 'Spr');
+save('TE_TE_Srp_analytical_2', 'Srp');
+save('TE_TE_Srr_analytical_2', 'Srr');
+
+% 
+% save('TE_TE_Spp_analytical', 'Spp');
+% save('TE_TE_Spr_analytical', 'Spr');
+% save('TE_TE_Srp_analytical', 'Srp');
+% save('TE_TE_Srr_analytical', 'Srr');
 
 
 % 
@@ -193,4 +209,4 @@ save('TE_TE_Srr_analytical', 'Srr');
 % save('TE_TE_S22_p', 'S22_');
 
 % save('X_til_TM_TM', 'X_til');
-save('X_til_TE_TE', 'X_til');
+% save('X_til_TE_TE', 'X_til');

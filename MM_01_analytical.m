@@ -12,7 +12,7 @@ Np = 1:1:5; % second digit of the mode number. p subscript is for waveguide P
 mr = 1; % first digit of the mode number
 Nr = 1:1:3; % second digit of the mode number. p subscript is for waveguide P
 %% Modular inner cross product between the two wavegudies
-X_ = load('TM_TM_Inner_P_analytical.mat');
+X_ = load('TE_TE_Inner_P_analytical.mat');
 X_x = X_.X_til;
 X_til = zeros(Nr(end), Np(end));
 % X_til_f = zeros(size(F, 2), Np(end), Nr(end));
@@ -68,8 +68,8 @@ for k =  1:length(F)
 
 
 
-% modep = "TE"; % Waveguide mode polarization
-modep = "TM";
+modep = "TE"; % Waveguide mode polarization
+% modep = "TM";
 
 
 
@@ -107,8 +107,8 @@ end
 
 %% Wavwguide r
 
-% moder = "TE"; % Waveguide mode polarization
-moder = "TM";
+moder = "TE"; % Waveguide mode polarization
+% moder = "TM";
 
 %F = 1.4132e+11;
 
@@ -138,13 +138,25 @@ end
     
 X = sqrt(Qr * Zr) * X_til * sqrt(Yp * Qp); % modular inner cross product. Takes the dimension of Np \times Nr
 
-F_ = 2 * inv(Qr + X * inv(Qp) * X');
 
-Spp(k, :, :) = inv(Qp) * X' * F_ * X - eye(Np(end), Np(end));
 
-Spr(k, :, :) = inv(Qp) * X' * F_ * Qr;
-Srp(k, :, :) = F_ * X;
-Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
+% F_ = 2 * inv(Qr + X * inv(Qp) * X');
+
+% Spp(k, :, :) = inv(Qp) * X' * F_ * X - eye(Np(end), Np(end));
+% 
+% Spr(k, :, :) = inv(Qp) * X' * F_ * Qr;
+% Srp(k, :, :) = F_ * X;
+% Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
+
+%% Another solution
+Ip = eye(Np(end), Np(end));
+Ir = eye(Nr(end), Nr(end));
+
+Spr(k, :, :) = inv(Ip + X' * X) * inv(Qp) * X';
+Spp(k, :, :) = 2 * inv(Ip + X' * X) * (X' * X - Ip);
+Srp(k, :, :) = X * (Ip - squeeze(Spp(k, :, :)));
+Srr(k, :, :) = Ir - X * squeeze(Spr(k, :, :));
+
 
 % Me = inv(Qp) * X';
 % Mh = inv(Qr) * X;
@@ -170,10 +182,16 @@ Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
 
 end
 % 
-save('TM_TM_Spp_analytical', 'Spp');
-save('TM_TM_Spr_analytical', 'Spr');
-save('TM_TM_Srp_analytical', 'Srp');
-save('TM_TM_Srr_analytical', 'Srr');
+% save('TM_TM_Spp_analytical', 'Spp');
+% save('TM_TM_Spr_analytical', 'Spr');
+% save('TM_TM_Srp_analytical', 'Srp');
+% save('TM_TM_Srr_analytical', 'Srr');
+
+save('TE_TE_Spp_analytical_2', 'Spp');
+save('TE_TE_Spr_analytical_2', 'Spr');
+save('TE_TE_Srp_analytical_2', 'Srp');
+save('TE_TE_Srr_analytical_2', 'Srr');
+
 % 
 % save('TE_TE_Spp_analytical', 'Spp');
 % save('TE_TE_Spr_analytical', 'Spr');
