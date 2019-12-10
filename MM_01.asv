@@ -32,8 +32,8 @@ for k =  1:length(F)
 
 
 
-% modep = "TE"; % Waveguide mode polarization
-modep = "TM";
+modep = "TE"; % Waveguide mode polarization
+% modep = "TM";
 
 
 
@@ -68,8 +68,8 @@ end
 
 %% Wavwguide r
 
-% moder = "TE"; % Waveguide mode polarization
-moder = "TM";
+moder = "TE"; % Waveguide mode polarization
+% moder = "TM";
 
 %F = 1.4132e+11;
 
@@ -96,7 +96,7 @@ elseif moder == "TM"
 end
 
 %% Modular inner cross product between the two wavegudies
-X_til = zeros(Np(end), Nr(end));
+X_til = zeros(Nr(end), Np(end));
 X_til_f = zeros(size(F, 2), Np(end), Nr(end));
 for p = 1:length(Np)
     for r = 1:length(Nr)
@@ -119,7 +119,7 @@ for p = 1:length(Np)
         elseif (modep == "TM" && moder == "TE")
             X_til_pr = (grad_Phi_rhop .* grad_Phi_phir - grad_Phi_rhor .* grad_Phi_rhop)...
                 .* rhor_ .* drho .* dphi;
-            X_til(p, r) = sum(sum(X_til_pr));
+            X_til(r, p) = sum(sum(X_til_pr));
        
         end
     end

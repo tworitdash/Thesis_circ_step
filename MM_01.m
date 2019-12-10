@@ -13,15 +13,15 @@ mr = 1; % first digit of the mode number
 Nr = 1:1:3; % second digit of the mode number. p subscript is for waveguide P
 
 
-% Spp = zeros(size(F, 2), Np(end), Np(end));
-% Spr = zeros(size(F, 2), Np(end), Nr(end));
-% Srp = zeros(size(F, 2), Nr(end), Np(end));
-% Srr = zeros(size(F, 2), Nr(end), Nr(end));
+Spp = zeros(size(F, 2), Np(end), Np(end));
+Spr = zeros(size(F, 2), Np(end), Nr(end));
+Srp = zeros(size(F, 2), Nr(end), Np(end));
+Srr = zeros(size(F, 2), Nr(end), Nr(end));
 
-S11_ = zeros(size(F, 2), Nr(end), Nr(end));
-S12_ = zeros(size(F, 2), Nr(end), Np(end));
-S21_ = zeros(size(F, 2), Np(end), Nr(end));
-S22_ = zeros(size(F, 2), Np(end), Np(end));
+% S11_ = zeros(size(F, 2), Nr(end), Nr(end));
+% S12_ = zeros(size(F, 2), Nr(end), Np(end));
+% S21_ = zeros(size(F, 2), Np(end), Nr(end));
+% S22_ = zeros(size(F, 2), Np(end), Np(end));
 
 
 % S11pr = 
@@ -96,7 +96,7 @@ elseif moder == "TM"
 end
 
 %% Modular inner cross product between the two wavegudies
-X_til = zeros(Np(end), Nr(end));
+X_til = zeros(Nr(end), Np(end));
 X_til_f = zeros(size(F, 2), Np(end), Nr(end));
 for p = 1:length(Np)
     for r = 1:length(Nr)
@@ -111,34 +111,34 @@ for p = 1:length(Np)
         if (modep == "TE" && moder == "TE") || (modep == "TM" && moder == "TM")
             X_til_pr = (grad_Phi_rhop .* grad_Phi_rhor +  grad_Phi_phip .* grad_Phi_phir)...
                 .* rhor_ .* drho .* dphi;
-            X_til(p, r) = sum(sum(X_til_pr));
+            X_til(r, p) = sum(sum(X_til_pr));
 
-            X_til_f(k, p, r) = X_til(p, r);
+           % X_til_f(k, p, r) = X_til(p, r);
         elseif (modep == "TE" && moder == "TM")
             X_til(p, r) = 0;
         elseif (modep == "TM" && moder == "TE")
             X_til_pr = (grad_Phi_rhop .* grad_Phi_phir - grad_Phi_rhor .* grad_Phi_rhop)...
                 .* rhor_ .* drho .* dphi;
-            X_til(p, r) = sum(sum(X_til_pr));
+            X_til(r, p) = sum(sum(X_til_pr));
        
         end
     end
 end
     
-X = sqrt(Qr * Zr) * X_til * sqrt(Yp * Qp);  % modular inner cross product. Takes the dimension of Np \times Nr
+X = sqrt(Qr * Zr) * X_til * sqrt(Yp * Qp); % modular inner cross product. Takes the dimension of Np \times Nr
 
-% F_ = inv(2 * (Qr + X * inv(Qp) * X.'));
-% 
-% Spp(k, :, :) = inv(Qp) * X.' * F_ * X - eye(Np(end), Np(end));
-% 
-% Spr(k, :, :) = inv(Qp) * X.' * F_ * Qr;
-% Srp(k, :, :) = F_ * X;
-% Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
+F_ = 2 * inv(Qr + X * inv(Qp) * X');
 
-S11_(k, :, :) = sqrt(Qr)* inv(Qr + X * X') * (Qr - X * X') * inv(sqrt(Qr));
-S12_(k, :, :) = 2 * sqrt(Qr) * (Qr + X * X') * X * inv(sqrt(Qp));
-S21_(k, :, :) = 2 * sqrt(Qp) * (Qp + X' * X) * X' * inv(sqrt(Qr));
-S22_(k, :, :) = Qp * inv(Qp + X' * X) * (Qp - X' * X) * inv(sqrt(Qp));
+Spp(k, :, :) = inv(Qp) * X' * F_ * X - eye(Np(end), Np(end));
+
+Spr(k, :, :) = inv(Qp) * X' * F_ * Qr;
+Srp(k, :, :) = F_ * X;
+Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
+
+% S11_(k, :, :) = sqrt(Qr)* inv(Qr + X * X') * (Qr - X * X') * inv(sqrt(Qr));
+% S12_(k, :, :) = 2 * sqrt(Qr) * (Qr + X * X') * X * inv(sqrt(Qp));
+% S21_(k, :, :) = 2 * sqrt(Qp) * (Qp + X' * X) * X' * inv(sqrt(Qr));
+% S22_(k, :, :) = Qp * inv(Qp + X' * X) * (Qp - X' * X) * inv(sqrt(Qp));
 
 
 
@@ -149,15 +149,20 @@ S22_(k, :, :) = Qp * inv(Qp + X' * X) * (Qp - X' * X) * inv(sqrt(Qp));
 
 end
 
-% save('TM_TM_Spp', 'Spp');
-% save('TM_TM_Spr', 'Spr');
-% save('TM_TM_Srp', 'Srp');
-% save('TM_TM_Srr', 'Srr');
+% save('TE_TE_Spp', 'Spp');
+% save('TE_TE_Spr', 'Spr');
+% save('TE_TE_Srp', 'Srp');
+% save('TE_TE_Srr', 'Srr');
 
-save('TE_TE_S11_p', 'S11_');
-save('TE_TE_S12_p', 'S12_');
-save('TE_TE_S21_p', 'S21_');
-save('TE_TE_S22_p', 'S22_');
+save('TM_TM_Spp', 'Spp');
+save('TM_TM_Spr', 'Spr');
+save('TM_TM_Srp', 'Srp');
+save('TM_TM_Srr', 'Srr');
+% 
+% save('TE_TE_S11_p_n', 'S11_');
+% save('TE_TE_S12_p_n', 'S12_');
+% save('TE_TE_S21_p_n', 'S21_');
+% save('TE_TE_S22_p_n', 'S22_');
 
 % save('X_til_TE_TE_20', 'X_til');
 
@@ -166,4 +171,5 @@ save('TE_TE_S22_p', 'S22_');
 % save('TE_TE_S21', 'S21pr');
 % save('TE_TE_S22', 'S22pr');
 
-save('X_til_TM_TM_numerical', 'X_til');
+% 
+% save('X_til_TM_TM_numerical', 'X_til');
