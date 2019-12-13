@@ -2,7 +2,7 @@
 %% Inner Product Calculation
 clear;
 rp = 0.0405319403216/2; % radius of the waveguide P
-rr = 0.0405319403216/4; % radius of the waveguide R
+rr = 0.0405319403216/2.1; % radius of the waveguide R
 
 
 er0 = 8.85418782e-12; % Free space permittivity
@@ -22,9 +22,9 @@ modep = "TE";
 moder = "TE";
 % moder = "TM";
 
-Mp = 1:1:5;
+Mp = 1;
 Np = 1:1:5;
-Mr = 1:1:5;
+Mr = 1;
 Nr = 1:1:5;
 
 
@@ -64,7 +64,7 @@ for pm = 1:length(Mp)
                 if modep == "TE"
                     Nup = (epsilonp * pi/2 .* (xmn_p(pm, pn).^2 - pm.^2) .* (besselj(pm, xmn_p(pm, pn))).^2).^(-1);
                 elseif modep == "TM"
-                    Nup = (epsilonp .* pi/2 .* xmn_p(pm, pn).^2 .* (besselj_der(pm, xmn_p(pm, pn))).^2);
+                    Nup = (epsilonp .* pi/2 .* xmn_p(pm, pn).^2 .* (besselj_der(pm, xmn_p(pm, pn))).^2)^(-1);
                 end
                 
                 if moder == "TE"
@@ -79,7 +79,7 @@ for pm = 1:length(Mp)
                 grad_Phi_phip = (-1./rhor_) .* sqrt(Nup) .* pm .* sin(pm .* phir_) .* besselj(pm,  beta_rhop(pm, pn) .* rhor_);
 
                 grad_Phi_rhor = sqrt(Nur) .* cos(rm .* phir_) .* besselj_der(rm, beta_rhor(rm, rn).* rhor_) .* beta_rhor(rm, rn);
-                grad_Phi_phir = (-1./rhor_) .* sqrt(Nur) .* rm .* sin(rm .* rhor_) .* besselj(rm,  beta_rhor(rm, rn) .* rhor_);
+                grad_Phi_phir = (-1./rhor_) .* sqrt(Nur) .* rm .* sin(rm .* phir_) .* besselj(rm,  beta_rhor(rm, rn) .* rhor_);
 
                 if (modep == "TE" && moder == "TE") || (modep == "TM" && moder == "TM")
                     X_til_pr = (grad_Phi_rhop .* grad_Phi_rhor +  grad_Phi_phip .* grad_Phi_phir)...

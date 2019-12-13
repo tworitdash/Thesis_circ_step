@@ -1,18 +1,19 @@
-close all;
-c_ = load('TE_TE_Srp.mat');
-c_a = load('TE_TE_Spp_analytical_2.mat');
+%close all;
+% c_ = load('TE_TE_Spp.mat');
+c_a = load('TE_TE_Srr_analytical_3.mat');
 %c_a = load('TE_TE_S11_p_n.mat');
-GSM_ = c_.Srp;
-GSM_a = c_a.Spp;
+% GSM_ = c_.Srp;
+GSM_a = c_a.Srr;
 
 % F = 1e9:1e9:100e9;
 F_ = 4e9:0.5e9:30e9;
-F = 4e9:0.5e9:40e9;
+ F = 4e9:0.5e9:40e9;
+%F = 4e9:1e9:10e9;
 
 % F = 21e9:0.5e9:40e9;
 
 figure
-for i = 1:3
+for i = 1:1
 
 
 hold on;
@@ -20,7 +21,7 @@ hold on;
 hold on;
 % plot(F * 1e-9, db((GSM_a(:, i, i))/max(GSM_a(:, i, i)))/2, 'LineWidth', 2); grid on;
 
-plot(F * 1e-9, (abs(GSM_a(:, i, i))), 'LineWidth', 2); grid on;
+plot(F * 1e-9, db(abs(GSM_a(:, i, i)))/2, 'LineWidth', 2); grid on;
 
 xlabel('Frequency (GHz)', 'FontSize', 12, 'FontWeight', 'bold');
 ylabel('S in  dB', 'FontSize', 12, 'FontWeight', 'bold');

@@ -22,7 +22,7 @@ for i = 1:length(N)
     
     [Erho, Ephi, Ez, Hrho, Hphi, Hz, beta_z, xmn_i] = E_and_H(rho_, phi_, er, mur, z, r, m, N(i), mode, F);
     
-    xmn_(i) = xmn_i;
+    xmn_(i, i) = xmn_i;
     
     Poyn = (Erho .* Hphi - Hrho .* Ephi) .* rho_ * drho .* dphi;
     Qij = sum(sum(Poyn));
