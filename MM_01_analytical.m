@@ -182,6 +182,9 @@ end
 Ip = eye(Np(end), Np(end));
 Ir = eye(Nr(end), Nr(end));
 
+Ip = eye(Np(end), Np(end));
+Ir = eye(Nr(end), Nr(end));
+
 
 % Qp = eye(Np(end), Np(end));
 % Qr = eye(Nr(end), Nr(end));
@@ -193,6 +196,7 @@ X = sqrt(Kr * Zr) * X_til * sqrt(Yp * Kp); % modular inner cross product. Takes 
 F_ = 2 * inv(Qr + X * inv(Qp) * X.');
 
 Spp(k, :, :) = inv(Qp) * X.' * F_ * X - Ip;
+<<<<<<< HEAD
 
 Spr(k, :, :) = inv(Qp) * X.' * F_ * Qr;
 Srp(k, :, :) = F_ * X;
@@ -214,6 +218,27 @@ Srr(k, :, :) = F_ * Qr - Ir;
 % S(k, :, :) = cat(1, squeeze(Spppr(k, :, :)), squeeze(Srprr(k, :, :)));
 % 
 % squeeze(S(k, :, :))*(squeeze(S(k, :, :)))
+=======
+
+Spr(k, :, :) = inv(Qp) * X.' * F_ * Qr;
+Srp(k, :, :) = F_ * X;
+Srr(k, :, :) = F_ * Qr - Ir;
+
+Spppr(k, :, :) = cat(2, squeeze(Spp(k, :, :)), squeeze(Spr(k, :, :)));
+Srprr(k, :, :) = cat(2, squeeze(Srp(k, :, :)), squeeze(Srr(k, :, :)));
+S(k, :, :) = cat(1, squeeze(Spppr(k, :, :)), squeeze(Srprr(k, :, :)));
+
+squeeze(S(k, :, :))*(squeeze(S(k, :, :)))
+
+%% Another solution
+% Ip = eye(Np(end), Np(end));
+% Ir = eye(Nr(end), Nr(end));
+% 
+% Spr(k, :, :) = inv(Ip + X' * X) * inv(Qp) * X';
+% Spp(k, :, :) = 2 * inv(Ip + X' * X) * (X' * X - Ip);
+% Srp(k, :, :) = X * (Ip - squeeze(Spp(k, :, :)));
+% Srr(k, :, :) = Ir - X * squeeze(Spr(k, :, :));
+>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
 
 
 % Me = inv(Qp) * X';

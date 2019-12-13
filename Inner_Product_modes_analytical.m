@@ -61,6 +61,7 @@ for pm = 1:length(Mp)
         for rm = 1:length(Mr)
             for rn = 1:length(Nr)
                 
+<<<<<<< HEAD
 %                 if modep == "TE"
 %                     Nup = (epsilonp * pi/2 .* (xmn_p(pm, pn).^2 - pm.^2) .* (besselj(pm, xmn_p(pm, pn))).^2).^(-1);
 %                 elseif modep == "TM"
@@ -74,6 +75,21 @@ for pm = 1:length(Mp)
 %                 end
                 Nup = 1;
                 Nur = 1;
+=======
+                if modep == "TE"
+                    Nup = (epsilonp * pi/2 .* (xmn_p(pm, pn).^2 - pm.^2) .* (besselj(pm, xmn_p(pm, pn))).^2).^(-1);
+                elseif modep == "TM"
+                    Nup = (epsilonp .* pi/2 .* xmn_p(pm, pn).^2 .* (besselj_der(pm, xmn_p(pm, pn))).^2).^(-1);
+                end
+                
+                if moder == "TE"
+                    Nur = (epsilonr * pi/2 .* (xmn_r(rm, rn).^2 - rm.^2) .* (besselj(rm, xmn_r(rm, rn))).^2).^(-1);
+                elseif moder == "TM"
+                    Nur = (epsilonr .* pi/2 .* xmn_r(rm, rn).^2 .* (besselj_der(rm, xmn_r(rm, rn))).^2).^(-1);
+                end
+%                 Nup = 1;
+%                 Nur = 1;
+>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
 %                 
 %                 disp(p);
 %                 disp(r);
