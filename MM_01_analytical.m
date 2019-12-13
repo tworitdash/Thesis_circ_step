@@ -12,6 +12,7 @@ Np = 1:1:5; % second digit of the mode number. p subscript is for waveguide P
 mr = 1; % first digit of the mode number
 Nr = 1:1:3; % second digit of the mode number. p subscript is for waveguide P
 %% Modular inner cross product between the two wavegudies
+%X_ = load('TE_TE_Inner_P_analytical.mat');
 X_ = load('TE_TE_Inner_P_analytical.mat');
 X_x = X_.X_til;
 X_til = zeros(Nr(end), Np(end));
@@ -50,6 +51,15 @@ Spr = zeros(size(F, 2), Np(end), Nr(end));
 Srp = zeros(size(F, 2), Nr(end), Np(end));
 Srr = zeros(size(F, 2), Nr(end), Nr(end));
 
+Spppr = zeros(size(F, 2), Np(end), Np(end) + Nr(end));
+Srprr = zeros(size(F, 2), Nr(end), Np(end) + Nr(end));
+
+S = zeros(size(F, 2), Np(end) + Nr(end), Np(end) + Nr(end));
+
+Zr_ = zeros(size(F, 2), Nr(end), Nr(end));
+Zp_ = zeros(size(F, 2), Np(end), Np(end));
+Qr_ = zeros(size(F, 2), Nr(end), Nr(end));
+Qp_ = zeros(size(F, 2), Np(end), Np(end));
 % S11_ = zeros(size(F, 2), Np(end), Np(end));
 % S12_ = zeros(size(F, 2), Np(end), Nr(end));
 % S21_ = zeros(size(F, 2), Nr(end), Np(end));
@@ -92,8 +102,10 @@ zp = 0;
 
 [Qp, Zp, Yp, xmn_] = QZcalculation(mp, Np, modep, F(k), rp, erp, murp, rho_, phi_, zp, drho, dphi);
 
+Zp_(k, :, :) = Zp;
+Qp_(k, :, :) = Qp;
 % Power flow
-Pp = sqrt((Zp))/(conj(sqrt((Zp)))) * abs(Qp);
+% Pp = sqrt((Zp))/(conj(sqrt((Zp)))) * abs(Qp);
 
 beta_rhop = xmn_./rp;
 
@@ -125,6 +137,9 @@ zr = 0;
 
 [Qr, Zr, Yr, xmn_] = QZcalculation(mr, Nr, moder, F(k), rr, err, murr, rhor_, phir_, zr, drho, dphi);
 
+Zr_(k, :, :) = Zr;
+Qr_(k, :, :) = Qr;
+
 beta_rhor = xmn_./rr;
 
 if moder == "TE"
@@ -134,28 +149,39 @@ elseif moder == "TM"
 end
 
 
-
-    
-X = sqrt(Qr * Zr) * X_til * sqrt(Yp * Qp); % modular inner cross product. Takes the dimension of Np \times Nr
-
-
-
-% F_ = 2 * inv(Qr + X * inv(Qp) * X');
-
-% Spp(k, :, :) = inv(Qp) * X' * F_ * X - eye(Np(end), Np(end));
-% 
-% Spr(k, :, :) = inv(Qp) * X' * F_ * Qr;
-% Srp(k, :, :) = F_ * X;
-% Srr(k, :, :) = F_ * Qr - eye(Nr(end), Nr(end));
-
-%% Another solution
 Ip = eye(Np(end), Np(end));
 Ir = eye(Nr(end), Nr(end));
 
-Spr(k, :, :) = inv(Ip + X' * X) * inv(Qp) * X';
-Spp(k, :, :) = 2 * inv(Ip + X' * X) * (X' * X - Ip);
-Srp(k, :, :) = X * (Ip - squeeze(Spp(k, :, :)));
-Srr(k, :, :) = Ir - X * squeeze(Spr(k, :, :));
+
+% Qp = eye(Np(end), Np(end));
+% Qr = eye(Nr(end), Nr(end));
+    
+X = sqrt(Qr * Zr) * X_til * sqrt(Yp * Qp); % modular inner cross product. Takes the dimension of Np \times Nr
+
+% X = sqrt(Zr) * X_til * sqrt(Yp);
+
+F_ = 2 * inv(Qr + X * inv(Qp) * X.');
+
+Spp(k, :, :) = inv(Qp) * X.' * F_ * X - Ip;
+
+Spr(k, :, :) = inv(Qp) * X.' * F_ * Qr;
+Srp(k, :, :) = F_ * X;
+Srr(k, :, :) = F_ * Qr - Ir;
+
+Spppr(k, :, :) = cat(2, squeeze(Spp(k, :, :)), squeeze(Spr(k, :, :)));
+Srprr(k, :, :) = cat(2, squeeze(Srp(k, :, :)), squeeze(Srr(k, :, :)));
+S(k, :, :) = cat(1, squeeze(Spppr(k, :, :)), squeeze(Srprr(k, :, :)));
+
+squeeze(S(k, :, :))*(squeeze(S(k, :, :)))
+
+%% Another solution
+% Ip = eye(Np(end), Np(end));
+% Ir = eye(Nr(end), Nr(end));
+% 
+% Spr(k, :, :) = inv(Ip + X' * X) * inv(Qp) * X';
+% Spp(k, :, :) = 2 * inv(Ip + X' * X) * (X' * X - Ip);
+% Srp(k, :, :) = X * (Ip - squeeze(Spp(k, :, :)));
+% Srr(k, :, :) = Ir - X * squeeze(Spr(k, :, :));
 
 
 % Me = inv(Qp) * X';
@@ -212,3 +238,29 @@ save('TE_TE_Srr_analytical_2', 'Srr');
 
 % save('X_til_TM_TM', 'X_til');
 % save('X_til_TE_TE', 'X_til');
+%% 
+% for i = 1:3
+% 
+% figure;
+% 
+% plot(F * 1e-9, real(Qp_(:, i, i)), 'LineWidth', 2); grid on;
+% hold on;
+% plot(F * 1e-9, imag(Qp_(:, i, i)), 'LineWidth', 2);
+% 
+% xlabel('Frequency (GHz)', 'FontSize', 12, 'FontWeight', 'bold');
+% ylabel('Impedance Z (\Omega)', 'FontSize', 12, 'FontWeight', 'bold');
+% title('Wave Impedance', 'FontSize', 12, 'FontWeight', 'bold');
+% legend({'Re(Z)', 'Im(Z)'}, 'FontSize', 12, 'FontWeight', 'bold');
+% 
+% figure;
+% 
+% plot(F * 1e-9, real(Qr_(:, i, i)), 'LineWidth', 2); grid on;
+% hold on;
+% plot(F * 1e-9, imag(Qr_(:, i, i)), 'LineWidth', 2);
+% 
+% xlabel('Frequency (GHz)', 'FontSize', 12, 'FontWeight', 'bold');
+% ylabel('Impedance Z (\Omega)', 'FontSize', 12, 'FontWeight', 'bold');
+% title('Wave Impedance', 'FontSize', 12, 'FontWeight', 'bold');
+% legend({'Re(Z)', 'Im(Z)'}, 'FontSize', 12, 'FontWeight', 'bold');
+
+% end

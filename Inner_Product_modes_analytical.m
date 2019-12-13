@@ -17,10 +17,10 @@ murr = 1; % relative Permeability
 epsilonr = err * er0;   % Permittivity in the medium
 mur = mu0 * murr;
 
-% modep = "TE";
-modep = "TM";
-% moder = "TE";
-moder = "TM";
+modep = "TE";
+% modep = "TM";
+ moder = "TE";
+%moder = "TM";
 
 Mp = 1;
 Np = 1:1:5;
@@ -72,7 +72,9 @@ for pm = 1:length(Mp)
                 elseif moder == "TM"
                     Nur = (epsilonr .* pi/2 .* xmn_r(rm, rn).^2 .* (besselj_der(rm, xmn_r(rm, rn))).^2).^(-1);
                 end
-                
+%                 Nup = 1;
+%                 Nur = 1;
+%                 
 %                 disp(p);
 %                 disp(r);
 %                 grad_Phi_rhop = sqrt(Nup) .* cos(pm .* phir_) .* besselj_der(pm, beta_rhop(pm, pn) .* rhor_) .* beta_rhop(pm, pn);
@@ -120,4 +122,4 @@ for pm = 1:length(Mp)
 end
 
 % csvwrite('TM_TE_Inner_P', X_til); 
-save('TM_TM_Inner_P_analytical', 'X_til');
+save('TE_TE_Inner_P_analytical', 'X_til');

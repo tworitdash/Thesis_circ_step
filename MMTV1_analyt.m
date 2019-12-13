@@ -70,20 +70,20 @@ for i = 1:length(N)
 %     Qij = sum(sum(Poyn));
 %     
     Q(i, i) = Qij;
-    P(i, i) = sqrt(Z(k))./sqrt(conj(Z(k))) .* Q(i, i);
+%     P(i, i) = sqrt(Z(k))./sqrt(conj(Z(k))) .* Q(i, i);
 %% Numerical Q
-%     Poyn = (Erho .* Hphi - Hrho .* Ephi) .* rho_ * drho .* dphi;
-%     Qij_numerical = sum(sum(Poyn));
-%     
-%     Q_numerical(i, i) = Qij_numerical;
-    if mode == "TE"
-        Z_i = 2 * pi * F(k) * mu./ beta_z;
-    elseif mode == "TM"
-        Z_i = beta_z ./ (2 * pi * F(k) .* epsilon);
-    end
-    Z(k) = Z_i;
-    Y(k) = 1./Z(k);
-    P(i, i) = sqrt(Z(k))./conj(sqrt(Z(k))) .* abs(Q(i, i));
+    Poyn = (Erho .* Hphi - Hrho .* Ephi) .* rho_ * drho .* dphi;
+    Qij_numerical = sum(sum(Poyn));
+    
+    Q_numerical(i, i) = Qij_numerical;
+%     if mode == "TE"
+%         Z_i = 2 * pi * F(k) * mu./ beta_z;
+%     elseif mode == "TM"
+%         Z_i = beta_z ./ (2 * pi * F(k) .* epsilon);
+%     end
+%     Z(k) = Z_i;
+%     Y(k) = 1./Z(k);
+%     P(i, i) = sqrt(Z(k))./conj(sqrt(Z(k))) .* abs(Q(i, i));
 end
 end
 
@@ -128,24 +128,40 @@ end
 %     'FontSize', 12, 'FontWeight', 'bold');
 
 figure;
-% plot(N, real(diag(Q)), 'LineWidth', 2); grid on;
-% hold on;
-% plot(N, imag(diag(Q)), 'LineWidth', 2); grid on;
-% hold on;
-plot(N, real(diag(P)), 'LineWidth', 2); grid on;
+plot(N, real(diag(Q)), 'LineWidth', 2); grid on;
 hold on;
-plot(N, imag(diag(P)), 'LineWidth', 2); grid on;
-hold on;
-% plot(N, real(diag(Q_numerical)), '*', 'LineWidth', 2); grid on;
+plot(N, imag(diag(Q)), 'LineWidth', 2); grid on;
 % hold on;
-% plot(N, imag(diag(Q_numerical)), '*', 'LineWidth', 2); grid on;
-
+% plot(N, real(diag(P)), 'LineWidth', 2); grid on;
+% hold on;
+% plot(N, imag(diag(P)), 'LineWidth', 2); grid on;
+hold on;
+plot(N, real(diag(Q_numerical)), '*', 'LineWidth', 2); grid on;
+hold on;
+plot(N, imag(diag(Q_numerical)), '*', 'LineWidth', 2); grid on;
 xlabel('n in TE_{1, n} modes', 'FontSize', 12, 'FontWeight', 'bold');
 ylabel('Normalization Constant Q_{1, n}', 'FontSize', 12, 'FontWeight', 'bold');
 title(['Normalization Constant for', mode,'_{1, n} modes'], 'FontSize', 12, 'FontWeight', 'bold');
 % >>>>>>> 054067d7bb6b39fdb9b3e302b4d131398d191f0f
-% legend({'Analytical Re(Q)', 'Analytical Im(Q)', 'Numerical Re(Q)', 'Numerical Im(Q)'}, ...
-%    'FontSize', 12, 'FontWeight', 'bold');
+legend({'Analytical Re(Q)', 'Analytical Im(Q)', 'Numerical Re(Q)', 'Numerical Im(Q)'}, ...
+   'FontSize', 12, 'FontWeight', 'bold');
+
+
+figure;
+
+hold on;
+plot(N, real(diag(Q_numerical)) - real(diag(Q)), '*', 'LineWidth', 2); grid on;
+hold on;
+plot(N, imag(diag(Q_numerical)) - imag(diag(Q)), '*', 'LineWidth', 2); grid on;
+
+
+figure;
+
+hold on;
+plot(N, (real(diag(Q_numerical)) - real(diag(Q)))./real(diag(Q)) * 100, '*', 'LineWidth', 2); grid on;
+hold on;
+plot(N, (imag(diag(Q_numerical)) - imag(diag(Q)))./imag(diag(Q)) * 100, '*', 'LineWidth', 2); grid on;
+
 % hold on;
 % hold on;
 % plot(N, real(diag(Q))/2, 'LineWidth', 2); grid on;

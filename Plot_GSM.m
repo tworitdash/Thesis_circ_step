@@ -1,4 +1,4 @@
-close all;
+%close all;
 c_ = load('TE_TE_Srp.mat');
 c_a = load('TE_TE_Spp_analytical_2.mat');
 %c_a = load('TE_TE_S11_p_n.mat');
@@ -20,7 +20,7 @@ hold on;
 hold on;
 % plot(F * 1e-9, db((GSM_a(:, i, i))/max(GSM_a(:, i, i)))/2, 'LineWidth', 2); grid on;
 
-plot(F * 1e-9, (abs(GSM_a(:, i, i))), 'LineWidth', 2); grid on;
+plot(F * 1e-9, (real(GSM_a(:, i, i))), 'LineWidth', 2); grid on;
 
 xlabel('Frequency (GHz)', 'FontSize', 12, 'FontWeight', 'bold');
 ylabel('S in  dB', 'FontSize', 12, 'FontWeight', 'bold');
@@ -33,7 +33,7 @@ end
 
 legend({'TE_{11} Numerical', 'TE_{11} Analytical', 'TE_{12} Numerical', 'TE_{12} Analytical', ...
     'TE_{13} Numerical', 'TE_{13} Analytical',}, 'FontSize', 8, 'FontWeight', 'bold', 'location', 'southeast');
-% xlim([4 30]);
+xlim([4 30]);
 
 %% Save 
 
