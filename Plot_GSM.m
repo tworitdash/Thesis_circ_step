@@ -1,18 +1,18 @@
-close all;
+% close all;
 %<<<<<<< HEAD
 % c_ = load('TE_TE_Spp.mat');
-c_a = load('TE_TE_Srp_analytical_3_TE12.mat');
+c_a = load('TE_TE_Spp_analytical_3_TE12.mat');
 %=======
 c_ = load('TE_TE_Spp.mat');
 %c_a = load('TE_TE_Spp_analytical_2.mat');
 %>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
 %c_a = load('TE_TE_S11_p_n.mat');
 % GSM_ = c_.Srp;
-GSM_a = c_a.Srp;
+GSM_a = c_a.Spp;
 
 % F = 1e9:1e9:100e9;
 F_ = 4e9:0.5e9:30e9;
- F = 1e9:0.5e9:30e9;
+F = 0.1e9:0.1e9:50e9;
 %F = 4e9:1e9:10e9;
 
 % F = 21e9:0.5e9:40e9;

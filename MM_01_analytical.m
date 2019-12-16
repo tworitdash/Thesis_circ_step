@@ -4,7 +4,7 @@ c0 = 3e8;
 % F = 20e9;
 
 % F = 21e9:0.5e9:40e9;
-F = 1e9:0.1e9:30e9;
+F = 0.1e9:0.1e9:50e9;
 % F = 90:0.5e9:100e9;
 mp = 1; % first digit of the mode number
 Np = 1:1:2; % second digit of the mode number. p subscript is for waveguide P
@@ -142,8 +142,8 @@ moder = "TE"; % Waveguide mode polarization
 
 %F = 1.4132e+11;
 
-% rr = 0.0405319403216/2.1; % radius of the waveguide
-rr = 0.0405319403216/4; % radius of the waveguide
+rr = 0.0405319403216/2.1; % radius of the waveguide
+% rr = 0.0405319403216/4; % radius of the waveguide
 err = 1; % relative  permittivity
 murr = 1; % relative Permeability
 epsilonr = err * er0;   % Permittivity in the medium
