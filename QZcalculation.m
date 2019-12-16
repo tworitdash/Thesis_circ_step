@@ -1,6 +1,6 @@
 %% Normalization matrix with different modes on the waveguide:
-function [Q, Z, Y, xmn_] = QZcalculation(m, N, mode, F, r, er, mur, rho_, phi_, z, drho, dphi)
-
+function [Q, Z, Y, xmn_, K] = QZcalculation(m, N, mode, F, r, er, mur, rho_, phi_, z, drho, dphi)
+c0 = 3e8;
 er0 = 8.85418782e-12; % Free space permittivity
 mu0 = 1.25663706e-6;  % Free Space Permeability
 epsilon = er * er0;   % Permittivity in the medium
@@ -8,26 +8,85 @@ mu = mu0 * mur;
 
 
 % Q = zeros(size(F, 2), N(end), N(end));
-Q = zeros(N(end), N(end));
-Z = zeros(N(end), N(end));
-Y = zeros(N(end), N(end));
-xmn_ = zeros(1, N(end));
+Q = zeros(length(N), length(N));
+Z = zeros(length(N), length(N));
+Y = zeros(length(N), length(N));
+xmn_ = zeros(length(N));
+K = zeros(length(N), length(N));
+
 
 %Y = zeros(m(end), m(end));
+
+omega = 2 * pi * F;
+
+lamb = c0./F; % wavelength
+ 
+beta = 2 * pi ./ lamb;
 
 
 
 for i = 1:length(N)
     disp(N(i));
+  
+    %% Numerical Q  
     
-    [Erho, Ephi, Ez, Hrho, Hphi, Hz, beta_z, xmn_i] = E_and_H(rho_, phi_, er, mur, z, r, m, N(i), mode, F);
+%     [Erho, Ephi, Ez, Hrho, Hphi, Hz, beta_z, xmn_] = E_and_H(rho_, phi_, er, mur, z, r, m, N(i), mode, F);
     
-    xmn_(i, i) = xmn_i;
+%     xmn_(i, i) = xmn_i;
+
     
-    Poyn = (Erho .* Hphi - Hrho .* Ephi) .* rho_ * drho .* dphi;
-    Qij = sum(sum(Poyn));
+%     Poyn = (Erho .* Hphi - Hrho .* Ephi) .* rho_ * drho .* dphi;
+%     Qij = sum(sum(Poyn));
+%     
+%     %Q(i, i) = Qij;
+%     
+%     Q(i, i) = Qij;
     
-    Q(i, i) = Qij;
+ %% Analytical Q
+ 
+      x_TE = csvread('TE_Xmn');
+      x_TM = csvread('TM_Xmn');
+      
+      if mode == "TE"
+        xmn = x_TE;
+      elseif mode == "TM"
+        xmn = x_TM;
+      end
+      
+      xmn_(i) = xmn(m, N(i));
+      
+      fc = xmn_(i) ./ (2 * pi * r * sqrt(mu .* epsilon));
+      disp(fc);
+      
+      beta_rho = xmn_(i)./r;
+
+      beta_z = -1j .* sqrt(-(beta.^2 - beta_rho.^2));
+    
+      if mode == "TE"
+
+        K(i, i) = beta_z ./ (omega .* mu .* epsilon^2);
+        
+      elseif modep == "TM"
+
+        K(i, i) = beta_zp ./ (omega .* mu.^2 .* epsilon);
+        
+      end
+      
+      Const = K(i, i) .* beta_rho.^2 ./ 4;  
+
+        A = Lommel(0, r, beta_rho, beta_rho, m - 1, m - 1);
+
+        C = Lommel(0, r, beta_rho, beta_rho, m + 1, m + 1);
+        Isin = intphisin(0, 2*pi, m, m);
+        Icos = intphicos(0, 2*pi, m, m);
+    
+       Qij = Const .* ((Isin + Icos) .* (A + C));
+    
+       Q(i, i) = Qij;
+      
+     
+%% Impedance (Z) and Admittance (Y) 
+      
     
     if mode == "TE"
         Z_i = 2 * pi * F * mu./ beta_z;
@@ -37,8 +96,18 @@ for i = 1:length(N)
         Y_i = 1./Z_i;
     end
     
-    Z(i , i) = Z_i;
+%     Z(i , i) = Z_i;
+%     Y(i, i) = Y_i;
+    
+    Z(i, i) = Z_i;
     Y(i, i) = Y_i;
+    
+    
+%     beta_rho = xmn_./r;
+
+%     beta_z = -1j .* sqrt(-(beta.^2 - beta_rho.^2));
+  
+    
 end
 
 

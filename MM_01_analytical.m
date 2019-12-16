@@ -4,29 +4,29 @@ c0 = 3e8;
 % F = 20e9;
 
 % F = 21e9:0.5e9:40e9;
-F = 4e9:0.5e9:40e9;
+F = 1e9:0.1e9:30e9;
 % F = 90:0.5e9:100e9;
 mp = 1; % first digit of the mode number
-Np = 1; % second digit of the mode number. p subscript is for waveguide P
+Np = 1:1:2; % second digit of the mode number. p subscript is for waveguide P
 
 mr = 1; % first digit of the mode number
-Nr = 1; % second digit of the mode number. p subscript is for waveguide P
+Nr = 1:1:2; % second digit of the mode number. r subscript is for waveguide R
 %% Modular inner cross product between the two wavegudies
 %X_ = load('TE_TE_Inner_P_analytical.mat');
 X_ = load('TE_TE_Inner_P_analytical.mat');
 X_x = X_.X_til;
-X_til = zeros(Nr(end), Np(end));
+X_til = zeros(length(Nr), length(Np));
 % X_til_f = zeros(size(F, 2), Np(end), Nr(end));
 for p = 1:length(Np)
     for r = 1:length(Nr)
         disp(p);
         disp(r);
-        X_til(r, p) = squeeze(X_x(mp, p, mr, r));
+        X_til(r, p) = squeeze(X_x(mp, Np(p), mr, Nr(r)));
 %         grad_Phi_rhop = sqrt(Nup(p)) .* cos(mp .* phir_) .* besselj_der(mp, beta_rhop(p) .* rhor_) .* beta_rhop(p);
 %         grad_Phi_phip = (-1./rhor_) .* sqrt(Nup(p))  .* mp .* sin(mp .* phir_) .* besselj(mp,  beta_rhop(p) .* rhor_);
 %         
 %         grad_Phi_rhor = sqrt(Nur(r)) .* cos(mr .* phir_) .* besselj_der(mr, beta_rhor(r).* rhor_) .* beta_rhor(r);
-%         grad_Phi_phir = (-1./rhor_) .* sqrt(Nur(r)) .* mr .* sin(mr .* rhor_) .* besselj(mp,  beta_rhor(r) .* rhor_);
+%         grad_Phi_phir = (-1./rhor_) .* sqrt(Nur(r)) .* mr .* sin(mr .* phir_) .* besselj(mp,  beta_rhor(r) .* rhor_);
 %         
 %         if (modep == "TE" && moder == "TE") || (modep == "TM" && moder == "TM")
 %             X_til_pr = (grad_Phi_rhop .* grad_Phi_rhor +  grad_Phi_phip .* grad_Phi_phir)...
@@ -46,20 +46,20 @@ for p = 1:length(Np)
 end
 
 
-Spp = zeros(size(F, 2), Np(end), Np(end));
-Spr = zeros(size(F, 2), Np(end), Nr(end));
-Srp = zeros(size(F, 2), Nr(end), Np(end));
-Srr = zeros(size(F, 2), Nr(end), Nr(end));
+Spp = zeros(size(F, 2), length(Np), length(Np));
+Spr = zeros(size(F, 2), length(Np), length(Nr));
+Srp = zeros(size(F, 2), length(Nr), length(Np));
+Srr = zeros(size(F, 2), length(Nr), length(Nr));
 
-Spppr = zeros(size(F, 2), Np(end), Np(end) + Nr(end));
-Srprr = zeros(size(F, 2), Nr(end), Np(end) + Nr(end));
+% Spppr = zeros(size(F, 2), Np(end), Np(end) + Nr(end));
+% Srprr = zeros(size(F, 2), Nr(end), Np(end) + Nr(end));
+% 
+% S = zeros(size(F, 2), Np(end) + Nr(end), Np(end) + Nr(end));
 
-S = zeros(size(F, 2), Np(end) + Nr(end), Np(end) + Nr(end));
-
-Zr_ = zeros(size(F, 2), Nr(end), Nr(end));
-Zp_ = zeros(size(F, 2), Np(end), Np(end));
-Qr_ = zeros(size(F, 2), Nr(end), Nr(end));
-Qp_ = zeros(size(F, 2), Np(end), Np(end));
+Zr_ = zeros(size(F, 2), length(Nr), length(Nr));
+Zp_ = zeros(size(F, 2), length(Np), length(Np));
+Qr_ = zeros(size(F, 2), length(Nr), length(Nr));
+Qp_ = zeros(size(F, 2), length(Np), length(Np));
 % S11_ = zeros(size(F, 2), Np(end), Np(end));
 % S12_ = zeros(size(F, 2), Np(end), Nr(end));
 % S21_ = zeros(size(F, 2), Nr(end), Np(end));
@@ -75,11 +75,11 @@ Qp_ = zeros(size(F, 2), Np(end), Np(end));
 for k =  1:length(F)
 %% Wave numbers:
 
- omega = 2 * pi * F(k);
-
- lamb = c0./F(k); % wavelength
- 
- beta = 2 * pi ./ lamb;
+%  omega = 2 * pi * F(k);
+% 
+%  lamb = c0./F(k); % wavelength
+%  
+%  beta = 2 * pi ./ lamb;
 %% Wavwguide p
 
 
@@ -106,26 +106,26 @@ dphi = pi/180;
 [rho_, phi_] = meshgrid(eps:drho:rp, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zp = 0; 
 
-[Qp, Zp, Yp, xmn_] = QZcalculation(mp, Np, modep, F(k), rp, erp, murp, rho_, phi_, zp, drho, dphi);
+[Qp, Zp, Yp, xmn_, Kp] = QZcalculation(mp, Np, modep, F(k), rp, erp, murp, rho_, phi_, zp, drho, dphi);
 
-Zp_(k, :, :) = Zp;
-Qp_(k, :, :) = Qp;
+% Zp_(k, :, :) = Zp(1, 1);
+% Qp_(k, :, :) = Qp(1, 1);
 % Power flow
 % Pp = sqrt((Zp))/(conj(sqrt((Zp)))) * abs(Qp);
 
-beta_rhop = xmn_./rp;
-
-beta_zp = -1j .* sqrt(-(beta.^2 - beta_rhop.^2));
-
-if modep == "TE"
-
-    Kp = beta_zp ./ (omega .* mup .* epsilonp^2);
-
-elseif modep == "TM"
-    
-    Kp = beta_zp ./ (omega .* mup.^2 .* epsilonp);
-    
-end
+% beta_rhop = xmn_./rp;
+% 
+% beta_zp = -1j .* sqrt(-(beta.^2 - beta_rhop.^2));
+% 
+% if modep == "TE"
+% 
+%     Kp = beta_zp ./ (omega .* mup .* epsilonp^2);
+% 
+% elseif modep == "TM"
+%     
+%     Kp = beta_zp ./ (omega .* mup.^2 .* epsilonp);
+%     
+% end
 
 % if modep == "TE"
 %     Nup = (epsilonp .* pi/2 .* (xmn_.^2 - mp.^2) .* (besselj(mp, xmn_)).^2).^(-1);
@@ -142,7 +142,8 @@ moder = "TE"; % Waveguide mode polarization
 
 %F = 1.4132e+11;
 
-rr = 0.0405319403216/2.1; % radius of the waveguide
+% rr = 0.0405319403216/2.1; % radius of the waveguide
+rr = 0.0405319403216/4; % radius of the waveguide
 err = 1; % relative  permittivity
 murr = 1; % relative Permeability
 epsilonr = err * er0;   % Permittivity in the medium
@@ -153,24 +154,24 @@ dphi = pi/180;
 [rhor_, phir_] = meshgrid(eps:drho:rr, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zr = 0; 
 
-[Qr, Zr, Yr, xmn_] = QZcalculation(mr, Nr, moder, F(k), rr, err, murr, rhor_, phir_, zr, drho, dphi);
-
-Zr_(k, :, :) = Zr;
-Qr_(k, :, :) = Qr;
-
-beta_rhor = xmn_./rr;
-
-beta_zr = -1j .* sqrt(-(beta.^2 - beta_rhor.^2));
-
-if moder == "TE"
-
-    Kr = beta_zr ./ (omega .* mur .* epsilonr^2);
-
-elseif moder == "TM"
-    
-    Kr = beta_zr ./ (omega .* mur.^2 .* epsilonr);
-    
-end
+[Qr, Zr, Yr, xmn_, Kr] = QZcalculation(mr, Nr, moder, F(k), rr, err, murr, rhor_, phir_, zr, drho, dphi);
+% 
+% Zr_(k, :, :) = Zr;
+% Qr_(k, :, :) = Qr;
+% 
+% beta_rhor = xmn_./rr;
+% 
+% beta_zr = -1j .* sqrt(-(beta.^2 - beta_rhor.^2));
+% 
+% if moder == "TE"
+% 
+%     Kr = beta_zr ./ (omega .* mur .* epsilonr^2);
+% 
+% elseif moder == "TM"
+%     
+%     Kr = beta_zr ./ (omega .* mur.^2 .* epsilonr);
+%     
+% end
 
 % if moder == "TE"
 %     Nur = (epsilonr * pi/2 .* (xmn_.^2 - mr.^2) .* (besselj(mr, xmn_)).^2).^(-1);
@@ -182,8 +183,8 @@ end
 % Ip = eye(Np(end), Np(end));
 % Ir = eye(Nr(end), Nr(end));
 
-Ip = eye(Np(end), Np(end));
-Ir = eye(Nr(end), Nr(end));
+Ip = eye(length(Np), length(Np));
+Ir = eye(length(Nr), length(Nr));
 
 
 % Qp = eye(Np(end), Np(end));
@@ -196,8 +197,6 @@ X = sqrt(Kr * Zr) * X_til * sqrt(Yp * Kp); % modular inner cross product. Takes 
 F_ = 2 * inv(Qr + X * inv(Qp) * X.');
 
 Spp(k, :, :) = inv(Qp) * X.' * F_ * X - Ip;
-%<<<<<<< HEAD
-
 Spr(k, :, :) = inv(Qp) * X.' * F_ * Qr;
 Srp(k, :, :) = F_ * X;
 Srr(k, :, :) = F_ * Qr - Ir;
@@ -205,6 +204,7 @@ Srr(k, :, :) = F_ * Qr - Ir;
 
 
 %% Another solution
+
 % Ip = eye(Np(end), Np(end));
 % Ir = eye(Nr(end), Nr(end));
 % % 
@@ -231,6 +231,7 @@ Srr(k, :, :) = F_ * Qr - Ir;
 % squeeze(S(k, :, :))*(squeeze(S(k, :, :)))
 
 %% Another solution
+
 % Ip = eye(Np(end), Np(end));
 % Ir = eye(Nr(end), Nr(end));
 % 
@@ -250,6 +251,7 @@ Srr(k, :, :) = F_ * Qr - Ir;
 % S22_(k, :, :) = (Mh * squeeze(S12_(k, :, :)) - eye(Nr(end), Nr(end)));
 
 %% Another solution
+
 % S11_(k, :, :) = sqrt(Qr)* inv(Qr + X * X') * (Qr - X * X') * inv(sqrt(Qr));
 % S12_(k, :, :) = 2 * sqrt(Qr) * (Qr + X * X') * X * inv(sqrt(Qp));
 % S21_(k, :, :) = 2 * sqrt(Qp) * (Qp + X' * X) * X' * inv(sqrt(Qr));
@@ -276,10 +278,10 @@ end
 % save('TE_TE_Srr_analytical_2', 'Srr');
 
 
-save('TE_TE_Spp_analytical_3', 'Spp');
-save('TE_TE_Spr_analytical_3', 'Spr');
-save('TE_TE_Srp_analytical_3', 'Srp');
-save('TE_TE_Srr_analytical_3', 'Srr');
+save('TE_TE_Spp_analytical_3_TE12', 'Spp');
+save('TE_TE_Spr_analytical_3_TE12', 'Spr');
+save('TE_TE_Srp_analytical_3_TE12', 'Srp');
+save('TE_TE_Srr_analytical_3_TE12', 'Srr');
 
 % 
 % save('TE_TE_Spp_analytical', 'Spp');
