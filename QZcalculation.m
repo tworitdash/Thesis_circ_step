@@ -1,5 +1,5 @@
 %% Normalization matrix with different modes on the waveguide:
-function [Q, Z, Y, xmn_, K] = QZcalculation(m, N, mode, F, r, er, mur, rho_, phi_, z, drho, dphi)
+function [Q, Z, Y, xmn_, K, beta_z_] = QZcalculation(m, N, mode, F, r, er, mur, rho_, phi_, z, drho, dphi)
 c0 = 3e8;
 er0 = 8.85418782e-12; % Free space permittivity
 mu0 = 1.25663706e-6;  % Free Space Permeability
@@ -12,6 +12,8 @@ Q = zeros(length(N), length(N));
 Z = zeros(length(N), length(N));
 Y = zeros(length(N), length(N));
 xmn_ = zeros(length(N));
+beta_z_ = zeros(length(N));
+
 K = zeros(length(N), length(N));
 
 
@@ -26,6 +28,7 @@ beta = 2 * pi ./ lamb;
 
 
 for i = 1:length(N)
+    
     disp(N(i));
   
     %% Numerical Q  
@@ -61,6 +64,7 @@ for i = 1:length(N)
       beta_rho = xmn_(i)./r;
 
       beta_z = -1j .* sqrt(-(beta.^2 - beta_rho.^2));
+      beta_z_(i) = beta_z;
     
       if mode == "TE"
 
@@ -72,7 +76,14 @@ for i = 1:length(N)
         
       end
       
-      Const = K(i, i) .* beta_rho.^2 ./ 4;  
+                if mode == "TE"
+                    Norm = (epsilon * pi/2 .* (xmn_(i).^2 - m.^2) .* (besselj(m, xmn_(i))).^2).^(-1);
+                elseif mode == "TM"
+                    Norm = (epsilon .* pi/2 .* xmn_(i).^2 .* (besselj_der(m, xmn_(i))).^2).^(-1);
+                end
+                
+               
+      Const = K(i, i) .* beta_rho.^2 ./ 4 .* Norm;  
 
         A = Lommel(0, r, beta_rho, beta_rho, m - 1, m - 1);
 

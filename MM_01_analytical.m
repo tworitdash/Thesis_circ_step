@@ -1,16 +1,18 @@
-close all;
+% close all;
 clear;
 c0 = 3e8;
 % F = 20e9;
 
 % F = 21e9:0.5e9:40e9;
-F = 0.1e9:0.1e9:50e9;
+F = 4e9:0.5e9:20e9;
+% F = 8e9;
+% F = 10e11;
 % F = 90:0.5e9:100e9;
 mp = 1; % first digit of the mode number
-Np = 1:1:2; % second digit of the mode number. p subscript is for waveguide P
+Np = 1:1:1; % second digit of the mode number. p subscript is for waveguide P
 
 mr = 1; % first digit of the mode number
-Nr = 1:1:2; % second digit of the mode number. r subscript is for waveguide R
+Nr = 1:1:1; % second digit of the mode number. r subscript is for waveguide R
 %% Modular inner cross product between the two wavegudies
 %X_ = load('TE_TE_Inner_P_analytical.mat');
 X_ = load('TE_TE_Inner_P_analytical.mat');
@@ -106,7 +108,7 @@ dphi = pi/180;
 [rho_, phi_] = meshgrid(eps:drho:rp, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zp = 0; 
 
-[Qp, Zp, Yp, xmn_, Kp] = QZcalculation(mp, Np, modep, F(k), rp, erp, murp, rho_, phi_, zp, drho, dphi);
+[Qp, Zp, Yp, xmn_, Kp, beta_zp] = QZcalculation(mp, Np, modep, F(k), rp, erp, murp, rho_, phi_, zp, drho, dphi);
 
 % Zp_(k, :, :) = Zp(1, 1);
 % Qp_(k, :, :) = Qp(1, 1);
@@ -154,7 +156,7 @@ dphi = pi/180;
 [rhor_, phir_] = meshgrid(eps:drho:rr, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zr = 0; 
 
-[Qr, Zr, Yr, xmn_, Kr] = QZcalculation(mr, Nr, moder, F(k), rr, err, murr, rhor_, phir_, zr, drho, dphi);
+[Qr, Zr, Yr, xmn_, Kr, beta_zr] = QZcalculation(mr, Nr, moder, F(k), rr, err, murr, rhor_, phir_, zr, drho, dphi);
 % 
 % Zr_(k, :, :) = Zr;
 % Qr_(k, :, :) = Qr;
@@ -283,6 +285,12 @@ save('TE_TE_Spr_analytical_3_TE12', 'Spr');
 save('TE_TE_Srp_analytical_3_TE12', 'Srp');
 save('TE_TE_Srr_analytical_3_TE12', 'Srr');
 
+
+% save('TE_TE_Spp_analytical_conv', 'Spp');
+% save('TE_TE_Spr_analytical_conv', 'Spr');
+% save('TE_TE_Srp_analytical_conv', 'Srp');
+% save('TE_TE_Srr_analytical_conv', 'Srr');
+
 % 
 % save('TE_TE_Spp_analytical', 'Spp');
 % save('TE_TE_Spr_analytical', 'Spr');
@@ -329,3 +337,29 @@ save('TE_TE_Srr_analytical_3_TE12', 'Srr');
 % legend({'Re(Z)', 'Im(Z)'}, 'FontSize', 12, 'FontWeight', 'bold');
 
 % end
+
+
+% 
+% c_a = load('TE_TE_Spp_analytical_conv.mat');
+% 
+% GSM_a = c_a.Spp;
+% 
+% figure;
+% 
+% plot(Np, db(abs(diag(squeeze(GSM_a(1, :, :)))))/2, 'LineWidth', 2); grid on;
+% %>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
+% 
+% xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
+% ylabel('S in  dB', 'FontSize', 12, 'FontWeight', 'bold');
+% title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
+
+% figure;
+
+% plot(Np, (angle(diag(squeeze(GSM_a(1, :, :))))) * 180 / pi, 'LineWidth', 2); grid on;
+% %>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
+% 
+% plot(Np, real(angle(diag(exp(1j .* 2 .* beta_zp .* 1)))) * 180/pi, 'LineWidth', 2); grid on;
+% 
+% xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
+% ylabel('Phase in deg', 'FontSize', 12, 'FontWeight', 'bold');
+% title(['S Parameter Phase'], 'FontSize', 12, 'FontWeight', 'bold');
