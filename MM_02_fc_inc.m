@@ -1,18 +1,18 @@
-close all;
+% close all;
 clear;
 c0 = 3e8;
 % F = 20e9;
 
 % F = 21e9:0.5e9:40e9;
-F = 4e9:0.5e9:21e9;
+% F = 4e9:0.5e9:21e9;
 % F = 8e9;
 % F = 10e11;
 % F = 90:0.5e9:100e9;
 
-% F = 34e9;
+F = 50e9;
 
-Np = 20;
-Nr = 20;
+Np = 100;
+Nr = 100;
 
 %% Modular inner cross product between the two wavegudies
 
@@ -114,65 +114,65 @@ Srr(k, :, :) = F_ * Qr - Ir;
 
 end
 % 
-save('Spp_analytical', 'Spp');
-save('Spr_analytical', 'Spr');
-save('Srp_analytical', 'Srp');
-save('Srr_analytical', 'Srr');
-% 
-% save('Spp_analytical_conv', 'Spp');
-% save('Spr_analytical_conv', 'Spr');
-% save('Srp_analytical_conv', 'Srp');
-% save('Srr_analytical_conv', 'Srr');
+% save('Spp_analytical', 'Spp');
+% save('Spr_analytical', 'Spr');
+% save('Srp_analytical', 'Srp');
+% save('Srr_analytical', 'Srr');
+% % 
+save('Spp_analytical_conv', 'Spp');
+save('Spr_analytical_conv', 'Spr');
+save('Srp_analytical_conv', 'Srp');
+save('Srr_analytical_conv', 'Srr');
 
 
 
 
-% c_a = load('Srp_analytical_conv.mat');
-% 
-% GSM_a = c_a.Srp;
-% 
-% figure;
-% 
-% plot(1:1:Nr, db(abs(diag(squeeze(GSM_a(1, :, :)))))/2, 'LineWidth', 2); grid on;
-% %>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
-% 
-% xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
-% ylabel('Srp in  dB', 'FontSize', 12, 'FontWeight', 'bold');
-% title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
-% 
-% 
-% figure;
-% 
-% c_a = load('Spr_analytical_conv.mat');
-% GSM_a = c_a.Spr;
-% 
-% plot(1:1:Nr, db(abs(diag(squeeze(GSM_a(1, :, :)))))/2, 'LineWidth', 2); grid on;
-% %>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
-% 
-% xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
-% ylabel('Spr in  dB', 'FontSize', 12, 'FontWeight', 'bold');
-% title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
-% 
-% figure;
-% 
-% c_a = load('Spp_analytical_conv.mat');
-% GSM_a = c_a.Spp;
-% 
-% plot(1:1:Np, db(abs(diag(squeeze(GSM_a(1, :, :)))))/2, 'LineWidth', 2); grid on;
-% %>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
-% 
-% xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
-% ylabel('Spp in  dB', 'FontSize', 12, 'FontWeight', 'bold');
-% title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
-% 
-% figure;
-% 
-% c_a = load('Srr_analytical_conv.mat');
-% GSM_a = c_a.Srr;
-% 
-% plot(1:1:Nr, db(abs(diag(squeeze(GSM_a(1, :, :)))))/2, 'LineWidth', 2); grid on;
-% %>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
-% 
-% xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
-% ylabel('Srr in  dB', 'FontSize', 12, 'FontWeight', 'bold');
-% title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
+c_a = load('Srp_analytical_conv.mat');
+
+GSM_a = c_a.Srp;
+
+figure;
+
+plot(1:1:Np, db(abs(diag(squeeze(GSM_a(1, :, :)))))/2, 'LineWidth', 2); grid on;
+%>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
+
+xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
+ylabel('Srp in  dB', 'FontSize', 12, 'FontWeight', 'bold');
+title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
+
+
+figure;
+
+c_a = load('Spr_analytical_conv.mat');
+GSM_a = c_a.Spr;
+
+plot(1:1:Np, db(abs(diag(squeeze(GSM_a(1, :, :)))))/2, 'LineWidth', 2); grid on;
+%>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
+
+xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
+ylabel('Spr in  dB', 'FontSize', 12, 'FontWeight', 'bold');
+title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
+
+figure;
+
+c_a = load('Spp_analytical_conv.mat');
+GSM_a = c_a.Spp;
+
+plot(1:1:Np, db(abs(diag(squeeze(GSM_a(1, :, :)))))/2, 'LineWidth', 2); grid on;
+%>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
+
+xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
+ylabel('Spp in  dB', 'FontSize', 12, 'FontWeight', 'bold');
+title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
+
+figure;
+
+c_a = load('Srr_analytical_conv.mat');
+GSM_a = c_a.Srr;
+
+plot(1:1:Nr, db(abs(diag(squeeze(GSM_a(1, :, :)))))/2, 'LineWidth', 2); grid on;
+%>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
+
+xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
+ylabel('Srr in  dB', 'FontSize', 12, 'FontWeight', 'bold');
+title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');

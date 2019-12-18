@@ -154,7 +154,7 @@ e = 100;
 
 if mode == "TM"
 
-%figure;
+figure;
 h = pcolor(x,y, abs(H));
 
 set(h,'ZData',-1+zeros(size(H)))
@@ -174,7 +174,7 @@ print([mode, '_', num2str(m), num2str(n)], '-depsc');
 
 else
     
-%figure;
+figure;
 h = pcolor(x,y, abs(E));
 
 set(h,'ZData',-1+zeros(size(E)))

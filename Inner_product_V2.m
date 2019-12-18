@@ -19,8 +19,8 @@ epsilonr = err * er0;   % Permittivity in the medium
 mur = mu0 * murr;
 
 
-Np = 50;
-Nr = 50;
+Np = 100;
+Nr = 100;
 
 Str = load('Xmn.mat');
 Xmn = Str.Xmn;
@@ -37,24 +37,39 @@ X_til = zeros(Nr, Np);
 
    for p = 1:Np
             for r = 1:Nr
+                disp('Iteration:')
                 
-                beta_rhop = (Xmn(p).xmn)/rp;
-                beta_rhor = (Xmn(r).xmn)/rr;
+                disp(p);
+                disp(r);
+                
+                xmn_p = Xmn(p).xmn;
+                xmn_r = Xmn(r).xmn;
+                
+                beta_rhop = xmn_p/rp;
+                beta_rhor = xmn_r/rr;
+                
+                pm = Xmn(p).m;
+                rm = Xmn(r).m;
+                
+                modep = Xmn(p).mode;
+                moder = Xmn(r).mode;
                 
                 
-%                 if Xmn(p).mode == "TE"
-%                     Nup = ((epsilonp * pi/2 .* ((Xmn(p).xmn).^2 - Xmn(p).m).^2) .* (besselj(Xmn(p).m, Xmn(p).xmn).^2)).^(-1);
-%                 elseif Xmn(p).mode  == "TM"
-%                     Nup = (epsilonp .* pi/2 .* (Xmn(p).xmn).^2 .* (besselj_der(Xmn(p).m, Xmn(p).xmn)).^2).^(-1);
-%                 end
-%                 
-%                 if Xmn(r).mode  == "TE"
-%                     Nur = ((epsilonp * pi/2 .* ((Xmn(r).xmn).^2 - Xmn(r).m).^2) .* (besselj(Xmn(p).m, Xmn(p).xmn).^2)).^(-1);
-%                 elseif Xmn(r).mode  == "TM"
-%                     Nur = (epsilonp .* pi/2 .* (Xmn(r).xmn).^2 .* (besselj_der(Xmn(r).m, Xmn(r).xmn)).^2).^(-1);
-%                 end
-                Nup = 1;
-                Nur = 1;
+                
+                
+                if modep == "TE"
+                    Nup = (epsilonp * pi/2 .* (xmn_p.^2 - pm.^2) .* (besselj(pm, xmn_p)).^2).^(-1);
+                elseif modep  == "TM"
+                    Nup = (epsilonp .* pi/2 .* (xmn_p).^2 .* (besselj_der(pm, xmn_p)).^2).^(-1);
+                end
+                
+                if moder  == "TE"
+                    Nur = (epsilonr * pi/2 .* (xmn_r.^2 - rm.^2) .* (besselj(rm, xmn_r)).^2).^(-1);
+                elseif moder  == "TM"
+                    Nur = (epsilonr .* pi/2 .* (Xmn(r).xmn).^2 .* (besselj_der(rm, xmn_r)).^2).^(-1);
+                end
+%                 Nup = 1;
+%                 Nur = 1;
                 
 %                 if Xmn(p).m == 0
 %                     
@@ -63,8 +78,8 @@ X_til = zeros(Nr, Np);
 %                 
 %                 else
                     
-                    grad_Phi_rhop = sqrt(Nup) .* cos(Xmn(p).m .* phir_) .* besselj_der(Xmn(p).m, beta_rhop .* rhor_) .* beta_rhop;
-                    grad_Phi_phip = (-1./rhor_) .* sqrt(Nup) .* Xmn(p).m .* sin(Xmn(p).m .* phir_) .* besselj(Xmn(p).m,  beta_rhop .* rhor_);
+                    grad_Phi_rhop = sqrt(Nup) .* cos(pm .* phir_) .* besselj_der(pm, beta_rhop .* rhor_) .* beta_rhop;
+                    grad_Phi_phip = (-1./rhor_) .* sqrt(Nup) .* pm .* sin(pm .* phir_) .* besselj(pm,  beta_rhop .* rhor_);
                 
 %                 end
                 
@@ -73,17 +88,17 @@ X_til = zeros(Nr, Np);
 %                     grad_Phi_phir = 0;
 %                 else
                     
-                    grad_Phi_rhor = sqrt(Nur) .* cos(Xmn(r).m .* phir_) .* besselj_der(Xmn(r).m, beta_rhor.* rhor_) .* beta_rhor;
-                    grad_Phi_phir = (-1./rhor_) .* sqrt(Nur) .* Xmn(r).m .* sin(Xmn(r).m .* phir_) .* besselj(Xmn(r).m,  beta_rhor .* rhor_);
+                    grad_Phi_rhor = sqrt(Nur) .* cos(rm .* phir_) .* besselj_der(rm, beta_rhor.* rhor_) .* beta_rhor;
+                    grad_Phi_phir = (-1./rhor_) .* sqrt(Nur) .* rm .* sin(rm .* phir_) .* besselj(rm,  beta_rhor .* rhor_);
 %                 end
                 
-                if (Xmn(p).mode  == "TE" && Xmn(r).mode  == "TE") || (Xmn(p).mode  == "TM" && Xmn(r).mode  == "TM")
+                if (modep  == "TE" && moder  == "TE") || (modep  == "TM" && moder  == "TM")
                     X_til_pr = (grad_Phi_rhop .* grad_Phi_rhor +  grad_Phi_phip .* grad_Phi_phir)...
                         .* rhor_ .* drho .* dphi;
                     X_til(r, p) = sum(sum(X_til_pr));
-                elseif (Xmn(p).mode  == "TE" && Xmn(r).mode  == "TM")
+                elseif (modep  == "TE" && moder  == "TM")
                     X_til(r, p) = 0;
-                elseif (Xmn(p).mode  == "TM" && Xmn(r).mode == "TE")
+                elseif (modep  == "TM" && moder == "TE")
                     X_til_pr = (grad_Phi_rhop .* grad_Phi_phir - grad_Phi_rhor .* grad_Phi_phip)...
                         .* rhor_ .* drho .* dphi;
                     X_til(r, p) = sum(sum(X_til_pr));
