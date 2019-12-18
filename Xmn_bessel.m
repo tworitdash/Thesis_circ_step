@@ -1,7 +1,7 @@
 %% Zeros of Bessel's function (For TM) and zeros of the derivative of the Bessel's function (For TE) Calculation
 clear;
 % [m, n, xm] = meshgrid(1:1:50, 1:1:50, linspace(0.1, 10000, 100000));
-m = 1:1:100;
+m = 0:1:100;
 % mode = "TE";
 % mode = "TM";
 
@@ -40,7 +40,7 @@ J_TM = size(chsign_TM, 2);
 for i = 1:J_TE
     
     xmn_TE((j - 1) * J_TE + i).xmn = fzero(Jm_der, xm(chsign_TE(i)));  % finding the roots near the points where Jm changes sign
-    xmn_TE((j - 1) * J_TE + i).m = j;
+    xmn_TE((j - 1) * J_TE + i).m = m(j);
     xmn_TE((j - 1) * J_TE + i).n = i;
     xmn_TE((j - 1) * J_TE + i).mode = "TE";
     disp(i);
@@ -48,7 +48,7 @@ end
 
 for k = 1:size(chsign_TM, 2)
     xmn_TM((j - 1) * J_TM + k).xmn = fzero(Jm, xm(chsign_TM(k)));
-    xmn_TM((j - 1) * J_TM + k).m = j;
+    xmn_TM((j - 1) * J_TM + k).m = m(j);
     xmn_TM((j - 1) * J_TM + k).n = k;
     xmn_TM((j - 1) * J_TM + k).mode = "TM";
     disp(k);

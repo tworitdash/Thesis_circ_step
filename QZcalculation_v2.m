@@ -8,15 +8,15 @@ mu = mu0 * mur;
 
 
 % Q = zeros(size(F, 2), N(end), N(end));
-Q = zeros(length(N), length(N));
-Z = zeros(length(N), length(N));
-Y = zeros(length(N), length(N));
+Q = zeros(N, N);
+Z = zeros(N, N);
+Y = zeros(N, N);
 
 
-xmn_ = zeros(length(N));
-beta_z_ = zeros(length(N));
+xmn_ = zeros(N);
+% beta_z_ = zeros(N);
 
-K = zeros(length(N), length(N));
+K = zeros(N, N);
 
 
 %Y = zeros(m(end), m(end));
@@ -35,67 +35,101 @@ for i = 1:N
   
     %% Numerical Q  
     
-%     [Erho, Ephi, Ez, Hrho, Hphi, Hz, beta_z, xmn_] = E_and_H(rho_, phi_, er, mur, z, r, m, N(i), mode, F);
-    
-%     xmn_(i, i) = xmn_i;
-
-    
-%     Poyn = (Erho .* Hphi - Hrho .* Ephi) .* rho_ * drho .* dphi;
-%     Qij = sum(sum(Poyn));
-%     
-%     %Q(i, i) = Qij;
-%     
-%     Q(i, i) = Qij;
-    
- %% Analytical Q
- 
-       Str = load('Xmn.mat');
-       Xmn = Str.Xmn;
+     Str = load('Xmn.mat');
+      Xmn = Str.Xmn;
       
       
       xmn_(i) = Xmn(i).xmn;
       m = Xmn(i).m;
       
       mode = Xmn(i).mode;
-      
-      fc = xmn_(i) ./ (2 * pi * r * sqrt(mu .* epsilon));
-      disp(fc);
-      
-      beta_rho = xmn_(i)./r;
-
-      beta_z = -1j .* sqrt(-(beta.^2 - beta_rho.^2));
-      beta_z_(i) = beta_z;
     
-      if mode == "TE"
+    [Erho, Ephi, Ez, Hrho, Hphi, Hz, beta_z] = E_and_H_v2(rho_, phi_, er, mur, z, r, i, F);
+    
+%     xmn_(i, i) = xmn_i;
+
+    
+    Poyn = (Erho .* Hphi - Hrho .* Ephi) .* rho_ * drho .* dphi;
+    Qij = sum(sum(Poyn));
+    
+    %Q(i, i) = Qij;
+    
+    
+    
+    if mode == "TE"
 
         K(i, i) = beta_z ./ (omega .* mu .* epsilon^2);
         
-      elseif mode == "TM"
+    elseif mode == "TM"
 
         K(i, i) = beta_z ./ (omega .* mu.^2 .* epsilon);
         
-      end
-      
-                if mode == "TE"
-                    Norm = (epsilon * pi/2 .* (xmn_(i).^2 - m.^2) .* (besselj(m, xmn_(i))).^2).^(-1);
-                elseif mode == "TM"
-                    Norm = (epsilon .* pi/2 .* xmn_(i).^2 .* (besselj_der(m, xmn_(i))).^2).^(-1);
-                end
-                
-               
-      Const = K(i, i) .* beta_rho.^2 ./ 4 .* Norm;  
-
-        A = Lommel(0, r, beta_rho, beta_rho, m - 1, m - 1);
-
-        C = Lommel(0, r, beta_rho, beta_rho, m + 1, m + 1);
-        Isin = intphisin(0, 2*pi, m, m);
-        Icos = intphicos(0, 2*pi, m, m);
+    end
+%     
+%     if mode == "TE"
+%             Norm = (epsilon * pi/2 .* (xmn_(i).^2 - m.^2) .* (besselj(m, xmn_(i))).^2).^(-1);
+%         elseif mode == "TM"
+%             Norm = (epsilon .* pi/2 .* xmn_(i).^2 .* (besselj_der(m, xmn_(i))).^2).^(-1);
+%     end
+    Norm = 1;
     
-       Qij = Const .* ((Isin + Icos) .* (A + C));
+    Q(i, i) = Qij .* Norm;
     
-       Q(i, i) = Qij;
-      
-     
+ %% Analytical Q
+ 
+%        Str = load('Xmn.mat');
+%        Xmn = Str.Xmn;
+%       
+%       
+%       xmn_(i) = Xmn(i).xmn;
+%       m = Xmn(i).m;
+%       
+%       mode = Xmn(i).mode;
+%       
+%       fc = xmn_(i) ./ (2 * pi * r * sqrt(mu .* epsilon));
+%       disp(fc);
+%       
+%       beta_rho = xmn_(i)./r;
+% 
+%       beta_z = -1j .* sqrt(-(beta.^2 - beta_rho.^2));
+%       beta_z_(i) = beta_z;
+%     
+%       if mode == "TE"
+% 
+%         K(i, i) = beta_z ./ (omega .* mu .* epsilon^2);
+%         
+%       elseif mode == "TM"
+% 
+%         K(i, i) = beta_z ./ (omega .* mu.^2 .* epsilon);
+%         
+%       end
+% %       
+%                 if mode == "TE"
+%                     Norm = (epsilon * pi/2 .* (xmn_(i).^2 - m.^2) .* (besselj(m, xmn_(i))).^2).^(-1);
+%                 elseif mode == "TM"
+%                     Norm = (epsilon .* pi/2 .* xmn_(i).^2 .* (besselj_der(m, xmn_(i))).^2).^(-1);
+%                 end
+% %         Norm = 1;        
+%                
+%       Const = K(i, i) .* beta_rho.^2 ./ 4 .* Norm;  
+% 
+%         A = Lommel(0, r, beta_rho, beta_rho, m - 1, m - 1);
+% 
+%         C = Lommel(0, r, beta_rho, beta_rho, m + 1, m + 1);
+%         
+%         if m == 0
+%             Isin = 0;
+%             Icos = 2 * pi;
+%         else
+%             Isin = intphisin(0, 2*pi, m, m);
+%             Icos = intphicos(0, 2*pi, m, m);
+%         end
+%     
+%        Qij = Const .* ((Isin + Icos) .* (A + C));
+%     
+%        Q(i, i) = Qij;
+%       
+%      
 %% Impedance (Z) and Admittance (Y) 
       
     

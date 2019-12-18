@@ -19,8 +19,8 @@ epsilonr = err * er0;   % Permittivity in the medium
 mur = mu0 * murr;
 
 
-Np = 20;
-Nr = 20;
+Np = 50;
+Nr = 50;
 
 Str = load('Xmn.mat');
 Xmn = Str.Xmn;
@@ -42,24 +42,41 @@ X_til = zeros(Nr, Np);
                 beta_rhor = (Xmn(r).xmn)/rr;
                 
                 
-                if Xmn(p).mode == "TE"
-                    Nup = ((epsilonp * pi/2 .* ((Xmn(p).xmn).^2 - Xmn(p).m).^2) .* (besselj(Xmn(p).m, Xmn(p).xmn).^2)).^(-1);
-                elseif Xmn(p).mode  == "TM"
-                    Nup = (epsilonp .* pi/2 .* (Xmn(p).xmn).^2 .* (besselj_der(Xmn(p).m, Xmn(p).xmn)).^2).^(-1);
-                end
+%                 if Xmn(p).mode == "TE"
+%                     Nup = ((epsilonp * pi/2 .* ((Xmn(p).xmn).^2 - Xmn(p).m).^2) .* (besselj(Xmn(p).m, Xmn(p).xmn).^2)).^(-1);
+%                 elseif Xmn(p).mode  == "TM"
+%                     Nup = (epsilonp .* pi/2 .* (Xmn(p).xmn).^2 .* (besselj_der(Xmn(p).m, Xmn(p).xmn)).^2).^(-1);
+%                 end
+%                 
+%                 if Xmn(r).mode  == "TE"
+%                     Nur = ((epsilonp * pi/2 .* ((Xmn(r).xmn).^2 - Xmn(r).m).^2) .* (besselj(Xmn(p).m, Xmn(p).xmn).^2)).^(-1);
+%                 elseif Xmn(r).mode  == "TM"
+%                     Nur = (epsilonp .* pi/2 .* (Xmn(r).xmn).^2 .* (besselj_der(Xmn(r).m, Xmn(r).xmn)).^2).^(-1);
+%                 end
+                Nup = 1;
+                Nur = 1;
                 
-                if Xmn(r).mode  == "TE"
-                    Nur = ((epsilonp * pi/2 .* ((Xmn(r).xmn).^2 - Xmn(r).m).^2) .* (besselj(Xmn(p).m, Xmn(p).xmn).^2)).^(-1);
-                elseif Xmn(r).mode  == "TM"
-                    Nur = (epsilonp .* pi/2 .* (Xmn(r).xmn).^2 .* (besselj_der(Xmn(r).m, Xmn(r).xmn)).^2).^(-1);
-                end
+%                 if Xmn(p).m == 0
+%                     
+%                     grad_Phi_rhop = 0;
+%                     grad_Phi_phip = 0;
+%                 
+%                 else
+                    
+                    grad_Phi_rhop = sqrt(Nup) .* cos(Xmn(p).m .* phir_) .* besselj_der(Xmn(p).m, beta_rhop .* rhor_) .* beta_rhop;
+                    grad_Phi_phip = (-1./rhor_) .* sqrt(Nup) .* Xmn(p).m .* sin(Xmn(p).m .* phir_) .* besselj(Xmn(p).m,  beta_rhop .* rhor_);
                 
-                grad_Phi_rhop = sqrt(Nup) .* cos(Xmn(p).m .* phir_) .* besselj_der(Xmn(p).m, beta_rhop .* rhor_) .* beta_rhop;
-                grad_Phi_phip = (-1./rhor_) .* sqrt(Nup) .* Xmn(p).m .* sin(Xmn(p).m .* phir_) .* besselj(Xmn(p).m,  beta_rhop .* rhor_);
-
-                grad_Phi_rhor = sqrt(Nur) .* cos(Xmn(r).m .* phir_) .* besselj_der(Xmn(r).m, beta_rhor.* rhor_) .* beta_rhor;
-                grad_Phi_phir = (-1./rhor_) .* sqrt(Nur) .* Xmn(r).m .* sin(Xmn(r).m .* phir_) .* besselj(Xmn(r).m,  beta_rhor .* rhor_);
-
+%                 end
+                
+%                 if Xmn(r).m == 0
+%                     grad_Phi_rhor = 0;
+%                     grad_Phi_phir = 0;
+%                 else
+                    
+                    grad_Phi_rhor = sqrt(Nur) .* cos(Xmn(r).m .* phir_) .* besselj_der(Xmn(r).m, beta_rhor.* rhor_) .* beta_rhor;
+                    grad_Phi_phir = (-1./rhor_) .* sqrt(Nur) .* Xmn(r).m .* sin(Xmn(r).m .* phir_) .* besselj(Xmn(r).m,  beta_rhor .* rhor_);
+%                 end
+                
                 if (Xmn(p).mode  == "TE" && Xmn(r).mode  == "TE") || (Xmn(p).mode  == "TM" && Xmn(r).mode  == "TM")
                     X_til_pr = (grad_Phi_rhop .* grad_Phi_rhor +  grad_Phi_phip .* grad_Phi_phir)...
                         .* rhor_ .* drho .* dphi;
@@ -67,7 +84,7 @@ X_til = zeros(Nr, Np);
                 elseif (Xmn(p).mode  == "TE" && Xmn(r).mode  == "TM")
                     X_til(r, p) = 0;
                 elseif (Xmn(p).mode  == "TM" && Xmn(r).mode == "TE")
-                    X_til_pr = (grad_Phi_rhop .* grad_Phi_phir - grad_Phi_rhor .* grad_Phi_rhop)...
+                    X_til_pr = (grad_Phi_rhop .* grad_Phi_phir - grad_Phi_rhor .* grad_Phi_phip)...
                         .* rhor_ .* drho .* dphi;
                     X_til(r, p) = sum(sum(X_til_pr));
        
