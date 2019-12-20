@@ -1,10 +1,13 @@
 %% Inner Product Calculation
 clear;
 
+% 
+% rp = 0.0405319403216/2; % radius of the waveguide P
+% rr = 0.0405319403216/2.1; % radius of the waveguide R
+% % rr = 0.0405319403216/4; % radius of the waveguide R
 
-rp = 0.0405319403216/2; % radius of the waveguide P
-rr = 0.0405319403216/2.1; % radius of the waveguide R
-% rr = 0.0405319403216/4; % radius of the waveguide R
+rp = 0.10;
+rr = 0.05;
 
 er0 = 8.85418782e-12; % Free space permittivity
 mu0 = 1.25663706e-6;  % Free Space Permeability
@@ -19,8 +22,8 @@ epsilonr = err * er0;   % Permittivity in the medium
 mur = mu0 * murr;
 
 
-Np = 100;
-Nr = 100;
+Np = 200;
+Nr = 200;
 
 Str = load('Xmn.mat');
 Xmn = Str.Xmn;
