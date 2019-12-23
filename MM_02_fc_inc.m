@@ -9,42 +9,51 @@ c0 = 3e8;
 % F = 10e11;
 % F = 90:0.5e9:100e9;
 
-F = 200e9:1e9:300e9;
+% F = 200e9:1e9:300e9;
 
+<<<<<<< HEAD
 Np = 5;
 Nr = 5;
+=======
+F = 90e9;
+
+Np = 1:1:20;
+Np_ = 20;
+Nr = 20;
+Nr_ = 10;
+
+
+>>>>>>> chnages at home
 
 %% Modular inner cross product between the two wavegudies
 
-X_ = load('TE_TE_Inner_P_analytical_V2.mat');
+for i = 1:1:Np_
+    
+Spp = zeros(size(F, 2), i, i);
+Spr = zeros(size(F, 2), i, i);
+Srp = zeros(size(F, 2), i, i);
+Srr = zeros(size(F, 2), i, i);
+    
+for k =  1:length(F)
+    
+    disp('Iteration Number:');
+    disp(i);
+    
+    
+    X_ = load('TE_TE_Inner_P_analytical_V2.mat');
 X_x = X_.X_til;
-X_til = zeros(Nr, Np);
+X_til = zeros(i, i);
 
-for p = 1:Np
-    for r = 1:Nr
+for p = 1:i
+    for r = 1:i
         X_til(r, p) = X_x(r, p);
     end
 end
 
-
-
-Spp = zeros(size(F, 2), Np, Np);
-Spr = zeros(size(F, 2), Np, Nr);
-Srp = zeros(size(F, 2), Nr, Np);
-Srr = zeros(size(F, 2), Nr, Nr);
-
-
-% S11pr = 
-
-for k =  1:length(F)
-    
-    disp('Iteration Number:');
-    disp(k);
-
 %% Wavwguide p
 
-% rp = 0.0405319403216/2; % radius of the waveguide
-rp = 0.10;
+rp = 0.0405319403216/2; % radius of the waveguide
+% rp = 0.10;
 
 
 er0 = 8.85418782e-12; % Free space permittivity
@@ -61,7 +70,7 @@ dphi = pi/180;
 [rho_, phi_] = meshgrid(eps:drho:rp, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zp = 0; 
 
-[Qp, Zp, Yp, Kp] = QZcalculation_v2(Np, F(k), rp, erp, murp, rho_, phi_, zp, drho, dphi);
+[Qp, Zp, Yp, Kp] = QZcalculation_v2(Np(i), F(k), rp, erp, murp, rho_, phi_, zp, drho, dphi);
 
 % figure;
 % plot(1:1:Np, (real(diag(Qp))), 'LineWidth', 2); grid on;
@@ -78,10 +87,10 @@ zp = 0;
 % 
 %% Wavwguide r
 
-% rr = 0.0405319403216/2.1; % radius of the waveguide
+rr = 0.0405319403216/2.1; % radius of the waveguide
 % rr = 0.0405319403216/4; % radius of the waveguide
 
-rr = 0.05;
+% rr = 0.05;
 err = 1; % relative  permittivity
 murr = 1; % relative Permeability
 epsilonr = err * er0;   % Permittivity in the medium
@@ -92,11 +101,11 @@ dphi = pi/180;
 [rhor_, phir_] = meshgrid(eps:drho:rr, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zr = 0; 
 
-[Qr, Zr, Yr, Kr] = QZcalculation_v2(Nr, F(k), rr, err, murr, rhor_, phir_, zr, drho, dphi);
+[Qr, Zr, Yr, Kr] = QZcalculation_v2(Np(i), F(k), rr, err, murr, rhor_, phir_, zr, drho, dphi);
 
 
-Ip = eye(Np, Np);
-Ir = eye(Nr, Nr);
+Ip = eye(i, i);
+Ir = eye(i, i);
 
 
 % Qp = eye(Np(end), Np(end));
@@ -113,30 +122,25 @@ Spr(k, :, :) = inv(Qp) * X.' * F_ * Qr;
 Srp(k, :, :) = F_ * X;
 Srr(k, :, :) = F_ * Qr - Ir;
 
+Spp_(i) = squeeze(Spp(k, 1, 1));
+Spr_(i) = squeeze(Spr(k, 1, 1));
+Srp_(i) = squeeze(Srp(k, 1, 1));
+Srr_(i) = squeeze(Srr(k, 1, 1));
+% c_a = load('Srp_analytical_conv.mat');
+% 
+% GSM_a = c_a.Srp;
+
+
 
 
 end
-% 
-% save('Spp_analytical', 'Spp');
-% save('Spr_analytical', 'Spr');
-% save('Srp_analytical', 'Srp');
-% save('Srr_analytical', 'Srr');
-% % 
-save('Spp_analytical_conv', 'Spp');
-save('Spr_analytical_conv', 'Spr');
-save('Srp_analytical_conv', 'Srp');
-save('Srr_analytical_conv', 'Srr');
+end
 
 %% 
 
+figure(1);
 
-c_a = load('Srp_analytical_conv.mat');
-
-GSM_a = c_a.Srp;
-
-figure;
-
-plot(1:1:Nr, db(abs(diag(squeeze(GSM_a(1, :, :)))))/2, 'LineWidth', 2); grid on;
+plot(1:1:Np_, db(abs((squeeze(Srp_))))/2, 'LineWidth', 2); grid on;
 %>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
 
 xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
@@ -144,38 +148,54 @@ ylabel('Srp in  dB', 'FontSize', 12, 'FontWeight', 'bold');
 title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
 
 
-figure;
+figure(2);
 
-c_a = load('Spr_analytical_conv.mat');
-GSM_a = c_a.Spr;
+% c_a = load('Spr_analytical_conv.mat');
+% GSM_a = c_a.Spr;
 
-plot(1:1:Nr, db(abs(diag(squeeze(GSM_a(1, :, :)))))/2, 'LineWidth', 2); grid on;
+plot(1:1:Np_, db(abs((squeeze(Spr_))))/2, 'LineWidth', 2); grid on;
 %>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
 
 xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
 ylabel('Spr in  dB', 'FontSize', 12, 'FontWeight', 'bold');
 title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
 
-figure;
+figure(3);
 
-c_a = load('Spp_analytical_conv.mat');
-GSM_a = c_a.Spp;
+% c_a = load('Spp_analytical_conv.mat');
+% GSM_a = c_a.Spp;
 
-plot(1:1:Np, db(abs(diag(squeeze(GSM_a(1, :, :)))))/2, 'LineWidth', 2); grid on;
+plot(1:1:Np_, db(abs((squeeze(Spp_))))/2, 'LineWidth', 2); grid on;
 %>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
 
 xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
 ylabel('Spp in  dB', 'FontSize', 12, 'FontWeight', 'bold');
 title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
 
-figure;
+figure(4);
 
-c_a = load('Srr_analytical_conv.mat');
-GSM_a = c_a.Srr;
+% c_a = load('Srr_analytical_conv.mat');
+% GSM_a = c_a.Srr;
 
-plot(1:1:Nr, db(abs(diag(squeeze(GSM_a(1, :, :)))))/2, 'LineWidth', 2); grid on;
+plot(1:1:Np_, db(abs((squeeze(Srr_))))/2, 'LineWidth', 2); grid on;
 %>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
 
 xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
 ylabel('Srr in  dB', 'FontSize', 12, 'FontWeight', 'bold');
 title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
+
+% 
+% save('Spp_analytical', 'Spp');
+% save('Spr_analytical', 'Spr');
+% save('Srp_analytical', 'Srp');
+% save('Srr_analytical', 'Srr');
+% % 
+% save('Spp_analytical_conv', 'Spp');
+% save('Spr_analytical_conv', 'Spr');
+% save('Srp_analytical_conv', 'Srp');
+% save('Srr_analytical_conv', 'Srr');
+
+%% 
+
+
+
