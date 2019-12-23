@@ -66,12 +66,12 @@ for i = 1:N
         
     end
 %     
-    if mode == "TE"
-            Norm = (epsilon * pi/2 .* (xmn_(i).^2 - m.^2) .* (besselj(m, xmn_(i))).^2).^(-1);
-        elseif mode == "TM"
-            Norm = (epsilon .* pi/2 .* xmn_(i).^2 .* (besselj_der(m, xmn_(i))).^2).^(-1);
-    end
-%     Norm = 1;
+%     if mode == "TE"
+%             Norm = (epsilon * pi/2 .* (xmn_(i).^2 - m.^2) .* (besselj(m, xmn_(i))).^2).^(-1);
+%         elseif mode == "TM"
+%             Norm = (epsilon .* pi/2 .* xmn_(i).^2 .* (besselj_der(m, xmn_(i))).^2).^(-1);
+%     end
+    Norm = 1;
     
     Q(i, i) = Qij .* Norm;
     

@@ -11,19 +11,19 @@ c0 = 3e8;
 
 % F = 200e9:1e9:300e9;
 
-<<<<<<< HEAD
-Np = 5;
-Nr = 5;
-=======
+% <<<<<<< HEAD
+% Np = 5;
+% Nr = 5;
+% =======
 F = 90e9;
 
 Np = 1:1:20;
 Np_ = 20;
 Nr = 20;
-Nr_ = 10;
+Nr_ = 20;
 
 
->>>>>>> chnages at home
+% >>>>>>> chnages at home
 
 %% Modular inner cross product between the two wavegudies
 

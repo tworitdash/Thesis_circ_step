@@ -60,19 +60,19 @@ X_til = zeros(Nr, Np);
                 
                 
                 
-                if modep == "TE"
-                    Nup = (epsilonp * pi/2 .* (xmn_p.^2 - pm.^2) .* (besselj(pm, xmn_p)).^2).^(-1);
-                elseif modep  == "TM"
-                    Nup = (epsilonp .* pi/2 .* (xmn_p).^2 .* (besselj_der(pm, xmn_p)).^2).^(-1);
-                end
-                
-                if moder  == "TE"
-                    Nur = (epsilonr * pi/2 .* (xmn_r.^2 - rm.^2) .* (besselj(rm, xmn_r)).^2).^(-1);
-                elseif moder  == "TM"
-                    Nur = (epsilonr .* pi/2 .* (Xmn(r).xmn).^2 .* (besselj_der(rm, xmn_r)).^2).^(-1);
-                end
-%                 Nup = 1;
-%                 Nur = 1;
+%                 if modep == "TE"
+%                     Nup = (epsilonp * pi/2 .* (xmn_p.^2 - pm.^2) .* (besselj(pm, xmn_p)).^2).^(-1);
+%                 elseif modep  == "TM"
+%                     Nup = (epsilonp .* pi/2 .* (xmn_p).^2 .* (besselj_der(pm, xmn_p)).^2).^(-1);
+%                 end
+%                 
+%                 if moder  == "TE"
+%                     Nur = (epsilonr * pi/2 .* (xmn_r.^2 - rm.^2) .* (besselj(rm, xmn_r)).^2).^(-1);
+%                 elseif moder  == "TM"
+%                     Nur = (epsilonr .* pi/2 .* (Xmn(r).xmn).^2 .* (besselj_der(rm, xmn_r)).^2).^(-1);
+%                 end
+                Nup = 1;
+                Nur = 1;
                 
 %                 if Xmn(p).m == 0
 %                     
