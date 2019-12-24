@@ -1,7 +1,7 @@
 %% Zeros of Bessel's function (For TM) and zeros of the derivative of the Bessel's function (For TE) Calculation
 clear;
 % [m, n, xm] = meshgrid(1:1:50, 1:1:50, linspace(0.1, 10000, 100000));
-m = 0:1:100;
+m = 1:1:100;
 % mode = "TE";
 % mode = "TM";
 
@@ -62,5 +62,14 @@ Xmn = [xmn_TE xmn_TM];
 [x,idx]=sort([Xmn.xmn]);
 
 Xmn = Xmn(idx);
+
+[x,idx]=sort([Xmn.n]);
+Xmn = Xmn(idx);
+
+[x,idx]=sort([Xmn.m]);
+Xmn = Xmn(idx);
+
+
+
 
 save('Xmn', 'Xmn');

@@ -17,7 +17,7 @@ c0 = 3e8;
 % =======
 F = 90e9;
 
-Np = 1:1:20;
+Np = 1:1:50;
 Np_ = 20;
 Nr = 20;
 Nr_ = 20;
@@ -36,12 +36,13 @@ Srr = zeros(size(F, 2), i, i);
     
 for k =  1:length(F)
     
-    disp('Iteration Number:');
-    disp(i);
+disp('Iteration Number:');
+disp(i);
     
     
-    X_ = load('TE_TE_Inner_P_analytical_V2.mat');
+X_ = load('TE_TE_Inner_P_analytical_V2.mat');
 X_x = X_.X_til;
+
 X_til = zeros(i, i);
 
 for p = 1:i
