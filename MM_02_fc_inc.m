@@ -15,7 +15,7 @@ c0 = 3e8;
 % Np = 5;
 % Nr = 5;
 % =======
-F = 90e9;
+F = 1000e9;
 
 Np = 1:1:50;
 Np_ = 20;
@@ -137,64 +137,70 @@ Srr_(i) = squeeze(Srr(k, 1, 1));
 end
 end
 
+
+save('Conv_Spp', 'Spp_');
+save('Conv_spr', 'Spr_');
+save('Conv_Srp', 'Srp_');
+save('Conv_srr', 'Srr_');
+
 %% 
 
-figure(1);
-
-plot(1:1:Np_, db(abs((squeeze(Srp_))))/2, 'LineWidth', 2); grid on;
-%>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
-
-xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
-ylabel('Srp in  dB', 'FontSize', 12, 'FontWeight', 'bold');
-title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
-
-
-figure(2);
-
-% c_a = load('Spr_analytical_conv.mat');
-% GSM_a = c_a.Spr;
-
-plot(1:1:Np_, db(abs((squeeze(Spr_))))/2, 'LineWidth', 2); grid on;
-%>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
-
-xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
-ylabel('Spr in  dB', 'FontSize', 12, 'FontWeight', 'bold');
-title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
-
-figure(3);
-
-% c_a = load('Spp_analytical_conv.mat');
-% GSM_a = c_a.Spp;
-
-plot(1:1:Np_, db(abs((squeeze(Spp_))))/2, 'LineWidth', 2); grid on;
-%>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
-
-xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
-ylabel('Spp in  dB', 'FontSize', 12, 'FontWeight', 'bold');
-title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
-
-figure(4);
-
-% c_a = load('Srr_analytical_conv.mat');
-% GSM_a = c_a.Srr;
-
-plot(1:1:Np_, db(abs((squeeze(Srr_))))/2, 'LineWidth', 2); grid on;
-%>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
-
-xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
-ylabel('Srr in  dB', 'FontSize', 12, 'FontWeight', 'bold');
-title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
-
+% figure(1);
 % 
-% save('Spp_analytical', 'Spp');
-% save('Spr_analytical', 'Spr');
-% save('Srp_analytical', 'Srp');
-% save('Srr_analytical', 'Srr');
+% plot(1:1:Np_, db(abs((squeeze(Srp_))))/2, 'LineWidth', 2); grid on;
+% %>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
+% 
+% xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
+% ylabel('Srp in  dB', 'FontSize', 12, 'FontWeight', 'bold');
+% title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
+% 
+% 
+% figure(2);
+% 
+% % c_a = load('Spr_analytical_conv.mat');
+% % GSM_a = c_a.Spr;
+% 
+% plot(1:1:Np_, db(abs((squeeze(Spr_))))/2, 'LineWidth', 2); grid on;
+% %>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
+% 
+% xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
+% ylabel('Spr in  dB', 'FontSize', 12, 'FontWeight', 'bold');
+% title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
+% 
+% figure(3);
+% 
+% % c_a = load('Spp_analytical_conv.mat');
+% % GSM_a = c_a.Spp;
+% 
+% plot(1:1:Np_, db(abs((squeeze(Spp_))))/2, 'LineWidth', 2); grid on;
+% %>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
+% 
+% xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
+% ylabel('Spp in  dB', 'FontSize', 12, 'FontWeight', 'bold');
+% title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
+% 
+% figure(4);
+% 
+% % c_a = load('Srr_analytical_conv.mat');
+% % GSM_a = c_a.Srr;
+% 
+% plot(1:1:Np_, db(abs((squeeze(Srr_))))/2, 'LineWidth', 2); grid on;
+% %>>>>>>> 0a21b496e0b0f28d61b4a47fcc24420c9c551183
+% 
+% xlabel('N in mode', 'FontSize', 12, 'FontWeight', 'bold');
+% ylabel('Srr in  dB', 'FontSize', 12, 'FontWeight', 'bold');
+% title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
+% 
 % % 
-% save('Spp_analytical_conv', 'Spp');
-% save('Spr_analytical_conv', 'Spr');
-% save('Srp_analytical_conv', 'Srp');
-% save('Srr_analytical_conv', 'Srr');
+% % save('Spp_analytical', 'Spp');
+% % save('Spr_analytical', 'Spr');
+% % save('Srp_analytical', 'Srp');
+% % save('Srr_analytical', 'Srr');
+% % % 
+% % save('Spp_analytical_conv', 'Spp');
+% % save('Spr_analytical_conv', 'Spr');
+% % save('Srp_analytical_conv', 'Srp');
+% % save('Srr_analytical_conv', 'Srr');
 
 %% 
 
