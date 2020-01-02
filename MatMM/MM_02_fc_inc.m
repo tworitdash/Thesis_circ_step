@@ -17,8 +17,8 @@ F = 4e9:0.5e9:21e9;
 % =======
 % F = 1000e9;
 
-Np = 1:1:7;
-Np_ = 7;
+Np = 1:1:1;
+Np_ = 1;
 Nr = 20;
 Nr_ = 20;
 
@@ -42,7 +42,7 @@ disp('Iteration Number:');
 disp(k);
     
     
-X_ = load('Inner_P_analytical_V2_ratio_1.mat');
+X_ = load('Inner_P_analytical_V3_ratio_1.mat');
 X_x = X_.X_til;
 
 X_til = zeros(i, i);
@@ -194,15 +194,28 @@ end
 % title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
 % 
 % % 
-save('Spp_ratio_1_modes_7', 'Spp');
-save('Spr_ratio_1_modes_7', 'Spr');
-save('Srp_ratio_1_modes_7', 'Srp');
-save('Srr_ratio_1_modes_7', 'Srr');
+% save('Spp_ratio_1_modes_7', 'Spp');
+% save('Spr_ratio_1_modes_7', 'Spr');
+% save('Srp_ratio_1_modes_7', 'Srp');
+% save('Srr_ratio_1_modes_7', 'Srr');
 % % % 
 % % save('Spp_analytical_conv', 'Spp');
 % % save('Spr_analytical_conv', 'Spr');
 % % save('Srp_analytical_conv', 'Srp');
 % % save('Srr_analytical_conv', 'Srr');
+%% 
+
+figure;
+plot(F, db(abs(squeeze(Spp(:, 1, 1))))/2, 'LineWidth', 2); grid on;
+
+figure;
+plot(F, db(abs(squeeze(Spr(:, 1, 1))))/2, 'LineWidth', 2); grid on;
+
+figure;
+plot(F, db(abs(squeeze(Srp(:, 1, 1))))/2, 'LineWidth', 2); grid on;
+
+figure;
+plot(F, db(abs(squeeze(Srr(:, 1, 1))))/2, 'LineWidth', 2); grid on;
 
 %% 
 
