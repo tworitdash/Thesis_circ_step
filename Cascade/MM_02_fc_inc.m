@@ -4,7 +4,7 @@ c0 = 3e8;
 % F = 20e9;
 
 % F = 21e9:0.5e9:40e9;
-% F = 4e9:0.5e9:21e9;
+F = 4e9:0.5e9:21e9;
 % F = 8e9;
 % F = 10e11;
 % F = 90:0.5e9:100e9;
@@ -15,37 +15,39 @@ c0 = 3e8;
 % Np = 5;
 % Nr = 5;
 % =======
-F = 1000e9;
+% F = 1000e9;
 
-Np = 1:1:20;
-Np_ = 50;
+Np = 1:1:1;
+Np_ = 1;
 Nr = 20;
 Nr_ = 20;
 
+
+Spp = zeros(size(F, 2), Np_, Np_);
+Spr = zeros(size(F, 2), Np_, Np_);
+Srp = zeros(size(F, 2), Np_, Np_);
+Srr = zeros(size(F, 2), Np_, Np_);
 
 % >>>>>>> chnages at home
 
 %% Modular inner cross product between the two wavegudies
 
-for i = 1:1:Np_
+for i = Np_
     
-Spp = zeros(size(F, 2), 4 * i, 4 * i);
-Spr = zeros(size(F, 2), 4 * i, i);
-Srp = zeros(size(F, 2), i, 4 * i);
-Srr = zeros(size(F, 2), i, i);
+
     
 for k =  1:length(F)
     
 disp('Iteration Number:');
-disp(i);
+disp(k);
     
     
-X_ = load('TE_TE_Inner_P_analytical_V2.mat');
+X_ = load('Inner_P_analytical_V3_ratio_1.mat');
 X_x = X_.X_til;
 
-X_til = zeros(i, 4 * i);
+X_til = zeros(i, i);
 
-for p = 1:4 * i
+for p = 1:i
     for r = 1:i
         X_til(r, p) = X_x(r, p);
     end
@@ -71,7 +73,7 @@ dphi = pi/180;
 [rho_, phi_] = meshgrid(eps:drho:rp, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 zp = 0; 
 
-[Qp, Zp, Yp, Kp] = QZcalculation_v2(Np(i) * 4, F(k), rp, erp, murp, rho_, phi_, zp, drho, dphi);
+[Qp, Zp, Yp, Kp] = QZcalculation_v2(Np(i), F(k), rp, erp, murp, rho_, phi_, zp, drho, dphi);
 
 % figure;
 % plot(1:1:Np, (real(diag(Qp))), 'LineWidth', 2); grid on;
@@ -88,8 +90,8 @@ zp = 0;
 % 
 %% Wavwguide r
 
-% rr = 0.0405319403216/2.1; % radius of the waveguide
-rr = 0.0405319403216/4; % radius of the waveguide
+rr = 0.0405319403216/2.1; % radius of the waveguide
+% rr = 0.0405319403216/8; % radius of the waveguide
 
 % rr = 0.05;
 err = 1; % relative  permittivity
@@ -105,7 +107,7 @@ zr = 0;
 [Qr, Zr, Yr, Kr] = QZcalculation_v2(Np(i), F(k), rr, err, murr, rhor_, phir_, zr, drho, dphi);
 
 
-Ip = eye(4 * i, 4 * i);
+Ip = eye(i, i);
 Ir = eye(i, i);
 
 
@@ -123,10 +125,10 @@ Spr(k, :, :) = inv(Qp) * X.' * F_ * Qr;
 Srp(k, :, :) = F_ * X;
 Srr(k, :, :) = F_ * Qr - Ir;
 
-Spp_(i) = squeeze(Spp(k, 1, 1));
-Spr_(i) = squeeze(Spr(k, 1, 1));
-Srp_(i) = squeeze(Srp(k, 1, 1));
-Srr_(i) = squeeze(Srr(k, 1, 1));
+% Spp_(i) = squeeze(Spp(k, 1, 1));
+% Spr_(i) = squeeze(Spr(k, 1, 1));
+% Srp_(i) = squeeze(Srp(k, 1, 1));
+% Srr_(i) = squeeze(Srr(k, 1, 1));
 % c_a = load('Srp_analytical_conv.mat');
 % 
 % GSM_a = c_a.Srp;
@@ -138,10 +140,10 @@ end
 end
 
 
-save('Conv_Spp_4', 'Spp_');
-save('Conv_spr_4', 'Spr_');
-save('Conv_Srp_4', 'Srp_');
-save('Conv_srr_4', 'Srr_');
+% save('Conv_Spp_16', 'Spp_');
+% save('Conv_spr_16', 'Spr_');
+% save('Conv_Srp_16', 'Srp_');
+% save('Conv_srr_16', 'Srr_');
 
 %% 
 
@@ -192,15 +194,28 @@ save('Conv_srr_4', 'Srr_');
 % title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
 % 
 % % 
-% % save('Spp_analytical', 'Spp');
-% % save('Spr_analytical', 'Spr');
-% % save('Srp_analytical', 'Srp');
-% % save('Srr_analytical', 'Srr');
+% save('Spp_ratio_1_modes_7', 'Spp');
+% save('Spr_ratio_1_modes_7', 'Spr');
+% save('Srp_ratio_1_modes_7', 'Srp');
+% save('Srr_ratio_1_modes_7', 'Srr');
 % % % 
 % % save('Spp_analytical_conv', 'Spp');
 % % save('Spr_analytical_conv', 'Spr');
 % % save('Srp_analytical_conv', 'Srp');
 % % save('Srr_analytical_conv', 'Srr');
+%% 
+% 
+% figure;
+% plot(F, db(abs(squeeze(Spp(:, 1, 1))))/2, 'LineWidth', 2); grid on;
+% 
+% figure;
+% plot(F, db(abs(squeeze(Spr(:, 1, 1))))/2, 'LineWidth', 2); grid on;
+% 
+% figure;
+% plot(F, db(abs(squeeze(Srp(:, 1, 1))))/2, 'LineWidth', 2); grid on;
+% 
+% figure;
+% plot(F, db(abs(squeeze(Srr(:, 1, 1))))/2, 'LineWidth', 2); grid on;
 
 %% 
 
