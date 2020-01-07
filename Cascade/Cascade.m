@@ -29,11 +29,11 @@ Np = 1:1:5; % number of modes on R waveguide
 Nt = 1:1:5; % number of modes on P waveguide
 
 ert = 1;
-err = 1;
+erp = 1;
 murt = 1;
-murr = 1;
+murp = 1;
 
-[X_til_rt] = Inner_p(Np, Nt, rt, rp, ert, murt, err, murr);
+[X_til_pt] = Inner_p(Np, Nt, rt, rp, ert, murt, erp, murp);
 
 %% Frequency dependent terms:
 for k = 1:length(F)
@@ -42,7 +42,7 @@ disp('Iteration: ');
 disp(k);
 
 [S33, S34, S43, S44] = GSM(Nr, Np, F(k), rp, rr, erp, murp, err, murr, X_til_rp);
-[S11, S12, S21, S22] = GSM(Np, Nt, F(k), rt, rp, erp, murp, err, murr, X_til_rt);
+[S11, S12, S21, S22] = GSM(Np, Nt, F(k), rt, rp, erp, murp, err, murr, X_til_pt);
 
 [Sl] = SL(rp, F(k), Np, L);
 [Slr] = SL(rr, F(k), Nr, 0.001);
