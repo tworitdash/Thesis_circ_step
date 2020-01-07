@@ -2,9 +2,9 @@ clear;
 
 M = 1; % Number of elements in between the first and last waveguide
 
-L = 0.02; % Length of each waveguide section
+L = 0.001; % Length of each waveguide section
 
-F = 4e9:0.5e9:21e9; % Frequency of operation
+F = 4e9:0.5e9:50e9; % Frequency of operation
 
 rt = 0.0405319403216/1.9;
 rp = 0.0405319403216/2; % radius of the waveguide
@@ -65,9 +65,9 @@ end
 %% Plots
 
 
-save('Stt3_ratio_1_modes_5_V2', 'STT');
-save('Str3_ratio_1_modes_5_V2', 'STR');
-save('Srt3_ratio_1_modes_5_V2', 'SRT');
-save('Srr3_ratio_1_modes_5_V2', 'SRR');
+save('Stt3_ratio_1_modes_5_V3', 'STT');
+save('Str3_ratio_1_modes_5_V3', 'STR');
+save('Srt3_ratio_1_modes_5_V3', 'SRT');
+save('Srr3_ratio_1_modes_5_V3', 'SRR');
 
 
