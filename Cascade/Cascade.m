@@ -12,8 +12,8 @@ rr = 0.0405319403216/2.1;
 
 %% Inner Cross Product of First junction (smaller dimension)
 
-Nr = 1:1:5; % number of modes on R waveguide
-Np = 1:1:5; % number of modes on P waveguide
+Nr = 1:1:20; % number of modes on R waveguide
+Np = 1:1:20; % number of modes on P waveguide
 
 erp = 1;
 err = 1;
@@ -25,8 +25,8 @@ murr = 1;
 %% Inner Cross Product of Last junction (larger dimension)
 
 
-Np = 1:1:5; % number of modes on R waveguide
-Nt = 1:1:5; % number of modes on P waveguide
+Np = 1:1:20; % number of modes on R waveguide
+Nt = 1:1:20; % number of modes on P waveguide
 
 ert = 1;
 erp = 1;
@@ -65,9 +65,9 @@ end
 %% Plots
 
 
-save('Stt3_ratio_1_modes_5_V3', 'STT');
-save('Str3_ratio_1_modes_5_V3', 'STR');
-save('Srt3_ratio_1_modes_5_V3', 'SRT');
-save('Srr3_ratio_1_modes_5_V3', 'SRR');
+save('Stt3_ratio_1_modes_20_V3', 'STT');
+save('Str3_ratio_1_modes_20_V3', 'STR');
+save('Srt3_ratio_1_modes_20_V3', 'SRT');
+save('Srr3_ratio_1_modes_20_V3', 'SRR');
 
 
