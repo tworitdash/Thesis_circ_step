@@ -18,11 +18,11 @@ F = 4e9:0.5e9:21e9; % Frequency of operation
 figure;
 plot(F * 1e-9, db(abs(squeeze(GSM_5(:, 1, 1))))/2, 'LineWidth', 2); grid on;
 hold on;
-plot(F * 1e-9, db(abs(squeeze(GSM_10(:, 1, 1))))/2, 'LineWidth', 2); grid on;
+plot(F * 1e-9, db(abs(squeeze(GSM_10(:, 1, 1))))/2, 'LineWidth', 1); grid on;
 hold on;
-plot(F * 1e-9, db(abs(squeeze(GSM_15(:, 1, 1))))/2, 'LineWidth', 2); grid on;
+plot(F * 1e-9, db(abs(squeeze(GSM_15(:, 1, 1))))/2, '-.', 'LineWidth', 1); grid on;
 hold on;
-plot(F * 1e-9, db(abs(squeeze(GSM_20(:, 1, 1))))/2, 'LineWidth', 2); grid on;
+plot(F * 1e-9, db(abs(squeeze(GSM_20(:, 1, 1))))/2, '*', 'LineWidth', 1); grid on;
 % hold on;
 % plot(F * 1e-9, db(abs(squeeze(GSM_30(:, 1, 1))))/2, 'LineWidth', 2); grid on;
 % % hold on;

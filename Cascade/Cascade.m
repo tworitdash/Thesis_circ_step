@@ -2,25 +2,26 @@ clear;
 
 % M = 10; % Number of elements in between the first and last waveguide
 
-r = linspace(0.02, 0.03, 10);
+% r = linspace(0.02, 0.03, 10);
 
 L = 0.001; % Length of each waveguide section
 
 F = 4e9:0.5e9:21e9; % Frequency of operation
 
-% rt = 0.0405319403216/1.9;
-% rp = 0.0405319403216/2; % radius of the waveguide
-% rr = 0.0405319403216/2.1;
+rt = 0.0405319403216/1.9;
+rp = 0.0405319403216/2; % radius of the waveguide
+rr = 0.0405319403216/2.1;
+rd = 2.2e-2;
 
-
+r = [rr rp rt rd];
 
 %% Inner Cross Product of First junction (smaller dimension)
 
 % Nr = 1:1:5; % number of modes on R waveguide
 % Np = 1:1:5; % number of modes on P waveguide
 
-N1 = 1:1:20; % number of modes on 1st waveguide
-N2 = 1:1:20; % number of modes on 2nd waveguide
+N1 = 1:1:1; % number of modes on 1st waveguide
+N2 = 1:1:1; % number of modes on 2nd waveguide
 
 erp = 1;
 err = 1;
@@ -36,8 +37,8 @@ murr = 1;
 % Np = 1:1:30; % number of modes on R waveguide
 % Nt = 1:1:30; % number of modes on P waveguide
 
-Ns = 1:1:20; % number of modes on last but one waveguide
-Ne = 1:1:20; % number of modes on last waveguide
+Ns = 1:1:1; % number of modes on last but one waveguide
+Ne = 1:1:1; % number of modes on last waveguide
 
 ert = 1;
 erp = 1;
@@ -98,9 +99,9 @@ end
 %% Plots
 
 
-save('Stt10_ratio_1_modes_20_1mm', 'STT');
-save('Str10_ratio_1_modes_20_1mm', 'STR');
-save('Srt10_ratio_1_modes_20_1mm', 'SRT');
-save('Srr10_ratio_1_modes_20_1mm', 'SRR');
+save('Stt4_ratio_1_modes_1_1mm', 'STT');
+save('Str4_ratio_1_modes_1_1mm', 'STR');
+save('Srt4_ratio_1_modes_1_1mm', 'SRT');
+save('Srr4_ratio_1_modes_1_1mm', 'SRR');
 
 
