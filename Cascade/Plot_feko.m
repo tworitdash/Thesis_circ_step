@@ -1,7 +1,7 @@
 %%
 
 % c_5 = load('Stt3_ratio_1_modes_5_V3.mat');
-c_1 = load('Str4_ratio_1_modes_1_1mm.mat');
+c_1 = load('Str4_ratio_1_modes_10_1mm.mat');
 % c_10 = load('Srr3_ratio_1_modes_10.mat');
 % c_15 = load('Srr3_ratio_1_modes_15.mat');
 % c_20 = load('Srr3_ratio_1_modes_20.mat');
@@ -18,14 +18,14 @@ GSM_1 = c_1.STR;
 % GSM_40 = c_40.SRR;
 
 
-data5 = read(rfdata.data,'3wg_touchstone_5modes_V2_1mm.s10p');
+data5 = read(rfdata.data,'4wg_touchstone_1modes_1mm.s2p');
 s_params_5 = extract(data5,'S_PARAMETERS');
 
 F = 4e9:0.5e9:21e9; % Frequency of operation
 F1 = 4e9:0.5e9:35e9; % Frequency of operation Feko
 
 figure;
-% plot(F1 * 1e-9, db(abs(squeeze(s_params_5(6, 6, :))))/2, 'LineWidth', 2); grid on;
+plot(F * 1e-9, db(abs(squeeze(s_params_5(2, 1, :))))/2, 'LineWidth', 2); grid on;
 hold on;
 plot(F * 1e-9, db(abs(squeeze(GSM_1(:, 1, 1))))/2, '-.', 'LineWidth', 2); grid on;
 
