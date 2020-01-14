@@ -1,6 +1,6 @@
 %%
 
-c_5 = load('Srr3_ratio_1_modes_5_2cm.mat');
+c_5 = load('Stt3_ratio_1_modes_5_2cm.mat');
 % c_10 = load('Srr4_ratio_1_modes_10_1mm.mat');
 % c_10 = load('Str3_ratio_1_modes_10_V3.mat');
 % c_15 = load('Srr3_ratio_1_modes_15.mat');
@@ -10,7 +10,7 @@ c_5 = load('Srr3_ratio_1_modes_5_2cm.mat');
 
 
 % GSM_1 = c_1.SRR;
-GSM_5 = c_5.SRR;
+GSM_5 = c_5.STT;
 % GSM_10 = c_10.SRR;
 % GSM_15 = c_15.SRR;
 % GSM_20 = c_20.SRR;
@@ -28,7 +28,7 @@ F = 4e9:0.5e9:50e9; % Frequency of operation
 figure;
 
 
-plot(F1 * 1e-9, db(abs(squeeze(s_params_5(1, 1, :))))/2, 'LineWidth', 2); grid on;
+plot(F1 * 1e-9, db(abs(squeeze(s_params_5(6, 6, :))))/2, 'LineWidth', 2); grid on;
 hold on;
 plot(F1 * 1e-9, db(abs(squeeze(GSM_5(:, 1, 1))))/2, '-.', 'LineWidth', 2); grid on;
 
@@ -50,7 +50,7 @@ xlabel('Frequency (GHz)', 'FontSize', 12, 'FontWeight', 'bold');
 ylabel('S in  dB', 'FontSize', 12, 'FontWeight', 'bold');
 title(['S Parameter'], 'FontSize', 12, 'FontWeight', 'bold');
 
-legend({'S_{RR} of TE_{11}, 5 modes active Feko', 'S_{RR} of TE_{11}, 5 modes active MM'},...
+legend({'S_{TT} of TE_{11}, 5 modes active Feko', 'S_{TT} of TE_{11}, 5 modes active MM'},...
    'FontSize', 12, 'FontWeight', 'bold');
 
 xlim([4 21]);
@@ -71,7 +71,7 @@ xlabel('Frequency (GHz)', 'FontSize', 12, 'FontWeight', 'bold');
 ylabel('Phase S in deg', 'FontSize', 12, 'FontWeight', 'bold');
 title(['S Parameter Phase'], 'FontSize', 12, 'FontWeight', 'bold');
 
-legend({'S_{RR} of TE_{11}, 5 modes active Feko', 'S_{RR} of TE_{11}, 5 modes active MM'},...
+legend({'S_{TR} of TE_{11}, 5 modes active Feko', 'S_{TR} of TE_{11}, 5 modes active MM'},...
    'FontSize', 12, 'FontWeight', 'bold');
 
 xlim([4 21]);
