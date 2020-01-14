@@ -71,8 +71,8 @@ Sl = SL(rp, F(k), Ns, L);
 %  [Slr] = SL(rr, F(k), Nr, L);
 %  [Slt] = SL(rt, F(k), Nt, L);
  
- [Slr] = SL(r(1), F(k), N1, L);
- [Slt] = SL(r(end), F(k), Ne, L);
+ [Slr] = SL(r(1), F(k), N1, 0.001);
+ [Slt] = SL(r(end), F(k), Ne, 0.001);
  
 % Sl = Slr * Slp * Slt;
 
