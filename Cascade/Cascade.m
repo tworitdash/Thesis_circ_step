@@ -6,7 +6,7 @@ clear;
 
 L = 0.001; % Length of each waveguide section
 
-F = 4e9:0.01e9:21e9; % Frequency of operation
+F = 4e9:0.1e9:21e9; % Frequency of operation
 
 rt = 0.0405319403216/1.9;
 rp = 0.0405319403216/2; % radius of the waveguide
