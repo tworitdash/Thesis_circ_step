@@ -6,7 +6,7 @@ clear;
 
 L = 0.001; % Length of each waveguide section
 
-F = 4e9:0.5e9:35e9; % Frequency of operation
+F = 4e9:0.01e9:21e9; % Frequency of operation
 
 rt = 0.0405319403216/1.9;
 rp = 0.0405319403216/2; % radius of the waveguide
@@ -20,8 +20,8 @@ r = [rr rp rt];
 % Nr = 1:1:5; % number of modes on R waveguide
 % Np = 1:1:5; % number of modes on P waveguide
 
-N1 = 1:1:5; % number of modes on 1st waveguide
-N2 = 1:1:5; % number of modes on 2nd waveguide
+N1 = 1:1:10; % number of modes on 1st waveguide
+N2 = 1:1:10; % number of modes on 2nd waveguide
 
 erp = 1;
 err = 1;
@@ -37,8 +37,8 @@ murr = 1;
 % Np = 1:1:30; % number of modes on R waveguide
 % Nt = 1:1:30; % number of modes on P waveguide
 
-Ns = 1:1:5; % number of modes on last but one waveguide
-Ne = 1:1:5; % number of modes on last waveguide
+Ns = 1:1:10; % number of modes on last but one waveguide
+Ne = 1:1:10; % number of modes on last waveguide
 
 ert = 1;
 erp = 1;
@@ -93,9 +93,9 @@ end
 %% Plots
 
 
-save('Stt3_ratio_1_modes_5_1mm', 'STT');
-save('Str3_ratio_1_modes_5_1mm', 'STR');
-save('Srt3_ratio_1_modes_5_1mm', 'SRT');
-save('Srr3_ratio_1_modes_5_1mm', 'SRR');
+save('Stt3_ratio_1_modes_10_1mm_fine_resol', 'STT');
+save('Str3_ratio_1_modes_10_1mm_fine_resol', 'STR');
+save('Srt3_ratio_1_modes_10_1mm_fine_resol', 'SRT');
+save('Srr3_ratio_1_modes_10_1mm_fine_resol', 'SRR');
 
 
