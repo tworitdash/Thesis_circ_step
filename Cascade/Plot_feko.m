@@ -1,6 +1,6 @@
 %%
 
-c_5 = load('Srr3_ratio_1_modes_5_2cm.mat');
+c_5 = load('Str3_ratio_1_modes_5_2cm.mat');
 % c_10 = load('Srr4_ratio_1_modes_10_1mm.mat');
 % c_10 = load('Str3_ratio_1_modes_10_V3.mat');
 % c_15 = load('Srr3_ratio_1_modes_15.mat');
@@ -10,7 +10,7 @@ c_5 = load('Srr3_ratio_1_modes_5_2cm.mat');
 
 
 % GSM_1 = c_1.SRR;
-GSM_5 = c_5.SRR;
+GSM_5 = c_5.STR;
 % GSM_10 = c_10.SRR;
 % GSM_15 = c_15.SRR;
 % GSM_20 = c_20.SRR;
@@ -28,9 +28,9 @@ F = 4e9:0.5e9:50e9; % Frequency of operation
 figure;
 
 
-plot(F1 * 1e-9, db(abs(squeeze(s_params_5(1, 1, :))))/2, 'LineWidth', 2); grid on;
+plot(F1 * 1e-9, db(abs(squeeze(s_params_5(6, 1, :))))/2, 'LineWidth', 2); grid on;
 hold on;
-plot(F * 1e-9, db(abs(squeeze(GSM_5(:, 1, 1))))/2, '-.', 'LineWidth', 2); grid on;
+plot(F1 * 1e-9, db(abs(squeeze(GSM_5(:, 1, 1))))/2, '-.', 'LineWidth', 2); grid on;
 
 
 
@@ -58,14 +58,14 @@ xlim([4 21]);
 % Phase_MM = atan(imag(squeeze(GSM_5(:, 1, 1)))./real(squeeze(GSM_5(:, 1, 1)))) * 180/pi;
 % Phase_Feko = atan(imag(squeeze(s_params_5(1, 1, :)))./real(squeeze(s_params_5(1, 1, :)))) * 180/pi;
 % 
-Phase_Feko = (angle(squeeze((s_params_5(1, 1, :)).^2))) * 180/pi;
+Phase_Feko = (angle(squeeze((s_params_5(6, 1, :)).^2))) * 180/pi;
 Phase_MM =   (angle(squeeze((GSM_5(:, 1, 1))).^2)) * 180/pi;
 
 
 figure;
 plot(F1 * 1e-9, Phase_Feko, 'LineWidth', 2); grid on;
 hold on;
-plot(F * 1e-9, Phase_MM, 'LineWidth', 2); grid on;
+plot(F1 * 1e-9, Phase_MM, 'LineWidth', 2); grid on;
 
 xlabel('Frequency (GHz)', 'FontSize', 12, 'FontWeight', 'bold');
 ylabel('Phase S in deg', 'FontSize', 12, 'FontWeight', 'bold');
