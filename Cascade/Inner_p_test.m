@@ -1,4 +1,4 @@
-function [X_til] = Inner_p(Nr, Np, rp, rr, erp, murp, err, murr) 
+function [X_til] = Inner_p_test(Nr, Np, rp, rr, erp, murp, err, murr) 
 
 %% Inner Product Calculation
 
@@ -16,16 +16,16 @@ Str = load('Xmn.mat');
 Xmn = Str.Xmn;
 
 
-drho = rr/100;
-dphi = pi/180;
+drho = rr/10000;
+dphi = pi/18000;
 
 [rhor_, phir_] = meshgrid(eps:drho:rr, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 
 X_til = zeros(length(Nr), length(Np));
 
 
-for p = 1:length(Np)
-      for r = 1:length(Nr)
+for p = Np
+      for r = Nr
                 disp('Iteration:')
                 
                 disp(p);
@@ -87,26 +87,26 @@ for p = 1:length(Np)
                             X_til_pr =  sqrt(Nup) .* sqrt(Nur) ...
                             .* K .* (A + D) .* (Icos + Isin);
 
-                            X_til(r, p) = X_til_pr; 
+                            X_til = X_til_pr; 
                       
                     else 
                         
                             X_til_pr = (grad_Phi_rhop .* grad_Phi_rhor +  grad_Phi_phip .* grad_Phi_phir)...
                         .* rhor_ .* drho .* dphi;
-                            X_til(r, p) = sum(sum(X_til_pr));
+                            X_til = sum(sum(X_til_pr));
                     end
                     
      elseif (modep == "TE" && moder == "TM")
          
                     X_til_pr = (grad_Phi_rhop .* grad_Phi_phir - grad_Phi_rhor .* grad_Phi_phip)...
                        .* rhor_ .* drho .* dphi;
-                   X_til(r, p) = sum(sum(X_til_pr));
+                   X_til = sum(sum(X_til_pr));
                     
      elseif (modep == "TM" && moder == "TE")
          
                    X_til_pr = (grad_Phi_rhop .* grad_Phi_phir - grad_Phi_rhor .* grad_Phi_phip)...
                        .* rhor_ .* drho .* dphi;
-                   X_til(r, p) = sum(sum(X_til_pr));
+                   X_til = sum(sum(X_til_pr));
                         
      end             
                     
@@ -117,6 +117,3 @@ for p = 1:length(Np)
       
 end
     
-
-% csvwrite('TM_TE_Inner_P', X_til); 
-% save('Inner_P_analytical_V3_ratio_1', 'X_til');

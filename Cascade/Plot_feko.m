@@ -1,6 +1,6 @@
 %%
 
-c_5 = load('Srr3_ratio_1_modes_5_2cm.mat');
+c_5 = load('Srr3_ratio_1_modes_5_1mm_beta_z.mat');
 % c_10 = load('Srr4_ratio_1_modes_10_1mm.mat');
 % c_10 = load('Str3_ratio_1_modes_10_V3.mat');
 % c_15 = load('Srr3_ratio_1_modes_15.mat');
@@ -22,8 +22,8 @@ data5 = read(rfdata.data,'3wg_touchstone_5modes.s10p');
 s_params_5 = extract(data5,'S_PARAMETERS');
 
 F1 = 4e9:0.5e9:21e9; % Frequency of operation
-F = 4e9:0.5e9:50e9; % Frequency of operation
-% F1 = 4e9:0.5e9:35e9; % Frequency of operation Feko
+% F = 4e9:0.5e9:50e9; % Frequency of operation
+F = 4e9:0.5e9:35e9; % Frequency of operation Feko
 
 figure;
 
@@ -58,8 +58,8 @@ xlim([4 21]);
 % Phase_MM = atan(imag(squeeze(GSM_5(:, 1, 1)))./real(squeeze(GSM_5(:, 1, 1)))) * 180/pi;
 % Phase_Feko = atan(imag(squeeze(s_params_5(1, 1, :)))./real(squeeze(s_params_5(1, 1, :)))) * 180/pi;
 % 
-Phase_Feko = (angle(squeeze((s_params_5(1, 1, :)).^2))) * 180/pi;
-Phase_MM =   (angle(squeeze((GSM_5(:, 1, 1))).^2)) * 180/pi;
+Phase_Feko = (angle(squeeze((s_params_5(1, 1, :))))) * 180/pi;
+Phase_MM =   (angle(squeeze((GSM_5(:, 1, 1))))) * 180/pi;
 
 
 figure;

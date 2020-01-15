@@ -4,9 +4,9 @@ clear;
 
 % r = linspace(0.02, 0.03, 10);
 
-L = 0.001; % Length of each waveguide section
+L = 0.02; % Length of each waveguide section
 
-F = 4e9:0.1e9:21e9; % Frequency of operation
+F = 4e9:0.5e9:21e9; % Frequency of operation
 
 rt = 0.0405319403216/1.9;
 rp = 0.0405319403216/2; % radius of the waveguide
@@ -20,8 +20,8 @@ r = [rr rp rt];
 % Nr = 1:1:5; % number of modes on R waveguide
 % Np = 1:1:5; % number of modes on P waveguide
 
-N1 = 1:1:10; % number of modes on 1st waveguide
-N2 = 1:1:10; % number of modes on 2nd waveguide
+N1 = 1:1:5; % number of modes on 1st waveguide
+N2 = 1:1:5; % number of modes on 2nd waveguide
 
 erp = 1;
 err = 1;
@@ -37,8 +37,8 @@ murr = 1;
 % Np = 1:1:30; % number of modes on R waveguide
 % Nt = 1:1:30; % number of modes on P waveguide
 
-Ns = 1:1:10; % number of modes on last but one waveguide
-Ne = 1:1:10; % number of modes on last waveguide
+Ns = 1:1:5; % number of modes on last but one waveguide
+Ne = 1:1:5; % number of modes on last waveguide
 
 ert = 1;
 erp = 1;
@@ -63,7 +63,7 @@ disp(k);
 [S11, S12, S21, S22] = GSM(Ns, Ne, F(k), r(end), r(end - 1), erp, murp, err, murr, X_til_pt);
 
 
-Sl = SL(rp, F(k), Ns, L);
+Sl = SL(rp, F(k), Ns, -L);
 
    
 
@@ -71,8 +71,8 @@ Sl = SL(rp, F(k), Ns, L);
 %  [Slr] = SL(rr, F(k), Nr, L);
 %  [Slt] = SL(rt, F(k), Nt, L);
  
- [Slr] = SL(r(1), F(k), N1, L);
- [Slt] = SL(r(end), F(k), Ne, L);
+ [Slr] = SL(r(1), F(k), N1, -0.001);
+ [Slt] = SL(r(end), F(k), Ne, -0.001);
  
 % Sl = Slr * Slp * Slt;
 
@@ -93,9 +93,9 @@ end
 %% Plots
 
 
-save('Stt3_ratio_1_modes_10_1mm_fine_resol', 'STT');
-save('Str3_ratio_1_modes_10_1mm_fine_resol', 'STR');
-save('Srt3_ratio_1_modes_10_1mm_fine_resol', 'SRT');
-save('Srr3_ratio_1_modes_10_1mm_fine_resol', 'SRR');
+save('Stt3_ratio_1_modes_5_1mm_beta_z', 'STT');
+save('Str3_ratio_1_modes_5_1mm_beta_z', 'STR');
+save('Srt3_ratio_1_modes_5_1mm_beta_z', 'SRT');
+save('Srr3_ratio_1_modes_5_1mm_beta_z', 'SRR');
 
 
