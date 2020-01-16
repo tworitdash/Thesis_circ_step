@@ -1,0 +1,45 @@
+%% Parameters of the waveguides
+
+rp = 0.0405319403216/2;   % radius of the bigger waveguide
+rr = 0.0405319403216/2.1; % radius of the smaller waveguide
+
+erp = 1;                  % Relative Permittivity of P waveguide
+err = 1;                  % Relative Permittivity of R waveguide
+murp = 1;                 % Relative Permeability of P waveguide
+murr = 1;                 % Relative Permeability of R waveguide
+
+r = [rr rp];
+
+
+
+%% Inner cross product
+
+Nr = 1:1:5; % number of modes on 1st waveguide
+Np = 1:1:5; % number of modes on 2nd waveguide
+
+
+
+[X_til_rp] = Inner_p(Nr, Np, r(2), r(1), erp, murp, err, murr);
+
+for k = 1:length(F)
+    
+    disp('Frequency Iteration')
+    disp(k);
+    
+    [Spp_, Spr_, Srp_, Srr_] = GSM(Nr, Np, F(k), r(2), r(1), erp, murp, err, murr, X_til_rp); % GSM 
+    
+    slr = SL(rr, F(k), Nr, 0.001);  % Phase due to the length (height) of the R cylinder
+    slp = SL(rp, F(k), Np, 0.001);  % Phase due to the length (height) of the P cylinder
+    
+    Spp(k, :, :) = slp * Spp_ * slp;
+    Spr(k, :, :) = slp * Spr_ * slr;
+    Srp(k, :, :) = slr * Srp_ * slp;
+    Srr(k, :, :) = slr * Srr_ * slr;
+
+end
+
+%% Saving the Data
+save('Stt2_ratio_1_modes_5', 'Spp');
+save('Str2_ratio_1_modes_5', 'Spr');
+save('Srt2_ratio_1_modes_5', 'Srp');
+save('Srr2_ratio_1_modes_5', 'Srr');
