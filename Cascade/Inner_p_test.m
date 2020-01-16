@@ -16,10 +16,10 @@ Str = load('Xmn.mat');
 Xmn = Str.Xmn;
 
 
-drho = rr/10000;
-dphi = pi/18000;
+drho = rr/1000;
+dphi = pi/1800;
 
-[rhor_, phir_] = meshgrid(eps:drho:rr, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
+[rhor_, phir_] = meshgrid(eps:drho:rr, eps:dphi:3/2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 
 X_til = zeros(length(Nr), length(Np));
 

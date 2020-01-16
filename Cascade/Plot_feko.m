@@ -59,7 +59,7 @@ xlim([4 21]);
 % Phase_Feko = atan(imag(squeeze(s_params_5(1, 1, :)))./real(squeeze(s_params_5(1, 1, :)))) * 180/pi;
 % 
 Phase_Feko = (angle(squeeze((s_params_5(1, 1, :))))) * 180/pi;
-Phase_MM =   (angle(squeeze((GSM_5(:, 1, 1))))) * 180/pi;
+Phase_MM =  (angle(squeeze((GSM_5(:, 1, 1))))) * 180/pi;
 
 
 figure;
