@@ -1,4 +1,4 @@
-function [SL] = SL(rr, F, Nr, L)
+function [SL] = SL2(rr, F, Nr, L)
 
     c0 = 3e8;
     
@@ -12,12 +12,8 @@ function [SL] = SL(rr, F, Nr, L)
         beta = (2 * pi * F) ./ c0;
         beta_rho = (Xmn(i).xmn)./rr;
             
-        if beta_rho < beta
-    
-            beta_z = -1j .* sqrt(-(beta.^2 - beta_rho.^2));
-        else 
-            beta_z = conj(-1j .* sqrt(-(beta.^2 - beta_rho.^2)));
-        end
+        beta_z = -1j * sqrt(-(beta.^2 - beta_rho.^2));
+        
         
         SL(i, i) = exp(-1j .* beta_z .* L);
     end

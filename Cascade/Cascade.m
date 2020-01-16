@@ -50,7 +50,7 @@ murp = 1;
 [X_til_pt] = Inner_p(Ns, Ne, r(end), r(end - 1), ert, murt, erp, murp);
 
 %% Frequency dependent terms:
-for k = 1:length(F)
+parfor k = 1:length(F)
 
 disp('Iteration: ');
 disp(k);
@@ -63,7 +63,7 @@ disp(k);
 [S11, S12, S21, S22] = GSM(Ns, Ne, F(k), r(end), r(end - 1), erp, murp, err, murr, X_til_pt);
 
 
-Sl = SL(rp, F(k), Ns, -L);
+Sl = SL(rp, F(k), Ns, L);
 
    
 
@@ -71,8 +71,8 @@ Sl = SL(rp, F(k), Ns, -L);
 %  [Slr] = SL(rr, F(k), Nr, L);
 %  [Slt] = SL(rt, F(k), Nt, L);
  
- [Slr] = SL(r(1), F(k), N1, 0.001);
- [Slt] = SL(r(end), F(k), Ne, -0.001);
+ [Slr] = SL(r(1), F(k), N1, -0.001);
+ [Slt] = SL(r(end), F(k), Ne, 0.001);
  
 % Sl = Slr * Slp * Slt;
 
