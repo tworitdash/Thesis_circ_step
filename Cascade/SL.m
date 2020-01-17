@@ -12,7 +12,7 @@ function [SL] = SL(rr, F, Nr, L)
         beta = (2 * pi * F) ./ c0;
         beta_rho = (Xmn(i).xmn)./rr;
             
-        if beta_rho < beta
+        if beta_rho > beta
     
             beta_z = -1j .* sqrt(-(beta.^2 - beta_rho.^2));
         else 

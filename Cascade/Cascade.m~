@@ -83,7 +83,7 @@ I = eye(length(N2), length(N2));
 U1 = inv(I - S22 * Sl * S33 * Sl);
 U2 = inv(I - S33 * Sl * S22 * Sl);
 
-STT(k, :, :) = Slt * (S11 + S12 * Sl * U2 * S33 * Sl * S21) * Slt;
+STT(k, :, :) = Slt * (S11 + S12 * Sl * U2 * S33 * Sl * S21) * Slt';
 STR(k, :, :) = Slt * (S12 * Sl * U2 * S34) * Slr;
 SRT(k, :, :) = Slr * (S43 * Sl * U1 * S21) * Slt;
 SRR(k, :, :) = Slr * (S44 + S43 * Sl * U1 * S22 * Sl * S34) * Slr;

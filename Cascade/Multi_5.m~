@@ -6,16 +6,17 @@ rt = 0.0405319403216/1.9;
 rp = 0.0405319403216/2; % radius of the waveguide
 rr = 0.0405319403216/2.1;
 rd = 2.2e-2;
+re = 2.3e-2;
 
 
-R = [rr rp rt rd]; % radius vector
+R = [rr rp rt rd re]; % radius vector
 
 F = 4e9:0.5e9:21e9; % Frequency of operation
 
-er = [1 1 1 1]; % Relative Permittivity of each WG section
-mur = [1 1 1 1]; % Relative Permeability of each WG section
+er = [1 1 1 1 1]; % Relative Permittivity of each WG section
+mur = [1 1 1 1 1]; % Relative Permeability of each WG section
 
-L = 1e-3 * [1 1 1 1]; % length of each waveguide section
+L = 1e-3 * [1 1 1 1 20]; % length of each waveguide section
 
 N = 1:1:5 ; % Number of modes
 
@@ -30,7 +31,7 @@ end
 
 %% Frequency loop to find the GSM of the entire structure
 
-parfor k = 1:length(F)
+for k = 1:length(F)
     
     disp('Frequency Iteration: ');
     disp(k);
@@ -67,7 +68,7 @@ SRR(k, :, :) = slr * SRR_ * slr;
 end
 
 
-save('Stt4_ratio_1_modes_5_1mm_sl_fix', 'STT');
-save('Str4_ratio_1_modes_5_1mm_sl_fix', 'STR');
-save('Srt4_ratio_1_modes_5_1mm_sl_fix', 'SRT');
-save('Srr4_ratio_1_modes_5_1mm_sl_fix', 'SRR');
+save('Stt4_ratio_1_modes_5_1mm_2cm', 'STT');
+save('Str4_ratio_1_modes_5_1mm_2cm', 'STR');
+save('Srt4_ratio_1_modes_5_1mm_2cm', 'SRT');
+save('Srr4_ratio_1_modes_5_1mm_2cm', 'SRR');
