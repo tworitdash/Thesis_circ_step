@@ -2,7 +2,7 @@
 
 % c_5 = load('Stt3_ratio_1_modes_5_1mm_beta_z.mat');
 % c_5 = load('Srt4_ratio_1_modes_5_1mm_sl_fix.mat');
-c_5 = load('Srr5_ratio_1_modes_5_1mm_2cm.mat');
+c_5 = load('Srr5_ratio_1_modes_10_1mm_2cm.mat');
 % c_15 = load('Srr3_ratio_1_modes_15.mat');
 % c_20 = load('Srr3_ratio_1_modes_20.mat');
 % c_30 = load('Stt3_ratio_1_modes_30.mat');
@@ -36,9 +36,9 @@ F = 4e9:0.5e9:35e9; % Frequency of operation Feko
 figure;
 
 
-plot(F1 * 1e-9, db(abs(squeeze(s_params_5(1, 1, :))))/2, 'LineWidth', 2); grid on;
+plot(F1 * 1e-9, db(abs(squeeze(s_params_5(5, 5, :))))/2, 'LineWidth', 2); grid on;
 hold on;
-plot(F1 * 1e-9, db(abs(squeeze(GSM_5(:, 1, 1))))/2, '-.', 'LineWidth', 2); grid on;
+plot(F1 * 1e-9, db(abs(squeeze(GSM_5(:, 5, 5))))/2, '-.', 'LineWidth', 2); grid on;
 
 
 
@@ -66,8 +66,8 @@ xlim([4 21]);
 % Phase_MM = atan(imag(squeeze(GSM_5(:, 1, 1)))./real(squeeze(GSM_5(:, 1, 1)))) * 180/pi;
 % Phase_Feko = atan(imag(squeeze(s_params_5(6, 1, :)))./real(squeeze(s_params_5(1, 1, :)))) * 180/pi;
 % 
-Phase_Feko = (angle(squeeze((s_params_5(1, 1, :))))) * 180/pi;
-Phase_MM =  (angle(squeeze((GSM_5(:, 1, 1))))) * 180/pi;
+Phase_Feko = (angle(squeeze((s_params_5(5, 5, :))))) * 180/pi;
+Phase_MM =  (angle(squeeze((GSM_5(:, 5, 5))))) * 180/pi;
 
 
 figure;

@@ -18,7 +18,7 @@ mur = [1 1 1 1 1]; % Relative Permeability of each WG section
 
 L = 1e-3 * [1 1 1 20 1]; % length of each waveguide section
 
-N = 1:1:5 ; % Number of modes
+N = 1:1:20 ; % Number of modes
 
 J = length(R) - 1; % Number of Junctions
 %% Frequency independent inner cross product 
@@ -68,7 +68,7 @@ SRR(k, :, :) = slr * SRR_ * slr;
 end
 
 
-save('Stt5_ratio_1_modes_5_1mm_2cm', 'STT');
-save('Str5_ratio_1_modes_5_1mm_2cm', 'STR');
-save('Srt5_ratio_1_modes_5_1mm_2cm', 'SRT');
-save('Srr5_ratio_1_modes_5_1mm_2cm', 'SRR');
+save('Stt5_ratio_1_modes_20_1mm_2cm', 'STT');
+save('Str5_ratio_1_modes_20_1mm_2cm', 'STR');
+save('Srt5_ratio_1_modes_20_1mm_2cm', 'SRT');
+save('Srr5_ratio_1_modes_20_1mm_2cm', 'SRR');
