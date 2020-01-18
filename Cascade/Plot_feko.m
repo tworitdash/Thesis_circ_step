@@ -1,7 +1,7 @@
 %%
 
-% c_5 = load('Srr3_ratio_1_modes_5_1mm_beta_z.mat');
-% c_5 = load('Srr4_ratio_1_modes_5_1mm_sl_fix.mat');
+% c_5 = load('Stt3_ratio_1_modes_5_1mm_beta_z.mat');
+% c_5 = load('Srt4_ratio_1_modes_5_1mm_sl_fix.mat');
 c_5 = load('Srr5_ratio_1_modes_5_1mm_2cm.mat');
 % c_15 = load('Srr3_ratio_1_modes_15.mat');
 % c_20 = load('Srr3_ratio_1_modes_20.mat');
@@ -18,14 +18,14 @@ GSM_5 = c_5.SRR;
 % GSM_40 = c_40.SRR;
 
 % 
-% data5 = read(rfdata.data,'3wg_touchstone_5modes.s10p');
-% s_params_5 = extract(data5,'S_PARAMETERS');
+data5 = read(rfdata.data,'5wg_touchstone_5modes_1mm_2cm_1mm.s5p');
+s_params_5 = extract(data5,'S_PARAMETERS');
 
 % data5 = read(rfdata.data,'4wg_touchstone_5modes_1mm.s10p');
 % s_params_5 = extract(data5,'S_PARAMETERS');
 
-data5 = read(rfdata.data,'5wg_touchstone_5modes_1mm_2cm.s10p');
-s_params_5 = extract(data5,'S_PARAMETERS');
+% data5 = read(rfdata.data,'5wg_touchstone_5modes_1mm_2cm.s10p');
+% s_params_5 = extract(data5,'S_PARAMETERS');
 
 
 
@@ -36,7 +36,7 @@ F = 4e9:0.5e9:35e9; % Frequency of operation Feko
 figure;
 
 
-plot(F1 * 1e-9, db(abs(squeeze(s_params_5(6, 6, :))))/2, 'LineWidth', 2); grid on;
+plot(F1 * 1e-9, db(abs(squeeze(s_params_5(1, 1, :))))/2, 'LineWidth', 2); grid on;
 hold on;
 plot(F1 * 1e-9, db(abs(squeeze(GSM_5(:, 1, 1))))/2, '-.', 'LineWidth', 2); grid on;
 
@@ -66,7 +66,7 @@ xlim([4 21]);
 % Phase_MM = atan(imag(squeeze(GSM_5(:, 1, 1)))./real(squeeze(GSM_5(:, 1, 1)))) * 180/pi;
 % Phase_Feko = atan(imag(squeeze(s_params_5(6, 1, :)))./real(squeeze(s_params_5(1, 1, :)))) * 180/pi;
 % 
-Phase_Feko = (angle(squeeze((s_params_5(6, 6, :))))) * 180/pi;
+Phase_Feko = (angle(squeeze((s_params_5(1, 1, :))))) * 180/pi;
 Phase_MM =  (angle(squeeze((GSM_5(:, 1, 1))))) * 180/pi;
 
 
