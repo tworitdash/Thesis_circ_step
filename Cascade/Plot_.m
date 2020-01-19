@@ -1,14 +1,14 @@
-c_5 = load('Stt10_ratio_1_modes_5_1mm.mat');
-c_10 = load('Stt10_ratio_1_modes_10_1mm.mat');
-c_15 = load('Stt10_ratio_1_modes_15_1mm.mat');
-c_20 = load('Stt10_ratio_1_modes_20_1mm.mat');
+c_5 = load('Srr5_ratio_1_modes_5_1mm_2cm.mat');
+c_10 = load('Srr5_ratio_1_modes_10_1mm_2cm.mat');
+c_15 = load('Srr5_ratio_1_modes_15_1mm_2cm.mat');
+c_20 = load('Srr5_ratio_1_modes_20_1mm_2cm.mat');
 % c_30 = load('Stt3_ratio_1_modes_30_2cm.mat');
 % c_40 = load('Srr3_ratio_1_modes_40.mat');
 
-GSM_5 = c_5.STT;
-GSM_10 = c_10.STT;
-GSM_15 = c_15.STT;
-GSM_20 = c_20.STT;
+GSM_5 = c_5.SRR;
+GSM_10 = c_10.SRR;
+GSM_15 = c_15.SRR;
+GSM_20 = c_20.SRR;
 % GSM_30 = c_30.STT;
 % GSM_40 = c_40.SRR;
 F = 4e9:0.5e9:21e9; % Frequency of operation
@@ -22,7 +22,7 @@ plot(F * 1e-9, db(abs(squeeze(GSM_10(:, 1, 1))))/2, 'LineWidth', 1); grid on;
 hold on;
 plot(F * 1e-9, db(abs(squeeze(GSM_15(:, 1, 1))))/2, '-.', 'LineWidth', 1); grid on;
 hold on;
-plot(F * 1e-9, db(abs(squeeze(GSM_20(:, 1, 1))))/2, '*', 'LineWidth', 1); grid on;
+plot(F * 1e-9, db(abs(squeeze(GSM_20(:, 1, 1))))/2, 'LineWidth', 1); grid on;
 % hold on;
 % plot(F * 1e-9, db(abs(squeeze(GSM_30(:, 1, 1))))/2, 'LineWidth', 2); grid on;
 % % hold on;

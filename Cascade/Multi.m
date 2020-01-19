@@ -8,14 +8,14 @@ rr = 0.0405319403216/2.1;
 rd = 2.2e-2;
 
 
-R = [rr rp rt rd]; % radius vector
+R = [rr rp rt]; % radius vector
 
-F = 4e9:0.5e9:21e9; % Frequency of operation
+F = 4e9:0.5e9:50e9; % Frequency of operation
 
-er = [1 1 1 1]; % Relative Permittivity of each WG section
-mur = [1 1 1 1]; % Relative Permeability of each WG section
+er = [1 1 1]; % Relative Permittivity of each WG section
+mur = [1 1 1]; % Relative Permeability of each WG section
 
-L = 1e-3 * [1 1 1 1]; % length of each waveguide section
+L = 1e-3 * [1 1 1]; % length of each waveguide section
 
 N = 1:1:5 ; % Number of modes
 
@@ -44,6 +44,8 @@ Sl = SL(R(2), F(k), N, L(2));
 
 % Use the for loop in case of more than 3 junctions (J > 3)
 
+if J > 2
+
 for j = 3:J
 
     % recursion 
@@ -56,10 +58,14 @@ for j = 3:J
     
 end
 
+else 
+    STT_ = STT_; STR = STR_; SRT_ = SRT_; SRR_ = SRR_;
+end
+
 slr = SL(R(1), F(k), N, L(1));
 slt = SL(R(end), F(k), N, L(end));
 
-STT(k, :, :) = slt * STT_ * slt; 
+STT(k, :, :) = slt * STT_ * slt'; 
 STR(k, :, :) = slt * STR_ * slr; 
 SRT(k, :, :) = slr * SRT_ * slt; 
 SRR(k, :, :) = slr * SRR_ * slr;
@@ -67,7 +73,7 @@ SRR(k, :, :) = slr * SRR_ * slr;
 end
 
 
-save('Stt4_ratio_1_modes_5_1mm_sl_fix', 'STT');
-save('Str4_ratio_1_modes_5_1mm_sl_fix', 'STR');
-save('Srt4_ratio_1_modes_5_1mm_sl_fix', 'SRT');
-save('Srr4_ratio_1_modes_5_1mm_sl_fix', 'SRR');
+save('Stt3_ratio_1_modes_5_1mm', 'STT');
+save('Str3_ratio_1_modes_5_1mm', 'STR');
+save('Srt3_ratio_1_modes_5_1mm', 'SRT');
+save('Srr3_ratio_1_modes_5_1mm', 'SRR');
