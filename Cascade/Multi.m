@@ -59,7 +59,7 @@ for j = 3:J
 end
 
 else 
-    STT_ = STT_; STR = STR_; SRT_ = SRT_; SRR_ = SRR_;
+    
 end
 
 slr = SL(R(1), F(k), N, L(1));
