@@ -6,20 +6,20 @@ s_params_5 = extract(data5,'S_PARAMETERS');
 
 %% Data from MM from MATLAB Script Wg2.m
 
-C_5 = load('Stt2_ratio_1_modes_5');
+C_5 = load('Srr2_ratio_2_modes_3_fc_align.mat');
 
-GSM_5 = C_5.Spp;
+GSM_5 = C_5.Srr;
 
 %% Frequency axis
 
-F = 4e9:0.5e9:21e9;
+F = 2e9:0.5e9:21e9;
 
 %% Plot Amplitude of S parameters
 
 figure;
 
 
-plot(F * 1e-9, db(abs(squeeze(s_params_5(6, 6, :))))/2, 'LineWidth', 2); grid on;
+% plot(F * 1e-9, db(abs(squeeze(s_params_5(6, 6, :))))/2, 'LineWidth', 2); grid on;
 hold on;
 plot(F * 1e-9, db(abs(squeeze(GSM_5(:, 1, 1))))/2, '-.', 'LineWidth', 2); grid on;
 
@@ -38,7 +38,7 @@ Phase_MM =  (angle(squeeze((GSM_5(:, 1, 1))))) * 180/pi;
 
 
 figure;
-plot(F * 1e-9, Phase_Feko, 'LineWidth', 2); grid on;
+% plot(F * 1e-9, Phase_Feko, 'LineWidth', 2); grid on;
 hold on;
 plot(F * 1e-9, Phase_MM, 'LineWidth', 2); grid on;
 
