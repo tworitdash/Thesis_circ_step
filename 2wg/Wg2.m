@@ -14,12 +14,12 @@ murr = 1;                 % Relative Permeability of R waveguide
 
 r = [rr rp];
 
-F = 2e9:0.5e9:21e9; % Frequency of operation
+F = 2e9:0.5e9:10e9; % Frequency of operation
 
 %% Inner cross product
 
-Nr = 1:1:3; % number of modes on 1st waveguide
-Np = 1:1:3; % number of modes on 2nd waveguide
+Nr = 1:1:6; % number of modes on 1st waveguide
+Np = 1:1:24; % number of modes on 2nd waveguide
 
 
 
@@ -35,11 +35,17 @@ parfor k = 1:length(F)
     slr = SL(rr, F(k), Nr, 0.02);  % Phase due to the length (height) of the R cylinder
     slp = SL(rp, F(k), Np, 0.02);  % Phase due to the length (height) of the P cylinder
     
-    Spp(k, :, :) = slp * Spp_ * slp;
-    Spr(k, :, :) = slp * Spr_ * slr;
-    Srp(k, :, :) = slr * Srp_ * slp;
-    Srr(k, :, :) = slr * Srr_ * slr;
-
+%     Spp(k, :, :) = slp * Spp_ * slp';
+%     Spr(k, :, :) = slp * Spr_ * slr;
+%     Srp(k, :, :) = slr * Srp_ * slp;
+%     Srr(k, :, :) = slr * Srr_ * slr';
+%     
+    
+    Spp(k, :, :) =  Spp_;
+    Spr(k, :, :) =  Spr_;
+    Srp(k, :, :) =  Srp_;
+    Srr(k, :, :) =  Srr_;
+%     Srr(k, :, :) = Srr_;
 end
 
 %% Saving the Data
