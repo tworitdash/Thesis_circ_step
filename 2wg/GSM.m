@@ -75,8 +75,8 @@ X = sqrt(Kr * Zr) * X_til * sqrt(Yp * Kp); % modular inner cross product. Takes 
 F_ = 2 * inv(Qr + X * inv(Qp) * X.');
 
 Spp = inv(Qp) * X.' * F_ * X - Ip;
-Spr = inv(Qp) * X.' * F_ * Qr;
-Srp = (F_ * X)';
+Spr = (inv(Qp) * X.' * F_ * Qr)';
+Srp = (F_ * X);
 Srr = F_ * Qr - Ir;
 
 % Spp_(i) = squeeze(Spp(k, 1, 1));
