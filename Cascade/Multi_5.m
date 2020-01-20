@@ -11,7 +11,7 @@ re = 2.3e-2;
 
 R = [rr rp rt rd re]; % radius vector
 
-F = 4e9:0.5e9:21e9; % Frequency of operation
+F = 4e9:0.5e9:50e9; % Frequency of operation
 
 er = [1 1 1 1 1]; % Relative Permittivity of each WG section
 mur = [1 1 1 1 1]; % Relative Permeability of each WG section
