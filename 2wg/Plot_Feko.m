@@ -1,14 +1,14 @@
 
 %% Data From Feko
 
-data5 = read(rfdata.data,'2wg_touchstone_3modes_ratio_2_2cm_fc_align.s6p');
+data5 = read(rfdata.data,'2wg_touchstone_6_24modes_ratio_2_2cm_fc_align.s30p');
 s_params_5 = extract(data5,'S_PARAMETERS');
 
 %% Data from MM from MATLAB Script Wg2.m
 
-C_5 = load('Str2_ratio_2_modes_3_fc_align.mat');
+C_5 = load('Srr2_ratio_2_modes_3_fc_align.mat');
 
-GSM_5 = C_5.Spr;
+GSM_5 = C_5.Srr;
 
 %% Frequency axis
 
@@ -19,7 +19,7 @@ F = 2e9:0.5e9:10e9;
 figure;
 
 
-plot(F * 1e-9, db(abs(squeeze(s_params_5(1, 4, :))))/2, 'LineWidth', 2); grid on;
+plot(F * 1e-9, db(abs(squeeze(s_params_5(7, 7, :))))/2, 'LineWidth', 2); grid on;
 hold on;
 plot(F * 1e-9, db(abs(squeeze(GSM_5(:, 1, 1))))/2, '-.', 'LineWidth', 2); grid on;
 
@@ -33,7 +33,7 @@ legend({'S_{RR} of TE_{11}, 5 modes active Feko', 'S_{RR} of TE_{11}, 5 modes ac
 
 %% Plot Phase of S parameters
 
-Phase_Feko = (angle(squeeze((s_params_5(1, 4, :))))) * 180/pi;
+Phase_Feko = (angle(squeeze((s_params_5(7, 7, :))))) * 180/pi;
 Phase_MM =  (angle(squeeze((GSM_5(:, 1, 1))))) * 180/pi;
 
 
