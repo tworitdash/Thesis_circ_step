@@ -16,8 +16,8 @@ Str = load('Xmn.mat');
 Xmn = Str.Xmn;
 
 
-drho = rr/100;
-dphi = pi/180;
+drho = rr/1000;
+dphi = pi/1800;
 
 [rhor_, phir_] = meshgrid(eps:drho:rr, eps:dphi:2*pi-eps);  % domain for the fields on one cross-section of the waveguide
 
@@ -91,25 +91,25 @@ for p = 1:length(Np)
                       
                     else 
                         
-%                             X_til_pr = (grad_Phi_rhop .* grad_Phi_rhor +  grad_Phi_phip .* grad_Phi_phir)...
-%                         .* rhor_ .* drho .* dphi;
-%                             X_til(r, p) = sum(sum(X_til_pr));
-                             X_til(r, p) = 0;
+                            X_til_pr = (grad_Phi_rhop .* grad_Phi_rhor +  grad_Phi_phip .* grad_Phi_phir)...
+                        .* rhor_ .* drho .* dphi;
+                            X_til(r, p) = sum(sum(X_til_pr));
+%                              X_til(r, p) = 0;
                     end
                     
      elseif (modep == "TE" && moder == "TM")
          
-%                     X_til_pr = (grad_Phi_rhop .* grad_Phi_phir - grad_Phi_rhor .* grad_Phi_phip)...
-%                        .* rhor_ .* drho .* dphi;
-%                    X_til(r, p) = sum(sum(X_til_pr));
-                     X_til(r, p) = 0;
+                    X_til_pr = (grad_Phi_rhop .* grad_Phi_phir - grad_Phi_rhor .* grad_Phi_phip)...
+                       .* rhor_ .* drho .* dphi;
+                   X_til(r, p) = sum(sum(X_til_pr));
+%                      X_til(r, p) = 0;
                     
      elseif (modep == "TM" && moder == "TE")
          
-%                    X_til_pr = (grad_Phi_rhop .* grad_Phi_phir - grad_Phi_rhor .* grad_Phi_phip)...
-%                        .* rhor_ .* drho .* dphi;
-%                    X_til(r, p) = sum(sum(X_til_pr));
-                     X_til(r, p) = 0;
+                   X_til_pr = (grad_Phi_rhop .* grad_Phi_phir - grad_Phi_rhor .* grad_Phi_phip)...
+                       .* rhor_ .* drho .* dphi;
+                   X_til(r, p) = sum(sum(X_til_pr));
+%                      X_til(r, p) = 0;
                         
      end             
                     
