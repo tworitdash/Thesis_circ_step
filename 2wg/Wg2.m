@@ -18,8 +18,8 @@ F = 2e9:0.5e9:10e9; % Frequency of operation
 
 %% Inner cross product
 
-Nr = 1:1:6; % number of modes on 1st waveguide
-Np = 1:1:24; % number of modes on 2nd waveguide
+Nr = 1:1:10; % number of modes on 1st waveguide
+Np = 1:1:40; % number of modes on 2nd waveguide
 
 
 
@@ -49,7 +49,7 @@ parfor k = 1:length(F)
 end
 
 %% Saving the Data
-save('Stt2_ratio_2_modes_3_fc_align', 'Spp');
-save('Str2_ratio_2_modes_3_fc_align', 'Spr');
-save('Srt2_ratio_2_modes_3_fc_align', 'Srp');
-save('Srr2_ratio_2_modes_3_fc_align', 'Srr');
+save('Stt2_ratio_2_modes_10_40_fc_align', 'Spp');
+save('Str2_ratio_2_modes_10_40_fc_align', 'Spr');
+save('Srt2_ratio_2_modes_10_40_fc_align', 'Srp');
+save('Srr2_ratio_2_modes_10_40_fc_align', 'Srr');
