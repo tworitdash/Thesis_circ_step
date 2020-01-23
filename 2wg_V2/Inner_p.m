@@ -74,7 +74,7 @@ for p = 1:length(Np)
                 
     if (modep  == "TE" && moder  == "TE") || (modep  == "TM" && moder  == "TM")
                     
-                    if (pm == rm)
+                    if (pm == rm) && (pm ~= 0) && (rm ~= 0)
                             A = Lommel(0, rr, beta_rhop, beta_rhor, pm - 1, rm - 1);
                       
                             D = Lommel(0, rr, beta_rhop, beta_rhor, pm + 1, rm + 1);
