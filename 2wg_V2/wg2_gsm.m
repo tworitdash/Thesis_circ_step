@@ -1,12 +1,12 @@
 clear;
 
-F = 4e9:0.5e9:21e9;
+F = 4e9:0.01e9:21e9;
 
 rp = 0.0405319403216/2;   % radius of the bigger waveguide
 rr = 0.0405319403216/2.1; % radius of the smaller waveguide
 
-Nr = 1:1:10;
-Np = 1:1:10;
+Nr = 1:1:20;
+Np = 1:1:20;
 
 erp = 1;
 murp = 1;
@@ -34,6 +34,6 @@ s_params_5 = extract(data5,'S_PARAMETERS');
 
 figure;
 
-plot(F * 1e-9, db(abs(squeeze(s_params_5(2, 6, :))))/2, 'LineWidth', 2); grid on;
+plot(F * 1e-9, db(abs(squeeze(s_params_5(6, 6, :))))/2, 'LineWidth', 2); grid on;
 hold on;
-plot(F * 1e-9, db(abs(squeeze(Srp(:, 5, 1))))/2, 'LineWidth', 2); grid on;
+plot(F * 1e-9, db(abs(squeeze(Spp(:, 1, 1))))/2, 'LineWidth', 2); grid on;

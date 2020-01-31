@@ -6,12 +6,17 @@ clear;
 
 L = 0.02; % Length of each waveguide section
 
-F = 4e9:0.5e9:21e9; % Frequency of operation
+F = 1e9:0.5e9:10e9; % Frequency of operation
 
-rt = 0.0405319403216/1.9;
-rp = 0.0405319403216/2; % radius of the waveguide
-rr = 0.0405319403216/2.1;
-rd = 2.2e-2;
+% rt = 0.0405319403216/1.9;
+% rp = 0.0405319403216/2; % radius of the waveguide
+% rr = 0.0405319403216/2.1;
+% rd = 2.2e-2;
+
+
+rr = 0.0405319403216/1.9;
+rp = 0.0405319403216/1.9 * 2; % radius of the waveguide
+rt = 0.0405319403216/1.9 * 4;
 
 r = [rr rp rt];
 
@@ -20,8 +25,8 @@ r = [rr rp rt];
 % Nr = 1:1:5; % number of modes on R waveguide
 % Np = 1:1:5; % number of modes on PRic Ocasek waveguide
 
-N1 = 1:1:5; % number of modes on 1st waveguide
-N2 = 1:1:5; % number of modes on 2nd waveguide
+N1 = 1:1:6; % number of modes on 1st waveguide
+N2 = 1:1:12; % number of modes on 2nd waveguide
 
 erp = 1;
 err = 1;
@@ -37,8 +42,8 @@ murr = 1;
 % Np = 1:1:30; % number of modes on R waveguide
 % Nt = 1:1:30; % number of modes on P waveguide
 
-Ns = 1:1:5; % number of modes on last but one waveguide
-Ne = 1:1:5; % number of modes on last waveguide
+Ns = 1:1:12; % number of modes on last but one waveguide
+Ne = 1:1:24; % number of modes on last waveguide
 
 ert = 1;
 erp = 1;
@@ -71,8 +76,8 @@ Sl = SL(rp, F(k), Ns, L);
 %  [Slr] = SL(rr, F(k), Nr, L);
 %  [Slt] = SL(rt, F(k), Nt, L);
  
- [Slr] = SL(r(1), F(k), N1, 0.001);
- [Slt] = SL(r(end), F(k), Ne, 0.001);
+ [Slr] = SL(r(1), F(k), N1, L);
+ [Slt] = SL(r(end), F(k), Ne, L);
 %  
 % Sl = Slr * Slp * Slt;
 
@@ -98,9 +103,27 @@ end
 %% Plots
 
 
-save('Stt3_ratio_1_modes_5_1mm_beta_z', 'STT');
-save('Str3_ratio_1_modes_5_1mm_beta_z', 'STR');
-save('Srt3_ratio_1_modes_5_1mm_beta_z', 'SRT');
-save('Srr3_ratio_1_modes_5_1mm_beta_z', 'SRR');
+data5 = read(rfdata.data,'3wg_touchstone_1modes_ratio_2.s2p');
+s_params_5 = extract(data5,'S_PARAMETERS');
+
+%% 
+
+figure;
+
+plot(F * 1e-9, db(abs(squeeze(s_params_5(1, 1, :))))/2, 'LineWidth', 2); grid on;
+hold on;
+plot(F * 1e-9, db(abs(squeeze(STT(:, 1, 1))))/2, 'LineWidth', 2); grid on;
+
+
+figure;
+
+plot(F * 1e-9, (angle(squeeze(s_params_5(1, 1, :)))) * 180/pi, 'LineWidth', 2); grid on;
+hold on;
+plot(F * 1e-9, (angle(squeeze(STT(:, 1, 1)))) * 180/pi, 'LineWidth', 2); grid on;
+
+% save('Stt3_ratio_1_modes_5_1mm_beta_z', 'STT');
+% save('Str3_ratio_1_modes_5_1mm_beta_z', 'STR');
+% save('Srt3_ratio_1_modes_5_1mm_beta_z', 'SRT');
+% save('Srr3_ratio_1_modes_5_1mm_beta_z', 'SRR');
 
 
