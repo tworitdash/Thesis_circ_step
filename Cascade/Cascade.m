@@ -25,8 +25,8 @@ r = [rr rp rt];
 % Nr = 1:1:5; % number of modes on R waveguide
 % Np = 1:1:5; % number of modes on PRic Ocasek waveguide
 
-N1 = 1:1:6; % number of modes on 1st waveguide
-N2 = 1:1:12; % number of modes on 2nd waveguide
+N1 = 1:1:10; % number of modes on 1st waveguide
+N2 = 1:1:40; % number of modes on 2nd waveguide
 
 erp = 1;
 err = 1;
@@ -42,8 +42,8 @@ murr = 1;
 % Np = 1:1:30; % number of modes on R waveguide
 % Nt = 1:1:30; % number of modes on P waveguide
 
-Ns = 1:1:12; % number of modes on last but one waveguide
-Ne = 1:1:24; % number of modes on last waveguide
+Ns = 1:1:40; % number of modes on last but one waveguide
+Ne = 1:1:160; % number of modes on last waveguide
 
 ert = 1;
 erp = 1;
@@ -108,16 +108,16 @@ s_params_5 = extract(data5,'S_PARAMETERS');
 
 %% 
 
-figure;
+figure(1);
 
-plot(F * 1e-9, db(abs(squeeze(s_params_5(1, 1, :))))/2, 'LineWidth', 2); grid on;
+% plot(F * 1e-9, db(abs(squeeze(s_params_5(1, 1, :))))/2, 'LineWidth', 2); grid on;
 hold on;
 plot(F * 1e-9, db(abs(squeeze(STT(:, 1, 1))))/2, 'LineWidth', 2); grid on;
 
 
-figure;
+figure(2);
 
-plot(F * 1e-9, (angle(squeeze(s_params_5(1, 1, :)))) * 180/pi, 'LineWidth', 2); grid on;
+% plot(F * 1e-9, (angle(squeeze(s_params_5(1, 1, :)))) * 180/pi, 'LineWidth', 2); grid on;
 hold on;
 plot(F * 1e-9, (angle(squeeze(STT(:, 1, 1)))) * 180/pi, 'LineWidth', 2); grid on;
 
