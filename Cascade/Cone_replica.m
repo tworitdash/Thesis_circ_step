@@ -91,3 +91,19 @@ figure;
 % plot(F * 1e-9, (angle(squeeze(s_params_5(1, 1, :)))) * 180/pi, 'LineWidth', 2); grid on;
 hold on;
 plot(F * 1e-9, (angle(squeeze(STT(:, 1, 1)))) * 180/pi, 'LineWidth', 2); grid on;
+
+%% Plot from files
+
+c_ = load('Srr5_cone_replica_5.mat');
+
+STT = c_.SRR;
+figure;
+
+plot(F * 1e-9, db(abs(squeeze(STT(:, 1, 1))))/2, 'LineWidth', 2); grid on;
+
+figure;
+
+plot(F * 1e-9, (angle(squeeze(STT(:, 1, 1)))) * 180/pi, 'LineWidth', 2); grid on;
+
+
+
