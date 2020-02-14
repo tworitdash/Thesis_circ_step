@@ -72,10 +72,10 @@ SRR(k, :, :) = slr * SRR_ * slr;
 end
 
 
-save('Stt10_cone_replica_10', 'STT');
-save('Str10_cone_replica_10', 'STR');
-save('Srt10_cone_replica_10', 'SRT');
-save('Srr10_cone_replica_10', 'SRR');
+save('Stt1_cone_replica_5', 'STT');
+save('Str5_cone_replica_5', 'STR');
+save('Srt5_cone_replica_5', 'SRT');
+save('Srr5_cone_replica_5', 'SRR');
 
 
 
