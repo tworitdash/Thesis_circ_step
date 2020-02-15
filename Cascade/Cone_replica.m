@@ -92,18 +92,25 @@ figure;
 hold on;
 plot(F * 1e-9, (angle(squeeze(STT(:, 1, 1)))) * 180/pi, 'LineWidth', 2); grid on;
 
-% %% Plot from files
-% 
-% c_ = load('Stt5_cone_replica_5.mat');
-% 
-% STT = c_.STT;
-% figure;
-% 
-% plot(F * 1e-9, db(abs(squeeze(STT(:, 1, 1))))/2, 'LineWidth', 2); grid on;
-% 
-% figure;
-% 
-% plot(F * 1e-9, (angle(squeeze(STT(:, 1, 1)))) * 180/pi, 'LineWidth', 2); grid on;
+%% Plot from files
 
+data5 = read(rfdata.data,'Cone_feko.s2p');
+s_params_5 = extract(data5,'S_PARAMETERS');
 
+c_ = load('Stt10_cone_replica_10.mat');
+
+F1 = 1e9:0.5e9:21e9;
+
+STT = c_.STT;
+figure;
+plot(F1 * 1e-9, db(abs(squeeze(s_params_5(1, 1, :))))/2, 'LineWidth', 2); grid on;
+hold on;
+plot(F * 1e-9, db(abs(squeeze(STT(:, 1, 1))))/2, 'LineWidth', 2); grid on;
+
+figure;
+plot(F1 * 1e-9, db(abs(squeeze(s_params_5(1, 1, :))))/2, 'LineWidth', 2); grid on;
+hold on;
+plot(F * 1e-9, (angle(squeeze(STT(:, 1, 1)))) * 180/pi, 'LineWidth', 2); grid on;
+
+xlim([1 21]);
 
