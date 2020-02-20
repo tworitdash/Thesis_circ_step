@@ -6,7 +6,7 @@ clear;
 
 rr = 2e-2; % Base radius
 rt = 4e-2; % Top redius
-n = 10; % number of transitions
+n = 40; % number of transitions
 
 R = linspace(rr, rt, n); % radius vector
 
@@ -20,7 +20,7 @@ Length = 5e-2; % height of the cone
 
 L = ones(1, n) .* Length/n; % length of each waveguide section
 
-N = [5 5 6 6 7 7 8 8 9 9];
+N = [5 5 5 5 5 5 5 5 6 6 6 6 6 6 6 6 7 7 7 7 7 7 7 7 8 8 8 8 8 8 8 8 9 9 9 9 9 9 9 9];
 
 % N = 1:1:5 ; % Number of modes
 
@@ -72,10 +72,10 @@ SRR(k, :, :) = slr * SRR_ * slr;
 end
 
 
-save('Stt10_cone_replica_10', 'STT');
-save('Str10_cone_replica_10', 'STR');
-save('Srt10_cone_replica_10', 'SRT');
-save('Srr10_cone_replica_10', 'SRR');
+save('Stt40_cone_replica_40', 'STT');
+save('Str40_cone_replica_40', 'STR');
+save('Srt40_cone_replica_40', 'SRT');
+save('Srr40_cone_replica_40', 'SRR');
 
 
 
@@ -92,18 +92,25 @@ figure;
 hold on;
 plot(F * 1e-9, (angle(squeeze(STT(:, 1, 1)))) * 180/pi, 'LineWidth', 2); grid on;
 
-% %% Plot from files
-% 
-% c_ = load('Stt5_cone_replica_5.mat');
-% 
-% STT = c_.STT;
-% figure;
-% 
-% plot(F * 1e-9, db(abs(squeeze(STT(:, 1, 1))))/2, 'LineWidth', 2); grid on;
-% 
-% figure;
-% 
+%% Plot from files
+
+data5 = read(rfdata.data,'Cone_feko.s2p');
+s_params_5 = extract(data5,'S_PARAMETERS');
+
+c_ = load('Stt40_cone_replica_40.mat');
+
+F1 = 1e9:0.5e9:21e9;
+
+STT = c_.STT;
+figure(3);
+% plot(F1 * 1e-9, db(abs(squeeze(s_params_5(1, 1, :))))/2, 'LineWidth', 2); grid on;
+hold on;
+plot(F * 1e-9, db(abs(squeeze(STT(:, 1, 1))))/2, 'LineWidth', 2); grid on;
+
+% figure(2);
+% % plot(F1 * 1e-9, db(abs(squeeze(s_params_5(1, 1, :))))/2, 'LineWidth', 2); grid on;
+% hold on;
 % plot(F * 1e-9, (angle(squeeze(STT(:, 1, 1)))) * 180/pi, 'LineWidth', 2); grid on;
 
-
+xlim([1 21]);
 
