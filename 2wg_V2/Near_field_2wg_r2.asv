@@ -12,8 +12,8 @@ mup = mu0 * murp;       % Permeability in the medium
 epsilonr = err * er0;   % Permittivity in the medium
 mur = mu0 * murr;
 
-rr = 0.0405319403216/1.9;
-rp = 0.0405319403216/1.9 * 2;
+rr = 0.0405319403216/2.1;
+rp = 0.0405319403216/2;
 
 
 [fc_1] = fc(rr, err, murr);
@@ -22,8 +22,8 @@ rp = 0.0405319403216/1.9 * 2;
 Nr1 = find(fc_1 < F);
 Np1 = find(fc_2 < F);
 
-Nr = 1:1:10;
-Np = 1:1:40;
+Nr = 1:1:20;
+Np = 1:1:20;
 % Np = Nr;
 
 [X_] = Inner_p(Nr, Np, rp, rr, erp, murp, err, murr); 
@@ -92,26 +92,14 @@ figure;
 surface(x_f, y_f, ((abs(E_tot_reshape'))./max(abs(E_tot_reshape')))); shading flat;
 
 
-figure;
-
-plot(phi(:, 1), db(abs(E_aperture(:, 30)/max(abs(E_aperture(:, 30))))));
-hold on;
-
-plot(phi_f(:, 1), db(abs(E_tot_reshape(30, :)'/max(abs(E_tot_reshape(30, :)))')));
-
-grid on;
-
-
-%----------------------------------------------------------------------------------------------------------
-
-
+%%
 [rho, phi] = meshgrid(eps:rp/100:rp, -pi-eps:pi/180:pi+eps);
 
 z = -0.001;
 
 [Ep_rho, Ep_phi, Ep_z] = E_r(Np1, rho, phi, F, rp, z, epsilonp, mup);
 
-Gamma_sum = sum(Spr, 2);% + sum(Spp, 2);
+Gamma_sum = sum(Spr.^2, 2);
 
 E_aperture_rho = zeros(size(rho));
 E_aperture_phi = zeros(size(rho));
@@ -165,12 +153,17 @@ figure;
 
 surface(x_f, y_f, db((abs(E_tot_reshape'))./max(abs(E_tot_reshape')))); shading flat;
 
+%% 
+
+
+
+% colormap('jet');
 figure;
 
-plot(phi(:, 1), db(abs(E_aperture(:, 30)/max(abs(E_aperture(:, 30))))));
+plot(phi(:, 1), db(abs(E_aperture(:, 40)/max(abs(E_aperture(:, 40))))));
 hold on;
 
-plot(phi_f(:, 1), db(abs(E_tot_reshape(30, :)'/max(abs(E_tot_reshape(30, :)))')));
+plot(pi - phi_f(:, 1), db(abs(E_tot_reshape(40, :)'/max(abs(E_tot_reshape(40, :)))')));
 
 grid on;
 
