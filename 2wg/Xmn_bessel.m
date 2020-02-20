@@ -49,12 +49,12 @@ Xmn = [xmn_TE xmn_TM];
 [x,idx]=sort([Xmn.xmn]);
 
 Xmn = Xmn(idx);
-
-[x,idx]=sort([Xmn.n]);
-Xmn = Xmn(idx);
-
-[x,idx]=sort([Xmn.m]);
-Xmn = Xmn(idx);
+% 
+% [x,idx]=sort([Xmn.n]);
+% Xmn = Xmn(idx);
+% 
+% [x,idx]=sort([Xmn.m]);
+% Xmn = Xmn(idx);
 
 
 
