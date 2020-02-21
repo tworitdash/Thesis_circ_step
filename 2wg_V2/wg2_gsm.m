@@ -2,8 +2,8 @@ clear;
 
 F = 4e9:0.01e9:21e9;
 
-rp = 0.0405319403216/2;   % radius of the bigger waveguide
-rr = 0.0405319403216/2.1; % radius of the smaller waveguide
+rp = 0.0405319403216/1.9 * 2;   % radius of the bigger waveguide
+rr = 0.0405319403216/1.9; % radius of the smaller waveguide
 
 Nr = 1:1:20;
 Np = 1:1:20;
@@ -29,6 +29,7 @@ parfor k = 1:length(F)
 
 end
 
+%% 
 data5 = read(rfdata.data,'S_Feko_5modes_each.s10p');
 s_params_5 = extract(data5,'S_PARAMETERS');
 

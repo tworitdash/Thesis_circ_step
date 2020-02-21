@@ -1,6 +1,6 @@
 clear;
 
-F = 14e9;
+F = 5e9;
 
 err = 1; erp = 1; murr = 1; murp = 1;
 
@@ -43,7 +43,7 @@ Np = 1:1:40;
 %% 
 [rho, phi] = meshgrid(eps:rr/100:rr, -pi-eps:pi/180:pi+eps);
 
-z = 0.001;
+z = 0.01;
 
 [Er_rho, Er_phi, Er_z] = E_r(Nr1, rho, phi, F, rr, z, epsilonr, mur);
 
@@ -93,13 +93,15 @@ aux = A(:, 4:9);
 % <<<<<<< HEAD
 % [rho_f, phi_f] = meshgrid(rho_f, pi - phi_f);
 % =======
-[rho_f, phi_f] = meshgrid(rho_f, phi_f);
+[rho_f, phi_f] = meshgrid(rho_f, pi - phi_f);
 % >>>>>>> 37893f8e2e343fb0a1d771a64115f47cd4bdd608
 
 x_f = rho_f .* cos(phi_f);
 y_f = rho_f .* sin(phi_f);
 
-f = 20*36000:1:21*36000 - 1;
+% f = 20*36000:1:21*36000 - 1;
+
+f = 1:1:36000;
 
 E_rho = sqrt(aux(f, 1).^2 + aux(f, 2).^2);
 E_phi = sqrt(aux(f, 3).^2 + aux(f, 4).^2);
@@ -112,9 +114,9 @@ E_tot_reshape = reshape(E_tot, 100, 360);
 figure;
 
 surface(x_f, y_f, ((abs(E_tot_reshape'))./max(abs(E_tot_reshape')))); shading flat;
-
-
-% <<<<<<< HEAD
+% 
+% 
+% % <<<<<<< HEAD
 figure;
 
 plot(phi(:, 1), db(abs(E_aperture(:, 30)/max(abs(E_aperture(:, 30))))));
@@ -125,20 +127,20 @@ plot(phi_f(:, 1), db(abs(E_tot_reshape(30, :)'/max(abs(E_tot_reshape(30, :)))'))
 grid on;
 
 
-%----------------------------------------------------------------------------------------------------------
+%% ----------------------------------------------------------------------------------------------------------
 
 
 % =======
 % %%
 % >>>>>>> 37893f8e2e343fb0a1d771a64115f47cd4bdd608
-[rho, phi] = meshgrid(eps:rp/100:rp, -pi-eps:pi/180:pi+eps);
+[rho, phi] = meshgrid(eps:rp/100:rp, 2*pi-eps:pi/180:4*pi+eps);
 
-z = -0.001;
+z = 0;
 
 [Ep_rho, Ep_phi, Ep_z] = E_r(Np1, rho, phi, F, rp, z, epsilonp, mup);
 
 % <<<<<<< HEAD
-Gamma_sum = sum(Spr, 2);% + sum(Spp, 2);
+Gamma_sum = sum(Spr.^2, 2);% + sum(Spp, 2);
 % =======
 % Gamma_sum = sum(Spr.^2, 2);
 % >>>>>>> 37893f8e2e343fb0a1d771a64115f47cd4bdd608
@@ -161,7 +163,7 @@ x = rho .* cos(phi);
 y = rho .* sin(phi);
 % 
 figure;
-surface(x, y, db((abs(E_aperture))./max(abs(E_aperture)))); shading flat;
+surf(x, y, db((abs(E_aperture))./max(abs(E_aperture)))); shading flat;
 
 
 
@@ -181,7 +183,7 @@ z_f = A(1, 1);
 aux = A(:, 4:9);
 
 % <<<<<<< HEAD
-[rho_f, phi_f] = meshgrid(rho_f, pi - phi_f);
+[rho_f, phi_f] = meshgrid(rho_f, phi_f);
 % =======
 % [rho_f, phi_f] = meshgrid(rho_f, phi_f);
 % >>>>>>> 37893f8e2e343fb0a1d771a64115f47cd4bdd608
@@ -189,7 +191,9 @@ aux = A(:, 4:9);
 x_f = rho_f .* cos(phi_f);
 y_f = rho_f .* sin(phi_f);
 
-f = 20*36000:1:21*36000 - 1;
+% f = 20*36000:1:21*36000 - 1;
+
+f = 1:1:36000;
 
 E_rho = sqrt(aux(f, 1).^2 + aux(f, 2).^2);
 E_phi = sqrt(aux(f, 3).^2 + aux(f, 4).^2);
@@ -206,10 +210,10 @@ surface(x_f, y_f, db((abs(E_tot_reshape'))./max(abs(E_tot_reshape')))); shading 
 % <<<<<<< HEAD
 figure;
 
-plot(phi(:, 1), db(abs(E_aperture(:, 30)/max(abs(E_aperture(:, 30))))));
+plot(rho(1, :), db(abs(E_aperture(90, :)/max(abs(E_aperture(90, :))))));
 hold on;
 
-plot(phi_f(:, 1), db(abs(E_tot_reshape(30, :)'/max(abs(E_tot_reshape(30, :)))')));
+plot(rho_f(1, :), db(abs(E_tot_reshape(:, 90)'/max(abs(E_tot_reshape(:, 90)))')));
 
 grid on;
 
